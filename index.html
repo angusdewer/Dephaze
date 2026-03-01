@@ -34,6 +34,36 @@
             text-shadow: 0 0 5px rgba(122, 197, 216, 0.3);
         }
         
+        /* GOMB STÍLUSA (Bal felső) */
+        .menu-button-left {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: var(--code-bg);
+            border: 1px solid rgba(200,168,75,0.45);
+            color: #c8a84b;
+            background-color: rgba(200,168,75,0.06);
+            padding: 10px 15px;
+            font-family: 'Jura', sans-serif;
+            font-size: 0.9em;
+            text-decoration: none;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            animation: pulse-gold 3s ease-in-out infinite;
+        }
+        .menu-button-left:hover {
+            background-color: #c8a84b;
+            color: var(--background-color);
+            box-shadow: 0 0 20px rgba(200,168,75,0.5);
+            text-shadow: none;
+        }
+        @keyframes pulse-gold {
+            0%,100% { box-shadow: 0 0 4px rgba(200,168,75,0.2); }
+            50%      { box-shadow: 0 0 16px rgba(200,168,75,0.5); }
+        }
+
         /* GOMB STÍLUSA (Jobb felső) */
         .menu-button-right {
             position: fixed;
@@ -250,6 +280,9 @@
 </head>
 <body>
 
+    <!-- Bal oldali gomb -->
+    <a href="V66.html" class="menu-button-left">⚡ Anomalies</a>
+
     <!-- Jobb oldali gombok -->
     <a href="dephaze_ai.html" class="menu-button-right">Dephaze AI</a>
     <a href="dephaze-north.html" class="menu-button-right" style="top: 80px;">Dephaze North</a>
@@ -262,6 +295,14 @@
             <p class="main-brand">SANT IO</p>
             <p class="brand-subtitle">DEPHAZE</p>
             <p class="subtitle" style="margin-bottom: 1em;">Not a simulation. A self-regulating phase-field from which reality unfolds.</p>
+            <p class="subtitle" style="font-size:0.78em; opacity:0.6; margin-top:-1.5em; margin-bottom:2em; letter-spacing:2px;">
+                First formulated 1992 &nbsp;·&nbsp;
+                <a href="https://doi.org/10.5281/zenodo.18823570" target="_blank"
+                   style="color:#7ac5d8; text-decoration:none; border-bottom:1px solid rgba(122,197,216,0.3);">
+                   DOI: 10.5281/zenodo.18823570
+                </a>
+                &nbsp;·&nbsp; Living document — theorems added as proven
+            </p>
             <h1 class="main-header">Ξ = φ³ / φ⁻³</h1>
             <p class="subtitle">Ξ > 1 → Evolution &nbsp;|&nbsp; Ξ ≈ 1 → Critical &nbsp;|&nbsp; Ξ &lt; 1 → Stasis</p>
         </header>
@@ -338,7 +379,7 @@
                         <li>Measurement ≠ intervention → <strong>measurement = sampling</strong></li>
                     </ul>
 
-                    <p><strong>Every past "mystery" → is a natural consequence.</strong></p>
+                    <p><strong>Each resolved mystery is documented as its theorem is completed.</strong></p>
                 </div>
             </section>
             <!-- ⬆️ INSERTED BLOCK END -->
@@ -355,10 +396,10 @@
                 <div class="equation-components">
                     <span class="level-title">Where:</span>
                     <ul>
-                        <li><strong>D∇²Ψ:</strong> Spatial diffusion</li>
-                        <li><strong>G|Ψ|²Ψ:</strong> Self-interaction</li>
-                        <li><strong>-Mφ⁻³:</strong> Inertial resistance</li>
-                        <li><strong>Φ³{Ω₀→Imago}:</strong> Goal-directed projection</li>
+                        <li><strong>D∇²Ψ:</strong> Spatial diffusion in Ω₀-space</li>
+                        <li><strong>G|Ψ|²Ψ:</strong> Nonlinear self-interaction</li>
+                        <li><strong>-MΨ_τττ:</strong> Inertial resistance (higher-order)</li>
+                        <li><strong>Φ³{Ω₀→Imago}:</strong> Projection from ground state</li>
                     </ul>
                 </div>
 
@@ -372,17 +413,11 @@
                     <h3>Core Components:</h3>
                     <ul>
                         <li><strong>D, G, M:</strong> Diffusion, Nonlinearity, and Inertia</li>
-                        <li><strong>Φ³{Ω₀→Imago}:</strong> Goal-Directed Projection from 0-point</li>
+                        <li><strong>Φ³{Ω₀→Imago}:</strong> Projection from ground state</li>
                         <li><strong>-i[Λ,Ψ]:</strong> Adaptive Coherence Feedback (self-regulation)</li>
+                        <li><strong>div(F):</strong> External potential (gravity, rotation)</li>
                         <li><strong>KΨs:</strong> Phase Memory (history-dependent dynamics)</li>
                         <li><strong>Σ:</strong> Filtered System Noise</li>
-                    </ul>
-
-                    <h3>Extended Adaptive Operators:</h3>
-                    <ul>
-                        <li><strong>M[χ,Ψ]:</strong> Mutation Operator (genetic, viral, algorithmic distortion)</li>
-                        <li><strong>P[χ,Ψ]:</strong> Persistent Memory (epigenetic, cultural memory)</li>
-                        <li><strong>D[Ψ,χ<sub>instr</sub>]:</strong> Disinformation Operator (measurement and observational bias)</li>
                     </ul>
                 </div>
             </section>
@@ -406,10 +441,11 @@
                 <h2>What Dephaze Explains</h2>
                 <div class="equation-components">
                     <ul>
-                        <li><strong>Cosmology:</strong> Dark energy (β log-correction, no vacuum energy needed), σ₈ tension, Hubble tension</li>
-                        <li><strong>Quantum Mechanics:</strong> Measurement as bistable relaxation (not collapse), Tsirelson bound derived, entanglement as shared Ω₀ origin</li>
-                        <li><strong>Astrodynamics:</strong> Flyby anomalies (ζ-gated coherence), Pioneer anomaly (φ⁻³ lag)</li>
-                        <li><strong>Complexity:</strong> Self-organized criticality, adaptive systems, consciousness as Λ-feedback phase</li>
+                        <li><strong>Cosmology:</strong> Dark energy (ε log-correction, no vacuum energy needed), σ₈ tension, Hubble tension</li>
+                        <li><strong>Galaxy Rotation ✓ Published:</strong> V66 equation — 175 SPARC galaxies, 0 free parameters, median RMS 6.55 km/s. LOO: 5.98 km/s (improves). Shuffle: 3.78× worse. ΔBIC = −2,436 vs NFW (525 params). — <a href="V66.html" style="color:#7ac5d8">see full results →</a></li>
+                        <li><strong>Astrodynamics <span style="color:#c8a84b;font-size:0.85em">◌ in development</span>:</strong> Flyby anomalies — σ-gate mechanism derived, 9/9 missions consistent. Pioneer anomaly residual. JUICE 2029 prediction on record.</li>
+                        <li><strong>Quantum Mechanics <span style="color:#c8a84b;font-size:0.85em">◌ in development</span>:</strong> Measurement as bistable relaxation (not collapse), Tsirelson bound 2√2 from C*-algebra projectors, entanglement as shared Ω₀ origin.</li>
+                        <li><strong>Cosmology:</strong> Dark energy as β log-correction (no vacuum energy needed), σ₈ tension, Hubble tension H₀(z) evolution.</li>
                     </ul>
                 </div>
             </section>
@@ -467,6 +503,16 @@
     📄 Open Full Paper (PDF)
   </a>
   <br><br>
+  <a href="V66.html"
+     style="display:inline-block; padding:14px 28px; font-family:'Jura',sans-serif;
+            font-size:1.1em; letter-spacing:2px; color:#080a0e; background-color:#c8a84b;
+            border-radius:6px; text-decoration:none;
+            box-shadow:0 0 20px rgba(200,168,75,0.6), 0 0 40px rgba(200,168,75,0.2);
+            transition:all 0.3s ease; margin-bottom:1em;
+            animation: pulse-cta 2.5s ease-in-out infinite;">
+    ⚡ Galaxy Rotation Anomalies — V66
+  </a>
+  <br><br>
   <a href="dephaze_origin_story.html"
      style="display:inline-block; padding:14px 28px; font-family:'Jura',sans-serif;
             font-size:1.1em; letter-spacing:2px; color:#080a0e; background-color:#7ac5d8;
@@ -475,6 +521,12 @@
     📜 Read the Origin Story
   </a>
 </section>
+<style>
+@keyframes pulse-cta {
+  0%,100%{ box-shadow:0 0 20px rgba(200,168,75,0.5),0 0 40px rgba(200,168,75,0.15); }
+  50%    { box-shadow:0 0 30px rgba(200,168,75,0.8),0 0 60px rgba(200,168,75,0.3); }
+}
+</style>
 
 
 
