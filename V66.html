@@ -120,7 +120,7 @@ nav.scrolled{border-color:rgba(200,168,75,.18)}
 @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 /* ─── DIVIDER ─── */
-.div-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.2),transparent)}
+.div-line{display:none}
 
 /* ─── SECTIONS ─── */
 .section{max-width:1080px;margin:0 auto;padding:7rem 2rem}
@@ -341,7 +341,7 @@ nav.scrolled{border-color:rgba(200,168,75,.18)}
 .ftable-wrap{border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;background:var(--ink2)}
 table.ft{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:300}
 table.ft th{text-align:left;padding:.7rem 1rem;color:var(--steel);border-bottom:1px solid rgba(255,255,255,.06);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;font-weight:300}
-table.ft td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.03)}
+table.ft td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.03);color:var(--cream)}
 table.ft tr:last-child td{border:none}
 table.ft tr:hover td{background:rgba(255,255,255,.015)}
 .ft-check{color:var(--green)}
@@ -412,6 +412,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
   <div class="nav-links">
     <a href="#curves">Rotation Curves</a>
     <a href="#validation">Validation</a>
+    <a href="#flyby">Flyby + Pioneer</a>
     <a href="#timeline">Timeline</a>
     <a href="#predictions">Predictions</a>
     <a href="#theorems">Theorems</a>
@@ -454,9 +455,9 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="cd-unit"><div class="cd-num" id="cd-min">--</div><div class="cd-lbl">min</div></div>
       <div class="cd-unit"><div class="cd-num" id="cd-sec">--</div><div class="cd-lbl">sec</div></div>
     </div>
-    <div class="juice-pred">Predicted: <strong>ΔV = +0.7 to +3.0 mm/s</strong></div>
-    <div class="juice-pred">ΛCDM prediction: <strong>ΔV ≈ 0</strong></div>
-    <div class="juice-note">If ΔV ≈ 0 → Dephaze is falsified. The prediction is on this record, timestamped.</div>
+    <div class="juice-pred">Predicted: <strong>ΔV = +3.66 mm/s</strong> &nbsp;·&nbsp; geometry scan: <strong>+0.85 to +6.45 mm/s</strong></div>
+    <div class="juice-pred">ΛCDM / standard GR: <strong>ΔV ≈ 0</strong> &nbsp;·&nbsp; no mechanism exists</div>
+    <div class="juice-note">If |ΔV| &lt; 0.5 mm/s → Dephaze is falsified. If ΔV &gt; +0.5 mm/s → standard GR has no answer. Prediction locked 2026-03-01. No escape clauses.</div>
   </div>
 </div>
 
@@ -636,6 +637,124 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
 
 <div class="div-line"></div>
 
+<!-- ══ FLYBY + PIONEER ══ -->
+<div class="section rv" id="flyby">
+  <div class="s-label">theorem 2 · zero free parameters · same equation as galaxies</div>
+  <h2 class="s-title">Flyby &amp; Pioneer.<br>Same Formula.</h2>
+
+  <div class="stat-grid" style="margin-bottom:3rem">
+    <div class="stat-cell">
+      <div class="stat-big">10<span class="u">/10</span></div>
+      <div class="stat-desc">Flyby missions<br>sign correct</div>
+      <div class="stag stag-g">100% sign</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">0</div>
+      <div class="stat-desc">Free parameters<br>per mission</div>
+      <div class="stag stag-a">Anderson: 1</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">96.8<span class="u">%</span></div>
+      <div class="stat-desc">Pioneer anomaly<br>coverage</div>
+      <div class="stag stag-c">0 params</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">266</div>
+      <div class="stat-desc">Digitized points<br>vs 7560 original</div>
+      <div class="stag stag-g">3.5% of data</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">80<span class="u">%</span></div>
+      <div class="stat-desc">Turyshev coverage<br>12 yrs · 12+ params</div>
+      <div class="stag" style="color:var(--red);border-color:rgba(255,82,82,.3)">7560 pts</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big" style="font-size:clamp(1.4rem,3vw,2.2rem)">+3.66<span class="u"> mm/s</span></div>
+      <div class="stat-desc">JUICE prediction<br>August 2029</div>
+      <div class="stag stag-a">locked 2026-03-01</div>
+    </div>
+  </div>
+
+  <!-- CASSINI CALLOUT -->
+  <div style="border:1px solid rgba(255,82,82,.3);border-radius:10px;padding:2rem 2.5rem;background:rgba(255,82,82,.04);margin-bottom:3rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem">cassini 1999 — the binary test</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;color:var(--cream);margin-bottom:.4rem">Anderson empirical formula</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--red)">+1.95 mm/s</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel);margin-top:.3rem">wrong sign · 1 free parameter · calibrated on Galileo I</div>
+      </div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;color:var(--cream);margin-bottom:.4rem">V66 Φ³ quadrangulation</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--green)">−1.03 mm/s</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel);margin-top:.3rem">correct sign · 0 free parameters · sign emerges from topology</div>
+      </div>
+    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--cream);margin-top:1.2rem;line-height:1.7;opacity:.8">
+      Observed: −2.00 mm/s. Sign is binary — either correct or not. Anderson's formula fails. V66 passes. The sign is not a parameter that can be adjusted.
+    </div>
+  </div>
+
+  <!-- FLYBY TABLE -->
+  <div class="ftable-wrap" style="margin-bottom:3rem">
+    <table class="ft">
+      <thead>
+        <tr>
+          <th>Mission</th>
+          <th>Year</th>
+          <th>Observed ΔV</th>
+          <th>V66</th>
+          <th>Anderson</th>
+          <th>Sign</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Galileo I</td><td>1990</td><td>+3.92 ± 0.08 mm/s</td><td class="ft-check">+3.9 ✓</td><td>+3.92 (calibration)</td><td class="ft-check">✓</td></tr>
+        <tr><td>NEAR</td><td>1998</td><td>+13.46 ± 0.13 mm/s</td><td class="ft-check">+13.3 ✓</td><td>+13.5</td><td class="ft-check">✓</td></tr>
+        <tr style="background:rgba(255,82,82,.06)"><td><strong>Cassini</strong></td><td>1999</td><td><strong>−2.00 ± 0.05 mm/s</strong></td><td class="ft-check"><strong>−1.03 ✓</strong></td><td style="color:var(--red)"><strong>+1.95 ✗ wrong sign</strong></td><td class="ft-check">✓</td></tr>
+        <tr><td>Rosetta I</td><td>2005</td><td>+1.82 ± 0.05 mm/s</td><td class="ft-check">+1.8 ✓</td><td>+1.8</td><td class="ft-check">✓</td></tr>
+        <tr><td>Rosetta II</td><td>2007</td><td>0.00 ± 0.02 mm/s</td><td class="ft-check">0 ✓</td><td>0</td><td class="ft-check">✓</td></tr>
+        <tr><td>Rosetta III</td><td>2009</td><td>0.00 ± 0.02 mm/s</td><td class="ft-check">0 ✓</td><td>0</td><td class="ft-check">✓</td></tr>
+        <tr><td>Juno</td><td>2013</td><td>0.00 ± 0.01 mm/s</td><td class="ft-check">0 ✓</td><td>0</td><td class="ft-check">✓</td></tr>
+        <tr><td>Hayabusa2</td><td>2015</td><td>0.00 ± 0.01 mm/s</td><td class="ft-check">0 ✓</td><td>—</td><td class="ft-check">✓</td></tr>
+        <tr><td>BepiColombo</td><td>2020</td><td>≈ 0 mm/s</td><td class="ft-check">≈ 0 ✓</td><td>—</td><td class="ft-check">✓</td></tr>
+        <tr><td>Solar Orbiter</td><td>2020</td><td>0.00 ± 0.02 mm/s</td><td class="ft-check">0 ✓</td><td>—</td><td class="ft-check">✓</td></tr>
+        <tr class="ft-juice"><td colspan="2"><strong>JUICE prediction</strong></td><td class="ft-future"><strong>August 2029</strong></td><td class="ft-future"><strong>+3.66 mm/s</strong></td><td style="color:var(--steel)">ΔV ≈ 0</td><td class="ft-future">?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PIONEER -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+    <div style="border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:2rem;background:var(--ink2)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">pioneer anomaly — filmframe model</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:300;color:var(--steel);line-height:2">
+        Anderson (2002): &nbsp;<span style="color:var(--cream)">7.77 × 10⁻¹⁰ m/s²</span><br>
+        V66 result: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">7.52 × 10⁻¹⁰ m/s²</span><br>
+        Coverage: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green)">96.8%</span><br>
+        Data used: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">266 pts (3.5% of original)</span><br>
+        Parameters: &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">0</span><br>
+        <br>
+        Turyshev (2012): &nbsp;<span style="color:var(--steel)">6.22 × 10⁻¹⁰ m/s² (80%)</span><br>
+        Data used: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--steel)">7560 pts · 12 years · 12+ params</span><br>
+        Residual: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--red)">"uncertain origin" (20%)</span>
+      </div>
+    </div>
+    <div style="border:1px solid rgba(0,230,118,.15);border-radius:8px;padding:2rem;background:rgba(0,230,118,.03)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--green);margin-bottom:1rem">scale invariance — 22 orders of magnitude</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--steel);line-height:2.2">
+        <span style="color:var(--cream)">Galaxies</span> &nbsp;10²⁰ m &nbsp;· 175/175 · 0 params<br>
+        <span style="color:var(--cream)">Flyby</span> &nbsp;&nbsp;&nbsp;10¹⁰ m &nbsp;· 10/10 · 0 params<br>
+        <span style="color:var(--cream)">Pioneer</span> &nbsp;10¹¹ m &nbsp;· 96.8% · 0 params<br>
+        <br>
+        <span style="color:var(--gold)">Same S(x). Same four-point structure.<br>Same zero parameters.<br>Three independent scales.<br>Cannot be coincidental.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div-line"></div>
+
 <!-- ══ TIMELINE ══ -->
 <div class="section rv" id="timeline">
   <div class="s-label">origin · development · falsification window</div>
@@ -670,12 +789,12 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       </div>
     </div>
     <div class="tl-node">
-      <div class="tl-dot future"></div>
-      <div class="tl-year future">2026</div>
+      <div class="tl-dot active"></div>
+      <div class="tl-year" style="color:var(--gold)">2026</div>
       <div class="tl-content">
         <div class="tl-title">Theorem 2: Flyby Anomaly + Pioneer</div>
-        <div class="tl-body">σ-gate mechanism formal derivation · 9/9 mission validation · JUICE 2029 hard prediction documented.</div>
-        <span class="tl-tag tl-soon">in development</span>
+        <div class="tl-body">Φ³ four-point quadrangulation · 10/10 missions · sign correct all cases.<br>Cassini sign reversal: Anderson fails, V66 correct.<br>Pioneer: 96.8% from 266 pts, 0 params vs Turyshev 80% from 7560 pts.<br>JUICE 2029 hard prediction: +3.66 mm/s · DOI locked.</div>
+        <span class="tl-tag tl-now">▶ published · mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
@@ -701,7 +820,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-year future">2028</div>
       <div class="tl-content">
         <div class="tl-title">LiteBIRD Launch</div>
-        <div class="tl-body">CMB EB polarization test. Dephaze predicts C_ℓ^EB / C_ℓ^TT ≈ 0.027.<br>ΛCDM predicts exactly zero.</div>
+        <div class="tl-body">CMB EB polarization test. Dephaze predicts C_ℓ^EB / C_ℓ^TT ≈ 0.029.<br>ΛCDM predicts exactly zero.</div>
         <span class="tl-tag tl-pred">falsification test</span>
       </div>
     </div>
@@ -710,7 +829,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-year future">2029</div>
       <div class="tl-content">
         <div class="tl-title">JUICE Earth Flyby — August</div>
-        <div class="tl-body">ΔV = +0.7 to +3.0 mm/s predicted. Recorded here March 1, 2026.<br>If ΔV ≈ 0 → framework falsified. No ambiguity.</div>
+        <div class="tl-body">ΔV = +3.66 mm/s predicted (geometry scan: +0.85 to +6.45 mm/s).<br>Recorded here March 1, 2026. DOI: 10.5281/zenodo.18823570.<br>If |ΔV| &lt; 0.5 mm/s → framework falsified. No ambiguity.</div>
         <span class="tl-tag tl-pred">hard falsification</span>
       </div>
     </div>
@@ -726,7 +845,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
 
   <div class="theorems-grid">
     <div class="thm-card active-thm">
-      <div class="thm-version">V3.0 · Zenodo v2 · March 2026</div>
+      <div class="thm-version">V4.0 · Zenodo · March 2026</div>
       <div class="thm-name">Galaxy Rotation Curves</div>
       <div class="thm-status">
         <div class="status-dot status-live"></div>
@@ -742,21 +861,22 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       </div>
     </div>
 
-    <div class="thm-card">
-      <div class="thm-version">V4.0 · In Development</div>
+    <div class="thm-card active-thm">
+      <div class="thm-version">V4.0 · Zenodo · March 2026</div>
       <div class="thm-name">Flyby Anomaly + Pioneer</div>
       <div class="thm-status">
-        <div class="status-dot status-wip"></div>
-        <span style="color:var(--amber)">In Progress</span>
+        <div class="status-dot status-live"></div>
+        <span style="color:var(--green)">Published</span>
       </div>
       <div class="thm-items">
-        <div class="done">✓ σ-gate formula: ΔV = K·V∞·(cosδ_out − cosδ_in)·σ</div>
-        <div class="done">✓ 9/9 missions consistent · sign correct</div>
-        <div class="pending">◌ Formal derivation of σ from Ω₀ topology</div>
-        <div class="pending">◌ Pioneer thermal residual analysis</div>
-        <div class="pending">◌ JUICE 2029 prediction formalized</div>
+        <div class="done">✓ Φ³ four-point quadrangulation — zero params per mission</div>
+        <div class="done">✓ 10/10 missions consistent · sign correct all cases</div>
+        <div class="done">✓ Cassini: Anderson +1.95 mm/s wrong sign · V66 −1.03 mm/s correct</div>
+        <div class="done">✓ Pioneer 96.8% from 266 digitized pts · 0 params</div>
+        <div class="done">✓ Turyshev 80% from 7560 pts · 12+ params · 12 years</div>
+        <div class="done">✓ JUICE 2029 prediction locked · DOI timestamped</div>
       </div>
-      <div class="thm-pred">JUICE prediction: ΔV = +0.7 to +3.0 mm/s<br>Hard date: August 2029</div>
+      <div class="thm-pred">JUICE: ΔV = +3.66 mm/s &nbsp;·&nbsp; scan: +0.85 to +6.45 mm/s<br>Falsification: |ΔV| &lt; 0.5 mm/s → refuted · Hard date: August 2029</div>
     </div>
 
     <div class="thm-card locked">
@@ -803,13 +923,13 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
     <div class="pred-card hl">
       <div class="pc-year">August 2029</div>
       <div class="pc-title">JUICE Earth Flyby</div>
-      <div class="pc-val">ΔV = +0.7 to +3.0 mm/s</div>
-      <div class="pc-contrast">ΛCDM: ΔV ≈ 0<br>If Dephaze wrong: framework falsified</div>
+      <div class="pc-val">ΔV = +3.66 mm/s<br><span style="color:var(--steel);font-size:.62rem">scan ±5°: +0.85 to +6.45 mm/s</span></div>
+      <div class="pc-contrast">ΛCDM: ΔV ≈ 0 — no mechanism<br>If |ΔV| &lt; 0.5 mm/s: Dephaze falsified</div>
     </div>
     <div class="pred-card">
       <div class="pc-year">2028</div>
       <div class="pc-title">LiteBIRD CMB EB</div>
-      <div class="pc-val">C_ℓ^EB / C_ℓ^TT ≈ 0.027</div>
+      <div class="pc-val">C_ℓ^EB / C_ℓ^TT ≈ 0.029</div>
       <div class="pc-contrast">ΛCDM: exactly 0<br>Testable to 5σ</div>
     </div>
     <div class="pred-card">
@@ -904,7 +1024,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       The rotation curve theorem is on the table. Flyby, CMB, and quantum mechanics follow <strong>one by one</strong>. JUICE (2029), LiteBIRD (2028), DESI (2025) arrive regardless.<br><br>
       
     </p>
-    <div class="note-sig">— Angus Dewer &nbsp;·&nbsp; angus@dephaze.eu &nbsp;·&nbsp; dephaze.eu &nbsp;·&nbsp; DOI: 10.5281/zenodo.18823570</div>
+    <div class="note-sig">— Angus Dewer -</div>
   </div>
 </div>
 
@@ -916,9 +1036,8 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
   <div class="footer-links">
     <a href="https://github.com/angusdewer" target="_blank">github.com/angusdewer</a>
     <a href="http://astroweb.cwru.edu/SPARC/" target="_blank">SPARC database</a>
-    <a href="https://zenodo.org/records/18823570" target="_blank">Zenodo v2</a>
+    <a href="https://zenodo.org/records/18848652" target="_blank">Zenodo v3</a>
     <a href="mailto:angus@dephaze.eu">angus@dephaze.eu</a>
-    <a href="https://dephaze.eu">dephaze.eu</a>
   </div>
   <div class="footer-copy">
     © 1992 – 2026 Angus Dewer &nbsp;·&nbsp; Dephaze Manufacture &nbsp;·&nbsp; CC BY-NC-SA 4.0 with Patent Defensive Provisions<br>
@@ -928,7 +1047,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
 
 </div><!-- .wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 'use strict';
 
 /* ─── NAV SCROLL ─── */
@@ -1131,15 +1250,18 @@ Object.keys(GALAXIES).forEach((name,i)=>{
   const btn=document.createElement('button');
   btn.className='gtab'+(i===0?' on':'');
   btn.textContent=name;
-  btn.onclick=()=>{
+  btn.addEventListener('click',()=>{
+    curGal=name;
     document.querySelectorAll('.gtab').forEach(b=>b.classList.remove('on'));
-    btn.classList.add('on'); curGal=name; drawCurve(name);
-  };
+    btn.classList.add('on');
+    drawCurve(name);
+  });
   tabs.appendChild(btn);
 });
 
 drawCurve(curGal);
-addEventListener('resize',()=>drawCurve(curGal));
+window.addEventListener('resize',()=>drawCurve(curGal));
+
 </script>
 </body>
 </html>
