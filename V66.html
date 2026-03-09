@@ -29,7 +29,7 @@ body{background:var(--ink);color:var(--cream);font-family:'Cormorant Garamond',G
 
 /* ─── BACKGROUNDS ─── */
 #starfield,#spiralCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-#spiralCanvas{opacity:.05}
+#spiralCanvas{opacity:.18}
 body::after{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   opacity:.025}
@@ -322,7 +322,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
 
 /* ─── SECTION DIVIDER ─── */
 .sec-div{max-width:1080px;margin:0 auto;padding:0 2rem}
-.sec-div-line{border:none;border-top:1px solid rgba(255,255,255,.04)}
+.sec-div-line{border:none}
 </style></style>
 </head>
 <body>
@@ -345,7 +345,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
     <a href="#predictions">Predictions</a>
     <a href="#code">Code</a>
   </div>
-  <a class="nav-doi" href="https://doi.org/10.5281/zenodo.18823570" target="_blank">DOI ↗</a>
+  <a class="nav-doi" href="https://doi.org/10.5281/zenodo.18923203" target="_blank">DOI ↗</a>
 </nav>
 
 <!-- ══ HERO ══ -->
@@ -358,7 +358,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
 <span class="dim">S(x) = Φ³ spring function    T_i = v²_max − v²_med    x_i = v_obs / v_max</span>
 <span class="dim">S(0) = 0   S(1) = 1   X_knee = 1/Φ² = 0.38197…   parameters: 0</span></div>
   <div class="hero-version-badge">
-    <span class="hvb-inner">V4.3 · Zenodo · 10.5281/zenodo.18823570 · Locked 2026-03-01</span>
+    <span class="hvb-inner">V4.3 · Zenodo · 10.5281/zenodo.18923203 · Locked 2026-03-01</span>
   </div>
   <div class="hero-pills">
     <span class="pill pill-g">175/175 SPARC · 0 params</span>
@@ -387,7 +387,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ CURVES ══ -->
 <div class="section rv" id="curves">
@@ -441,7 +440,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ VALIDATION ══ -->
 <div class="section rv" id="validation">
@@ -531,7 +529,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ FLYBY + PIONEER ══ -->
 <div class="section rv" id="flyby">
@@ -611,7 +608,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ CMB ══ -->
 <div class="section" id="cmb">
@@ -718,11 +714,10 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
-<!-- ══ QUANTUM ══ NEW V4.3 SECTION ══ -->
+<!-- ══ QUANTUM ══ NEW V5 SECTION ══ -->
 <div class="section rv" id="quantum">
-  <div class="s-label">theorem 4 · V4.3 · GNS construction · T-invariance · Nernst theorem</div>
+  <div class="s-label">theorem 4 · V5 · GNS construction · T-invariance · Nernst theorem</div>
   <h2 class="s-title">Quantum Entanglement.<br>Derived.</h2>
 
   <div class="q-header-grid">
@@ -846,7 +841,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ TIMELINE ══ -->
 <div class="section rv" id="timeline">
@@ -875,23 +869,22 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       <div class="tl-dot active"></div>
       <div class="tl-year" style="color:var(--gold)">2026</div>
       <div class="tl-content">
-        <div class="tl-title">V4.3 — Four Theorems Published</div>
+        <div class="tl-title">V4 — Published</div>
         <div class="tl-body">
           T1: 175/175 SPARC · 0 params · LOO 5.98 · BIC −2436 vs NFW<br>
           T2: 10/10 flyby · Cassini sign · Pioneer 96.8% · JUICE locked<br>
           T3: 9 CMB quantities · Wien Δ=0.013% · EB prediction locked<br>
-          T4: |Ψ⁻⟩ from T-invariance · 2√2 virtual · 2.683 physical · 81.6 GHz
-        </div>
-        <span class="tl-tag tl-now">▶ current · V4.3 · mar 2026</span>
+                  </div>
+        <span class="tl-tag tl-now">▶ current · V4 · mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
       <div class="tl-dot q-dot"></div>
       <div class="tl-year" style="color:var(--violet)">2026</div>
       <div class="tl-content">
-        <div class="tl-title" style="color:var(--violet)">Quantum Theorem — New in V4.3</div>
+        <div class="tl-title" style="color:var(--violet)">Quantum Theorem — New in V5</div>
         <div class="tl-body">Singlet derived from GNS + time-reversal. Tsirelson 2√2 identified as virtual asymptote. First physical CHSH bound 2.683 from third law. Separability threshold 81.6 GHz from Φ-ladder.</div>
-        <span class="tl-tag tl-q">▶ published · V4.3 · mar 2026</span>
+        <span class="tl-tag tl-q">▶ published · V5 · mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
@@ -915,7 +908,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ THEOREMS ══ -->
 <div class="section rv" id="theorems">
@@ -923,7 +915,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   <h2 class="s-title">Theorems</h2>
   <div class="theorems-grid">
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
+      <div class="thm-version">V5 · Zenodo · March 2026</div>
       <div class="thm-name">Galaxy Rotation Curves</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -936,7 +928,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       </div>
     </div>
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
+      <div class="thm-version">V5 · Zenodo · March 2026</div>
       <div class="thm-name">Flyby Anomaly + Pioneer</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -949,7 +941,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       <div class="thm-pred">JUICE: ΔV = +3.66 mm/s · August 2029<br>Falsification: |ΔV| &lt; 0.5 mm/s → refuted</div>
     </div>
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
+      <div class="thm-version">V5 · Zenodo · March 2026</div>
       <div class="thm-name">CMB Anomalies</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -963,7 +955,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       <div class="thm-pred">C_ℓ^EB / C_ℓ^TT = 0.02866 · ΛCDM = 0<br>LiteBIRD 2028 · 5σ falsification</div>
     </div>
     <div class="thm-card q-thm">
-      <div class="thm-version thm-version-q">V4.3 · NEW · March 2026</div>
+      <div class="thm-version thm-version-q">V5 · NEW · March 2026</div>
       <div class="thm-name">Quantum Entanglement</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--violet)">Published V4.3</span></div>
       <div class="thm-items">
@@ -979,7 +971,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ PREDICTIONS ══ -->
 <div class="section rv" id="predictions">
@@ -1013,7 +1004,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ CODE ══ -->
 <div class="section rv" id="code">
@@ -1075,7 +1065,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ NOTE ══ -->
 <div class="section rv">
@@ -1091,7 +1080,6 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
 </div>
 
-<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ FOOTER ══ -->
 <footer>
@@ -1104,13 +1092,13 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   </div>
   <div class="footer-copy">
     © 1992 – 2026 Angus Dewer &nbsp;·&nbsp; Dephaze Manufacture &nbsp;·&nbsp; CC BY-NC-SA 4.0 with Patent Defensive Provisions<br>
-    Data: SPARC (Lelli et al. 2016) &nbsp;·&nbsp; V4.3 · Runtime: ~2 min &nbsp;·&nbsp; DOI: 10.5281/zenodo.18823570
+    Data: SPARC (Lelli et al. 2016) &nbsp;·&nbsp; V5 · Runtime: ~2 min &nbsp;·&nbsp; DOI: 10.5281/zenodo.18923203
   </div>
 </footer>
 
 </div><!-- .wrap -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 'use strict';
 
 /* ─── CONSTANTS ─── */
@@ -1452,4 +1440,15 @@ window.addEventListener('resize',drawCHSH);
   const ladderObs=new IntersectionObserver(es=>{
     if(!es[0].isIntersecting)return;
     setTimeout(()=>{
-      container.querySelect
+      container.querySelectorAll('.pl-bar').forEach(b=>{
+        b.style.transition='width 1s cubic-bezier(.16,1,.3,1)';
+        b.style.width=b.dataset.pct+'%';
+      });
+    },200);
+    ladderObs.disconnect();
+  },{threshold:.3});
+  ladderObs.observe(container);
+})();
+</script>
+</body>
+</html>
