@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dephaze V66 — Galaxy Rotation from Φ³ Topology</title>
+<title>Dephaze V4.3 — Galaxy Rotation from Φ³ Topology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=JetBrains+Mono:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -20,15 +20,16 @@
   --green:     #00e676;
   --red:       #ff5252;
   --amber:     #ffb300;
+  --violet:    #b388ff;
   --r: .75rem;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth;font-size:17px}
 body{background:var(--ink);color:var(--cream);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;cursor:crosshair}
 
 /* ─── BACKGROUNDS ─── */
 #starfield,#spiralCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-#spiralCanvas{opacity:.06}
+#spiralCanvas{opacity:.05}
 body::after{content:'';position:fixed;inset:0;z-index:999;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   opacity:.025}
@@ -39,200 +40,104 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:.75rem 2.5rem;
-  background:rgba(3,7,15,.85);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(200,168,75,.08);
+  background:rgba(3,7,15,.88);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(200,168,75,.07);
   transition:border-color .3s;
 }
-nav.scrolled{border-color:rgba(200,168,75,.18)}
-.nav-logo{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:1.4rem;color:var(--gold);letter-spacing:.04em;text-decoration:none
-}
-.nav-links{display:flex;gap:2rem;align-items:center}
-.nav-links a{
-  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;
-  color:var(--steel);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;
-  transition:color .2s
-}
+nav.scrolled{border-color:rgba(200,168,75,.2)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:1.4rem;color:var(--gold);letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:1.8rem;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;color:var(--steel);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;transition:color .2s}
 .nav-links a:hover{color:var(--gold)}
 .nav-links a.nav-active{color:var(--gold);border-bottom:1px solid rgba(200,168,75,.5);padding-bottom:2px}
-.nav-doi{
-  font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:300;
-  padding:.3rem .8rem;border-radius:100px;
-  border:1px solid rgba(200,168,75,.3);color:var(--gold);
-  text-decoration:none;transition:all .2s
-}
+.nav-doi{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:300;padding:.28rem .75rem;border-radius:100px;border:1px solid rgba(200,168,75,.3);color:var(--gold);text-decoration:none;transition:all .2s}
 .nav-doi:hover{background:rgba(200,168,75,.1)}
-@media(max-width:640px){.nav-links{display:none}}
+@media(max-width:720px){.nav-links{display:none}}
 
 /* ─── HERO ─── */
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:6rem 2rem 6rem;text-align:center;position:relative
-}
-.hero-eyebrow{
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;
-  letter-spacing:.4em;text-transform:uppercase;color:var(--gold);
-  margin-bottom:2.5rem;opacity:0;animation:rise .9s .1s forwards
-}
-.hero-phi{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:clamp(7rem,22vw,18rem);line-height:.85;color:var(--gold);
-  letter-spacing:-.02em;opacity:0;animation:rise .9s .25s forwards;
-  text-shadow:0 0 120px rgba(200,168,75,.35),0 0 240px rgba(200,168,75,.15)
-}
-.hero-title{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,7vw,5.5rem);
-  letter-spacing:.08em;color:var(--cream);line-height:1;margin-top:.5rem;
-  opacity:0;animation:rise .9s .4s forwards
-}
-.hero-sub{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
-  font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--steel);
-  margin:1.5rem 0 3rem;opacity:0;animation:rise .9s .55s forwards
-}
-.hero-eq{
-  font-family:'JetBrains Mono',monospace;font-size:clamp(.8rem,1.8vw,1rem);
-  font-weight:300;background:linear-gradient(135deg,rgba(200,168,75,.1),rgba(200,168,75,.04));
-  border:1px solid rgba(200,168,75,.25);border-left:3px solid var(--gold);
-  padding:1rem 2rem;border-radius:0 var(--r) var(--r) 0;line-height:2;
-  opacity:0;animation:rise .9s .7s forwards;white-space:pre
-}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem;text-align:center;position:relative}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;opacity:0;animation:rise .9s .1s forwards}
+.hero-phi{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(7rem,22vw,18rem);line-height:.85;color:var(--gold);letter-spacing:-.02em;opacity:0;animation:rise .9s .25s forwards;text-shadow:0 0 120px rgba(200,168,75,.35),0 0 240px rgba(200,168,75,.15)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,7vw,5.5rem);letter-spacing:.08em;color:var(--cream);line-height:1;margin-top:.5rem;opacity:0;animation:rise .9s .4s forwards}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--steel);margin:1.5rem 0 3rem;opacity:0;animation:rise .9s .55s forwards}
+.hero-eq{font-family:'JetBrains Mono',monospace;font-size:clamp(.78rem,1.7vw,.98rem);font-weight:300;background:linear-gradient(135deg,rgba(200,168,75,.1),rgba(200,168,75,.04));border:1px solid rgba(200,168,75,.25);border-left:3px solid var(--gold);padding:1rem 2rem;border-radius:0 var(--r) var(--r) 0;line-height:2.2;opacity:0;animation:rise .9s .7s forwards;white-space:pre}
 .hero-eq .dim{color:var(--steel)}.hero-eq .hi{color:var(--gold)}
-.hero-pills{
-  display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;
-  margin-top:2.5rem;opacity:0;animation:rise .9s .9s forwards
-}
-.pill{
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;
-  letter-spacing:.06em;padding:.35rem .9rem;border-radius:100px;border:1px solid
-}
+.hero-version-badge{display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;opacity:0;animation:rise .9s .85s forwards}
+.hvb-inner{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;letter-spacing:.1em;padding:.3rem .9rem;border-radius:100px;border:1px solid rgba(200,168,75,.4);color:var(--gold);background:rgba(200,168,75,.07)}
+.hero-pills{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;margin-top:1.8rem;opacity:0;animation:rise .9s .95s forwards}
+.pill{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;letter-spacing:.06em;padding:.32rem .85rem;border-radius:100px;border:1px solid}
 .pill-g{color:var(--green);border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.06)}
 .pill-c{color:var(--cyan);border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.06)}
 .pill-a{color:var(--gold);border-color:rgba(200,168,75,.3);background:rgba(200,168,75,.06)}
-.scroll-hint{
-  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.3em;
-  color:var(--steel);animation:bounce 2.5s infinite
-}
-@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── DIVIDER ─── */
-.div-line{display:none}
+.pill-v{color:var(--violet);border-color:rgba(179,136,255,.3);background:rgba(179,136,255,.06)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.80rem;letter-spacing:.3em;color:var(--steel);animation:bounce 2.5s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(7px)}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
 /* ─── SECTIONS ─── */
 .section{max-width:1080px;margin:0 auto;padding:7rem 2rem}
-.s-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;
-  letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
-.s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4.5rem);
-  letter-spacing:.05em;line-height:1;margin-bottom:2.5rem}
+.s-label{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+.s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4.5rem);letter-spacing:.05em;line-height:1;margin-bottom:2.5rem}
+
+/* ─── SCROLL REVEAL ─── */
+.rv{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
+.rv.animate-out{opacity:0;transform:translateY(28px)}
+.rv.in{opacity:1;transform:none}
 
 /* ─── JUICE COUNTDOWN ─── */
-.juice-banner{
-  background:linear-gradient(135deg,rgba(200,168,75,.07),rgba(200,168,75,.02));
-  border:1px solid rgba(200,168,75,.25);border-radius:12px;
-  padding:2.5rem 3rem;text-align:center;position:relative;overflow:hidden;
-  margin-bottom:3rem
-}
-.juice-banner::before{
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:radial-gradient(ellipse at center,rgba(200,168,75,.04),transparent 60%);
-  animation:pulse-slow 6s ease-in-out infinite
-}
+.juice-banner{background:linear-gradient(135deg,rgba(200,168,75,.08),rgba(200,168,75,.02));border:1px solid rgba(200,168,75,.25);border-radius:14px;padding:2.5rem 3rem;text-align:center;position:relative;overflow:hidden;margin-bottom:3rem}
+.juice-banner::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at center,rgba(200,168,75,.05),transparent 60%);animation:pulse-slow 6s ease-in-out infinite}
 @keyframes pulse-slow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
-.juice-label{
-  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;
-  letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem
-}
-.juice-title{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,4vw,2.8rem);
-  letter-spacing:.08em;margin-bottom:1.5rem;color:var(--cream)
-}
+.juice-label{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.juice-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,4vw,2.8rem);letter-spacing:.08em;margin-bottom:1.5rem;color:var(--cream)}
 .countdown{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
 .cd-unit{text-align:center}
-.cd-num{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,5rem);
-  color:var(--gold);line-height:1;letter-spacing:.04em;
-  text-shadow:0 0 40px rgba(200,168,75,.4)
-}
-.cd-lbl{
-  font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:300;
-  letter-spacing:.25em;text-transform:uppercase;color:var(--steel);margin-top:.2rem
-}
-.juice-pred{
-  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:300;
-  color:var(--cream);letter-spacing:.06em
-}
+.cd-num{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,7vw,5rem);color:var(--gold);line-height:1;letter-spacing:.04em;text-shadow:0 0 40px rgba(200,168,75,.4)}
+.cd-lbl{font-family:'JetBrains Mono',monospace;font-size:.70rem;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--steel);margin-top:.2rem}
+.juice-pred{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:var(--cream);letter-spacing:.06em}
 .juice-pred strong{color:var(--gold)}
-.juice-note{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:.95rem;color:var(--steel);margin-top:.7rem
-}
+.juice-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--steel);margin-top:.7rem}
 
 /* ─── LIVE VIEWER ─── */
-.viewer-shell{
-  border:1px solid rgba(200,168,75,.15);border-radius:8px;overflow:hidden;
-  background:var(--ink2);box-shadow:0 0 80px rgba(200,168,75,.04)
-}
-.viewer-topbar{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
-  padding:.9rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.05);
-  background:rgba(255,255,255,.015)
-}
-.viewer-badge{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--gold);letter-spacing:.1em}
+.viewer-shell{border:1px solid rgba(200,168,75,.15);border-radius:10px;overflow:hidden;background:var(--ink2);box-shadow:0 0 80px rgba(200,168,75,.04)}
+.viewer-topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:.9rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.015)}
+.viewer-badge{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--gold);letter-spacing:.1em}
 .gal-tabs{display:flex;gap:.4rem;flex-wrap:wrap}
-.gtab{
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;
-  padding:.25rem .75rem;border-radius:100px;border:1px solid rgba(255,255,255,.12);
-  background:transparent;color:var(--steel);cursor:pointer;transition:all .2s
-}
+.gtab{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;padding:.22rem .7rem;border-radius:100px;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--steel);cursor:pointer;transition:all .2s}
 .gtab:hover{border-color:var(--gold);color:var(--gold)}
 .gtab.on{border-color:var(--gold);color:var(--ink);background:var(--gold)}
 #curveCanvas{display:block;width:100%;height:clamp(260px,40vw,400px)}
 .viewer-footer{display:flex;gap:2rem;flex-wrap:wrap;padding:.8rem 1.4rem;border-top:1px solid rgba(255,255,255,.05)}
-.leg{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel)}
+.leg{display:flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel)}
 .leg-dot{width:8px;height:8px;border-radius:50%}
 .leg-dash{width:18px;height:2px;border-radius:2px}
 
 /* ─── STAT GRID ─── */
-.stat-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:1px;border:1px solid rgba(255,255,255,.05);border-radius:8px;
-  overflow:hidden;background:rgba(255,255,255,.03)
-}
-.stat-cell{
-  background:var(--ink2);padding:2rem 1.5rem;position:relative;transition:background .25s
-}
-.stat-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;border:1px solid rgba(255,255,255,.05);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.03)}
+.stat-cell{background:var(--ink2);padding:2rem 1.5rem;position:relative;transition:background .25s}
+.stat-cell::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
 .stat-cell:hover{background:rgba(200,168,75,.04)}
 .stat-cell:hover::before{opacity:1}
-.stat-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,3rem);
-  color:var(--gold);line-height:1;margin-bottom:.3rem;letter-spacing:.02em}
+.stat-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,5vw,3rem);color:var(--gold);line-height:1;margin-bottom:.3rem;letter-spacing:.02em}
 .stat-big .u{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:300;color:var(--steel);letter-spacing:0}
-.stat-desc{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--steel);line-height:1.6;letter-spacing:.03em;text-transform:uppercase}
-.stag{display:inline-block;margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:300;padding:.18rem .55rem;border-radius:100px;border:1px solid}
+.stat-desc{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);line-height:1.955;letter-spacing:.03em;text-transform:uppercase}
+.stag{display:inline-block;margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:300;padding:.16rem .5rem;border-radius:100px;border:1px solid}
 .stag-g{color:var(--green);border-color:rgba(0,230,118,.3)}
 .stag-c{color:var(--cyan);border-color:rgba(0,212,255,.3)}
 .stag-a{color:var(--gold);border-color:rgba(200,168,75,.3)}
+.stag-v{color:var(--violet);border-color:rgba(179,136,255,.3)}
 
 /* ─── VALIDATION CARDS ─── */
 .val-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem}
-.val-card{
-  border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:2rem 1.75rem;
-  background:var(--ink2);position:relative;overflow:hidden;transition:all .25s
-}
+.val-card{border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:2rem 1.75rem;background:var(--ink2);position:relative;overflow:hidden;transition:all .25s}
 .val-card:hover{border-color:rgba(200,168,75,.35);transform:translateY(-3px)}
-.val-card::before{content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 0% 0%,rgba(200,168,75,.05),transparent 60%);pointer-events:none}
+.val-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(200,168,75,.05),transparent 60%);pointer-events:none}
 .vc-icon{font-size:1.6rem;margin-bottom:1rem}
 .vc-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;margin-bottom:.6rem}
 .vc-num{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;line-height:1;margin:.5rem 0}
-.vc-body{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--steel);line-height:1.8}
-.vc-verdict{margin-top:1rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;padding:.3rem .7rem;display:inline-block;border-radius:4px}
+.vc-body{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);line-height:1.95}
+.vc-verdict{margin-top:1rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;padding:.3rem .7rem;display:inline-block;border-radius:4px}
 .vv-pass{background:rgba(0,230,118,.1);color:var(--green)}
 .vv-info{background:rgba(0,212,255,.1);color:var(--cyan)}
 
@@ -241,353 +146,307 @@ nav.scrolled{border-color:rgba(200,168,75,.18)}
 @media(max-width:640px){.bic-wrap{grid-template-columns:1fr}}
 .bic-bars{display:flex;flex-direction:column;gap:1.2rem}
 .bic-row-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem}
-.bic-row-name{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:300;color:var(--cream)}
-.bic-row-val{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel)}
+.bic-row-name{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:300;color:var(--cream)}
+.bic-row-val{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel)}
 .bic-track{height:26px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}
-.bic-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;
-  padding-right:.5rem;font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;
-  transition:width 1.6s cubic-bezier(.16,1,.3,1)}
+.bic-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:.5rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;transition:width 1.6s cubic-bezier(.16,1,.3,1)}
 .bic-delta-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,5.5rem);color:var(--green);line-height:1;letter-spacing:.02em}
-.bic-delta-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:300;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin:.4rem 0 1.2rem}
-.bic-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--steel);line-height:1.7}
+.bic-delta-label{font-family:'JetBrains Mono',monospace;font-size:.87rem;font-weight:300;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin:.4rem 0 1.2rem}
+.bic-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.08rem;color:var(--steel);line-height:1.955}
 .bic-note strong{color:var(--cream);font-style:normal}
 
+/* ─── FLYBY TABLE ─── */
+.ftable-wrap{border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;background:var(--ink2)}
+table.ft{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:300}
+table.ft th{text-align:left;padding:.7rem 1rem;color:var(--steel);border-bottom:1px solid rgba(255,255,255,.06);font-size:.76rem;letter-spacing:.15em;text-transform:uppercase;font-weight:300}
+table.ft td{padding:.65rem 1rem;border-bottom:1px solid rgba(255,255,255,.03)}
+table.ft tr:last-child td{border-bottom:none}
+table.ft tr:hover td{background:rgba(255,255,255,.02)}
+.ft-check{color:var(--green)}.ft-fail{color:var(--red)}
+.ft-juice td{background:rgba(200,168,75,.05);color:var(--gold)}
+.ft-future{color:var(--cyan)}
+
+/* ─── CMB CHAIN ─── */
+.cmb-node{display:grid;grid-template-columns:1fr auto;gap:1.5rem;border:1px solid rgba(200,168,75,.12);border-radius:10px;padding:1.6rem 2rem;background:rgba(200,168,75,.025);position:relative}
+.cmb-node-pred{border-color:rgba(0,212,255,.2);background:rgba(0,212,255,.025)}
+.cn-tag{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;border:1px solid rgba(200,168,75,.2);display:inline-block;padding:.18rem .55rem;border-radius:4px}
+.cn-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.04em;margin-bottom:.6rem}
+.cn-eq{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:var(--cream);line-height:1.9;margin-bottom:.3rem}
+.cn-hi{color:var(--gold)}
+.cn-note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--steel);margin-top:.5rem;line-height:1.955}
+.cn-right{min-width:180px}
+.cn-branch{border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:1rem;background:rgba(255,255,255,.02)}
+.cb-label{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:300;color:var(--steel);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.cb-val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:var(--cream);line-height:1.9}
+.cb-match{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--green);margin-top:.3rem}
+.cn-verdict{border:1px solid rgba(200,168,75,.2);border-radius:8px;padding:1rem;text-align:center}
+.cv-label{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--steel);margin-bottom:.3rem}
+.cv-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em}
+.cv-delta{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--green);margin-top:.3rem}
+.cn-arrow{text-align:center;font-size:1.4rem;color:rgba(200,168,75,.35);margin:.2rem 0}
+@media(max-width:640px){.cmb-node{grid-template-columns:1fr}.cn-right{min-width:0}}
+
+/* ─── QUANTUM SECTION ─── */
+.q-header-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;border:1px solid rgba(179,136,255,.12);border-radius:10px;overflow:hidden;background:rgba(179,136,255,.04);margin-bottom:3rem}
+.q-cell{background:var(--ink2);padding:1.8rem 1.5rem;text-align:center}
+.q-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--violet);line-height:1;margin-bottom:.3rem;letter-spacing:.02em;text-shadow:0 0 40px rgba(179,136,255,.3)}
+.q-label{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;color:var(--steel);letter-spacing:.1em;text-transform:uppercase}
+.chsh-shell{border:1px solid rgba(179,136,255,.15);border-radius:10px;overflow:hidden;background:var(--ink2);margin-bottom:3rem}
+.chsh-topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;padding:.8rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.015)}
+.chsh-badge{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--violet);letter-spacing:.1em}
+.chsh-freq-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.freq-btn{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;padding:.2rem .65rem;border-radius:100px;border:1px solid rgba(179,136,255,.2);background:transparent;color:var(--steel);cursor:pointer;transition:all .2s}
+.freq-btn:hover{border-color:var(--violet);color:var(--violet)}
+.freq-btn.on{border-color:var(--violet);color:var(--ink);background:var(--violet)}
+#chshCanvas{display:block;width:100%;height:clamp(240px,35vw,360px)}
+.chsh-footer{padding:.8rem 1.4rem;border-top:1px solid rgba(255,255,255,.05);display:flex;gap:2rem;flex-wrap:wrap}
+.q-derivation{background:rgba(179,136,255,.04);border:1px solid rgba(179,136,255,.12);border-radius:10px;padding:2.5rem;margin-bottom:3rem}
+.q-deriv-title{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;letter-spacing:.35em;text-transform:uppercase;color:var(--violet);margin-bottom:1.5rem}
+.q-deriv-chain{display:flex;flex-direction:column;gap:.5rem}
+.qd-row{display:flex;align-items:center;gap:1rem;padding:.65rem 1rem;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:300}
+.qd-row.new{background:rgba(179,136,255,.08);border:1px solid rgba(179,136,255,.15)}
+.qd-step{color:rgba(179,136,255,.5);min-width:1.5rem;font-size:.76rem}
+.qd-eq{color:var(--cream);flex:1;line-height:1.95}
+.qd-tag{font-size:1.05rem;letter-spacing:.15em;text-transform:uppercase;padding:.15rem .45rem;border-radius:3px;background:rgba(179,136,255,.12);color:var(--violet);white-space:nowrap}
+.qd-tag-green{background:rgba(0,230,118,.1);color:var(--green)}
+.q-asymptote-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem}
+@media(max-width:640px){.q-asymptote-box{grid-template-columns:1fr}}
+.qa-card{border-radius:10px;padding:2rem;position:relative;overflow:hidden}
+.qa-card-virtual{border:1px solid rgba(255,82,82,.25);background:rgba(255,82,82,.04)}
+.qa-card-phys{border:1px solid rgba(0,230,118,.25);background:rgba(0,230,118,.04)}
+.qa-label{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.8rem}
+.qa-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,4rem);line-height:1;letter-spacing:.02em;margin-bottom:.5rem;text-shadow:0 0 40px currentColor}
+.qa-eq{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:300;color:var(--cream);line-height:1.9;margin-bottom:.8rem}
+.qa-why{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--steel);line-height:1.955}
+.phi-ladder{margin-bottom:3rem}
+.pl-title{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.pl-grid{display:grid;gap:.4rem}
+.pl-row{display:grid;grid-template-columns:3rem 1fr auto auto;gap:.8rem;align-items:center;padding:.5rem .8rem;border-radius:6px;border:1px solid rgba(255,255,255,.04);transition:background .2s}
+.pl-row:hover{background:rgba(255,255,255,.025)}
+.pl-row.pl-virtual{border-color:rgba(255,82,82,.2);background:rgba(255,82,82,.03)}
+.pl-row.pl-phys{border-color:rgba(200,168,75,.15);background:rgba(200,168,75,.025)}
+.pl-row.pl-sep{border-color:rgba(255,82,82,.1);background:rgba(255,82,82,.02);opacity:.65}
+.pl-n{font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:300;color:var(--steel)}
+.pl-bar-wrap{position:relative;height:6px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+.pl-bar{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.16,1,.3,1)}
+.pl-freq{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel);text-align:right;min-width:80px}
+.pl-s{font-family:'JetBrains Mono',monospace;font-size:.86rem;font-weight:300;min-width:55px;text-align:right}
+.bell-experiments{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.bell-card{border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:1.4rem 1.5rem;background:var(--ink2);position:relative}
+.bc-year{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:var(--steel);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem}
+.bc-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.1rem;margin-bottom:.5rem}
+.bc-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--green);line-height:1;letter-spacing:.02em}
+.bc-detail{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel);line-height:1.95;margin-top:.4rem}
+.bc-bound-line{position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);text-align:right}
+.bc-arrow{font-size:.8rem;color:rgba(0,230,118,.5)}
+.bc-gap{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--green);margin-top:.2rem}
+
 /* ─── TIMELINE ─── */
-.timeline{
-  position:relative;padding:2rem 0;
-  display:flex;flex-direction:column;gap:0
-}
-.timeline::before{
-  content:'';position:absolute;left:2rem;top:0;bottom:0;width:1px;
-  background:linear-gradient(180deg,transparent,rgba(200,168,75,.3) 10%,rgba(200,168,75,.3) 90%,transparent)
-}
-.tl-node{
-  display:flex;gap:2.5rem;align-items:flex-start;padding:1.5rem 0 1.5rem 5rem;
-  position:relative
-}
-.tl-dot{
-  position:absolute;left:1.65rem;top:2rem;
-  width:.7rem;height:.7rem;border-radius:50%;
-  border:2px solid var(--gold);background:var(--ink);
-  transition:all .3s
-}
+.timeline{position:relative;padding:2rem 0;display:flex;flex-direction:column;gap:0}
+.timeline::before{content:'';position:absolute;left:2rem;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(200,168,75,.3) 10%,rgba(200,168,75,.3) 90%,transparent)}
+.tl-node{display:flex;gap:2.5rem;align-items:flex-start;padding:1.5rem 0 1.5rem 5rem;position:relative}
+.tl-dot{position:absolute;left:1.65rem;top:2rem;width:.7rem;height:.7rem;border-radius:50%;border:2px solid var(--gold);background:var(--ink);transition:all .3s}
 .tl-dot.active{background:var(--gold);box-shadow:0 0 16px rgba(200,168,75,.7)}
 .tl-dot.future{border-color:rgba(200,168,75,.3)}
-.tl-year{
-  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);
-  letter-spacing:.05em;line-height:1;min-width:5rem
-}
+.tl-dot.q-dot{border-color:var(--violet);background:rgba(179,136,255,.2);box-shadow:0 0 12px rgba(179,136,255,.5)}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);letter-spacing:.05em;line-height:1;min-width:5rem}
 .tl-year.future{color:rgba(200,168,75,.4)}
-.tl-content{}
 .tl-title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.15rem;margin-bottom:.4rem}
-.tl-body{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--steel);line-height:1.8}
-.tl-tag{
-  display:inline-block;margin-top:.5rem;font-family:'JetBrains Mono',monospace;
-  font-size:.52rem;font-weight:300;padding:.18rem .55rem;border-radius:100px;border:1px solid
-}
+.tl-body{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);line-height:1.95}
+.tl-tag{display:inline-block;margin-top:.5rem;font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;padding:.18rem .55rem;border-radius:100px;border:1px solid}
 .tl-done{color:var(--green);border-color:rgba(0,230,118,.3);background:rgba(0,230,118,.05)}
 .tl-now{color:var(--gold);border-color:rgba(200,168,75,.4);background:rgba(200,168,75,.07)}
 .tl-soon{color:var(--steel);border-color:rgba(120,136,153,.3)}
 .tl-pred{color:var(--cyan);border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.05)}
+.tl-q{color:var(--violet);border-color:rgba(179,136,255,.3);background:rgba(179,136,255,.06)}
 
-/* ─── NEXT THEOREMS ─── */
-.theorems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
-.thm-card{
-  border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:2rem;
-  background:var(--ink2);position:relative;overflow:hidden;transition:all .3s
-}
-.thm-card.locked{opacity:.55}
-.thm-card.active-thm{
-  border-color:rgba(200,168,75,.35);
-  box-shadow:0 0 40px rgba(200,168,75,.06)
-}
-.thm-card:hover:not(.locked){border-color:rgba(200,168,75,.3);transform:translateY(-3px)}
-.thm-version{
-  font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;
-  letter-spacing:.2em;color:var(--gold);margin-bottom:.8rem
-}
-.thm-name{
-  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.04em;
-  margin-bottom:.8rem;line-height:1.1
-}
-.thm-status{
-  display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300
-}
+/* ─── THEOREMS ─── */
+.theorems-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem}
+.thm-card{border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:2rem;background:var(--ink2);position:relative;overflow:hidden;transition:all .3s}
+.thm-card.active-thm{border-color:rgba(200,168,75,.35);box-shadow:0 0 40px rgba(200,168,75,.06)}
+.thm-card.q-thm{border-color:rgba(179,136,255,.3);box-shadow:0 0 40px rgba(179,136,255,.07)}
+.thm-card.locked{opacity:.5}
+.thm-card:hover:not(.locked){transform:translateY(-3px)}
+.thm-version{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;letter-spacing:.2em;color:var(--gold);margin-bottom:.8rem}
+.thm-version-q{color:var(--violet)}
+.thm-name{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.04em;margin-bottom:.8rem;line-height:1.1}
+.thm-status{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300}
 .status-dot{width:6px;height:6px;border-radius:50%}
 .status-live{background:var(--green);box-shadow:0 0 8px var(--green)}
 .status-wip{background:var(--amber);animation:blink 1.8s infinite}
 .status-lock{background:var(--steel)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.thm-items{
-  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;
-  color:var(--steel);line-height:2
-}
+.thm-items{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);line-height:2.2}
 .thm-items .done{color:var(--green)}
+.thm-items .done-v{color:var(--violet)}
 .thm-items .pending{color:var(--steel)}
 .thm-items .locked-item{color:rgba(120,136,153,.4)}
-.thm-pred{
-  margin-top:1rem;padding:.6rem .9rem;border-radius:6px;
-  background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.1);
-  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;
-  color:var(--cyan);line-height:1.7
-}
-.thm-lock-overlay{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(3,7,15,.3);border-radius:10px
-}
+.thm-pred{margin-top:1rem;padding:.6rem .9rem;border-radius:6px;background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.1);font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--cyan);line-height:1.955}
+.thm-pred-v{background:rgba(179,136,255,.06);border-color:rgba(179,136,255,.15);color:var(--violet)}
+.thm-lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,7,15,.3);border-radius:12px}
 .lock-icon{font-size:2rem;opacity:.3}
 
-/* ─── FLYBY TABLE ─── */
-.ftable-wrap{border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;background:var(--ink2)}
-table.ft{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:300}
-table.ft th{text-align:left;padding:.7rem 1rem;color:var(--steel);border-bottom:1px solid rgba(255,255,255,.06);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;font-weight:300}
-table.ft td{padding:.8rem 1rem;border-bottom:1px solid rgba(255,255,255,.03);color:var(--cream)}
-table.ft tr:last-child td{border:none}
-table.ft tr:hover td{background:rgba(255,255,255,.015)}
-.ft-check{color:var(--green)}
-.ft-future{color:var(--gold)}
-.ft-juice td{background:rgba(200,168,75,.05)!important}
-
 /* ─── PREDICTIONS ─── */
-.pred-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
-.pred-card{border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:1.5rem;background:var(--ink2);transition:all .25s}
-.pred-card:hover{border-color:rgba(200,168,75,.3)}
-.pred-card.hl{border-color:rgba(200,168,75,.3);background:rgba(200,168,75,.03)}
-.pc-year{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem}
-.pc-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.04em;margin-bottom:.5rem}
-.pc-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:300;color:var(--cyan);line-height:1.7;margin:.4rem 0}
-.pc-contrast{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;color:var(--steel);line-height:1.6}
+.pred-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.pred-card{border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:2rem;background:var(--ink2);transition:all .25s}
+.pred-card:hover{border-color:rgba(200,168,75,.25);transform:translateY(-2px)}
+.pred-card.hl{border-color:rgba(200,168,75,.3);background:rgba(200,168,75,.04)}
+.pc-year{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;letter-spacing:.2em;color:var(--cyan);margin-bottom:.5rem}
+.pc-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;margin-bottom:.8rem}
+.pc-val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:var(--gold);line-height:1.95;margin-bottom:.6rem}
+.pc-contrast{font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel);line-height:1.95;border-top:1px solid rgba(255,255,255,.06);padding-top:.6rem}
 
-/* ─── NOTE COMMUNITY ─── */
-.note-box{
-  border:1px solid rgba(200,168,75,.15);border-radius:10px;
-  padding:3rem;background:rgba(200,168,75,.025);position:relative;overflow:hidden
-}
-.note-box::before{content:'"';
-  position:absolute;top:-1rem;left:1.5rem;
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:12rem;color:rgba(200,168,75,.05);line-height:1;pointer-events:none
-}
-.note-text{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.25rem;
-  line-height:1.9;color:var(--cream);max-width:720px;position:relative
-}
-.note-text strong{font-style:normal;color:var(--gold)}
-.note-sig{
-  margin-top:2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;
-  font-weight:300;color:var(--steel);letter-spacing:.1em
-}
+/* ─── CODE ─── */
+.code-shell{border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;background:#060d18}
+.code-topbar{display:flex;align-items:center;gap:.6rem;padding:.7rem 1.2rem;background:#0a1520;border-bottom:1px solid rgba(255,255,255,.05)}
+.dot{width:12px;height:12px;border-radius:50%}
+.code-fname{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);letter-spacing:.05em;margin-left:.4rem}
+.code{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:300;color:#c8d4e0;line-height:1.9;padding:1.8rem 2rem;overflow-x:auto;margin:0}
+.kw{color:#79b4fa}.fn{color:#87d9ff}.vr{color:#c8a84b}.nm{color:#c3e88d}
+.cm{color:#546e7a}.st{color:#aed68f}.cl{color:#ffab40}
 
-/* ─── CODE BLOCK ─── */
-.code-shell{border:1px solid rgba(255,255,255,.07);border-radius:8px;overflow:hidden;background:#050b14}
-.code-topbar{display:flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02)}
-.dot{width:9px;height:9px;border-radius:50%}
-.code-fname{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:300;color:var(--steel);margin-left:.3rem}
-pre.code{padding:1.5rem 1.4rem;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:300;line-height:1.9;tab-size:4}
-.kw{color:#ff79c6}.fn{color:#50fa7b}.st{color:#f1fa8c}.nm{color:var(--gold)}.cm{color:#4a5568;font-style:italic}.vr{color:var(--cyan)}
+/* ─── NOTE ─── */
+.note-box{border:1px solid rgba(200,168,75,.15);border-radius:12px;padding:3rem;background:linear-gradient(135deg,rgba(200,168,75,.04),rgba(200,168,75,.01));position:relative}
+.note-box::before{content:'"';position:absolute;top:1.5rem;left:2rem;font-family:'Cormorant Garamond',serif;font-size:5rem;color:rgba(200,168,75,.1);line-height:1}
+.note-text{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--steel);line-height:1.9;padding-left:1rem}
+.note-text strong{color:var(--cream);font-style:normal}
+.note-sig{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.08rem;color:var(--gold);text-align:right;margin-top:1.5rem}
 
 /* ─── FOOTER ─── */
-footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:center;max-width:1080px;margin:0 auto}
-.footer-phi{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:5rem;color:rgba(200,168,75,.12);margin-bottom:.5rem}
+footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255,.05)}
+.footer-phi{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:4rem;color:rgba(200,168,75,.2);margin-bottom:1.5rem}
 .footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
-.footer-links a{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:300;color:var(--steel);text-decoration:none;letter-spacing:.1em;transition:color .2s}
+.footer-links a{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:300;color:var(--steel);text-decoration:none;transition:color .2s;letter-spacing:.05em}
 .footer-links a:hover{color:var(--gold)}
-.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;color:rgba(255,255,255,.12);line-height:2}
+.footer-copy{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;color:rgba(122,136,153,.5);line-height:2;letter-spacing:.03em}
 
-/* ─── SCROLL REVEAL ─── */
-.rv{opacity:1;transform:none}
-.rv.in{opacity:1;transform:translateY(0)}
-
-@media(max-width:500px){.bic-wrap{grid-template-columns:1fr}.hero-eq{white-space:normal;font-size:.78rem}}
-
-/* ─── CMB CHAIN ─── */
-.cmb-node{
-  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;
-  padding:1.8rem 2rem;
-  border:1px solid rgba(255,255,255,.13);border-radius:10px;
-  background:#0e1c30;
-  position:relative;overflow:hidden;transition:border-color .3s;
-}
-.cmb-node::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:linear-gradient(180deg,var(--gold),rgba(200,168,75,.15));
-}
-.cmb-node:hover{border-color:rgba(200,168,75,.35)}
-.cmb-node-pred{border-color:rgba(0,212,255,.2)!important}
-.cmb-node-pred::before{background:linear-gradient(180deg,var(--cyan),rgba(0,212,255,.1))!important}
-.cn-tag{
-  font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:300;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
-  border:1px solid rgba(200,168,75,.25);border-radius:4px;
-  padding:.18rem .6rem;display:inline-block;margin-bottom:.7rem
-}
-.cn-title{
-  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em;
-  color:#f0e8d0;margin-bottom:.7rem;line-height:1
-}
-.cn-eq{
-  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:300;
-  color:#d8d0be;line-height:2.1;margin:.05rem 0
-}
-.cn-hi{color:var(--gold);font-weight:400}
-.cn-note{
-  font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:.92rem;color:#8faabb;margin-top:.6rem;line-height:1.65
-}
-.cn-branch{
-  border:1px solid rgba(200,168,75,.22);border-radius:6px;
-  padding:.8rem 1.1rem;background:rgba(200,168,75,.07);min-width:180px
-}
-.cb-label{font-family:'JetBrains Mono',monospace;font-size:.54rem;font-weight:300;
-  letter-spacing:.18em;text-transform:uppercase;color:#7a8899;margin-bottom:.3rem}
-.cb-val{font-family:'JetBrains Mono',monospace;font-size:.72rem;
-  color:#d8d0be;line-height:1.7}
-.cb-match{font-family:'JetBrains Mono',monospace;font-size:.58rem;
-  color:var(--green);margin-top:.3rem}
-.cn-verdict{
-  border:1px solid rgba(0,230,118,.28);border-radius:6px;
-  padding:.8rem 1.1rem;background:rgba(0,230,118,.06);
-  min-width:160px;text-align:right
-}
-.cv-label{font-family:'JetBrains Mono',monospace;font-size:.54rem;
-  letter-spacing:.1em;text-transform:uppercase;color:#7a8899;margin-bottom:.3rem}
-.cv-val{font-family:'JetBrains Mono',monospace;font-size:.85rem;
-  color:#d8d0be;line-height:1.5}
-.cv-delta{font-family:'JetBrains Mono',monospace;font-size:.62rem;
-  color:var(--green);margin-top:.3rem}
-.cn-arrow{text-align:center;font-size:1.5rem;color:rgba(200,168,75,.5);
-  padding:.25rem 0;font-family:'JetBrains Mono',monospace}
-@media(max-width:640px){.cmb-node{grid-template-columns:1fr}.cn-right{margin-top:.8rem}}
-</style>
+/* ─── SECTION DIVIDER ─── */
+.sec-div{max-width:1080px;margin:0 auto;padding:0 2rem}
+.sec-div-line{border:none;border-top:1px solid rgba(255,255,255,.04)}
+</style></style>
 </head>
 <body>
-
 <canvas id="starfield"></canvas>
 <canvas id="spiralCanvas"></canvas>
 
-<!-- NAV -->
+<div class="wrap">
+
+<!-- ══ NAV ══ -->
 <nav id="topnav">
   <a class="nav-logo" href="#">Dephaze</a>
   <div class="nav-links">
-    <a href="#curves">Rotation Curves</a>
+    <a href="#curves">Curves</a>
     <a href="#validation">Validation</a>
-    <a href="#flyby">Flyby + Pioneer</a>
+    <a href="#flyby">Flyby</a>
     <a href="#cmb">CMB</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#predictions">Predictions</a>
+    <a href="#quantum">Quantum</a>
+    <a href="#timeline">Record</a>
     <a href="#theorems">Theorems</a>
+    <a href="#predictions">Predictions</a>
     <a href="#code">Code</a>
-    <a class="nav-doi" href="https://doi.org/10.5281/zenodo.18823570" target="_blank">DOI →</a>
   </div>
+  <a class="nav-doi" href="https://doi.org/10.5281/zenodo.18823570" target="_blank">DOI ↗</a>
 </nav>
 
-<div class="wrap">
-
 <!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-eyebrow">dephaze · v66 · angus dewer · 1992 – 2026</div>
-  <div class="hero-phi">Φ³</div>
-  <h1 class="hero-title">Galaxy Rotation from Φ³ Topology</h1>
-  <p class="hero-sub">175 galaxies &nbsp;·&nbsp; zero free parameters &nbsp;·&nbsp; no dark matter</p>
-  <div class="hero-eq"><span class="dim">v_pred²  =  </span><span class="hi">v_obs²  +  T_i · S(x_i)</span>
-<span class="dim">
-  where  Φ = 1.6180339887…   Φ³ = 4.2360679…
-  S(0) = 0 ,  S(1) = 1       [derived, not fitted]
-  W(i) = { j : |log_Φ(r_j) − log_Φ(r_i)| ≤ 1 }</span></div>
-  <div class="hero-pills">
-    <span class="pill pill-g">LOO: 5.98 km/s — improves under self-exclusion</span>
-    <span class="pill pill-c">shuffle: 3.78× worse on destroyed structure</span>
-    <span class="pill pill-a">out-of-sample: 2.61 km/s · 12/14</span>
+<div class="hero">
+  <div class="hero-eyebrow">Dephaze Framework — Version 4.3</div>
+  <div class="hero-phi">Φ</div>
+  <div class="hero-title">Galaxy Rotation from Φ³ Topology</div>
+  <div class="hero-sub">One equation. Five axioms. Zero free parameters. Six phenomena.</div>
+  <div class="hero-eq"><span class="hi">v²_pred  =  v²_obs  +  T_i · S(x_i)</span>
+<span class="dim">S(x) = Φ³ spring function    T_i = v²_max − v²_med    x_i = v_obs / v_max</span>
+<span class="dim">S(0) = 0   S(1) = 1   X_knee = 1/Φ² = 0.38197…   parameters: 0</span></div>
+  <div class="hero-version-badge">
+    <span class="hvb-inner">V4.3 · Zenodo · 10.5281/zenodo.18823570 · Locked 2026-03-01</span>
   </div>
-  <div class="scroll-hint">↓ &nbsp; scroll</div>
-</section>
-
-<div class="div-line"></div>
+  <div class="hero-pills">
+    <span class="pill pill-g">175/175 SPARC · 0 params</span>
+    <span class="pill pill-a">LOO: 5.98 km/s</span>
+    <span class="pill pill-c">10/10 flyby missions</span>
+    <span class="pill pill-g">9 CMB quantities</span>
+    <span class="pill pill-v">|Ψ⁻⟩ from T-invariance</span>
+    <span class="pill pill-a">2√2 virtual asymptote</span>
+  </div>
+  <div class="scroll-hint">↓ · scroll</div>
+</div>
 
 <!-- ══ JUICE COUNTDOWN ══ -->
-<div class="section rv" id="juice-section">
+<div class="section rv" id="juice">
   <div class="juice-banner">
-    <div class="juice-label">live falsification test — august 2029</div>
-    <div class="juice-title">JUICE Earth Flyby — Hard Prediction on Record</div>
+    <div class="juice-label">next hard falsification test</div>
+    <div class="juice-title">JUICE Earth Flyby — August 2029</div>
     <div class="countdown">
-      <div class="cd-unit"><div class="cd-num" id="cd-days">---</div><div class="cd-lbl">days</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-hrs">--</div><div class="cd-lbl">hours</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-min">--</div><div class="cd-lbl">min</div></div>
-      <div class="cd-unit"><div class="cd-num" id="cd-sec">--</div><div class="cd-lbl">sec</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-days">—</div><div class="cd-lbl">days</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-hrs">—</div><div class="cd-lbl">hours</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-min">—</div><div class="cd-lbl">min</div></div>
+      <div class="cd-unit"><div class="cd-num" id="cd-sec">—</div><div class="cd-lbl">sec</div></div>
     </div>
-    <div class="juice-pred">Predicted: <strong>ΔV = +3.66 mm/s</strong> &nbsp;·&nbsp; geometry scan: <strong>+0.85 to +6.45 mm/s</strong></div>
-    <div class="juice-pred">ΛCDM / standard GR: <strong>ΔV ≈ 0</strong> &nbsp;·&nbsp; no mechanism exists</div>
-    <div class="juice-note">If |ΔV| &lt; 0.5 mm/s → Dephaze is falsified. If ΔV &gt; +0.5 mm/s → standard GR has no answer. Prediction locked 2026-03-01. No escape clauses.</div>
+    <div class="juice-pred">Prediction: <strong>ΔV = +3.66 mm/s</strong> &nbsp;·&nbsp; geometry scan: <strong>+0.85 to +6.45 mm/s</strong></div>
+    <div class="juice-note">If |ΔV| &lt; 0.5 mm/s → Dephaze falsified. No ambiguity. DOI timestamped 2026-03-01.</div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
-<!-- ══ LIVE VIEWER ══ -->
+<!-- ══ CURVES ══ -->
 <div class="section rv" id="curves">
-  <div class="s-label">interactive · live computation in browser</div>
-  <h2 class="s-title">Rotation Curve Predictions</h2>
+  <div class="s-label">theorem 1 · v² = v²_obs + T · S(x) · zero free parameters</div>
+  <h2 class="s-title">Galaxy Rotation<br>Curves. Live.</h2>
+
   <div class="viewer-shell">
     <div class="viewer-topbar">
-      <span class="viewer-badge">SPARC GALAXY — V66 vs OBSERVED</span>
+      <div class="viewer-badge">V66 · live computation · select galaxy</div>
       <div class="gal-tabs" id="galTabs"></div>
     </div>
     <canvas id="curveCanvas"></canvas>
     <div class="viewer-footer">
-      <div class="leg"><div class="leg-dot" style="background:#fff"></div>v_obs measured</div>
-      <div class="leg"><div class="leg-dash" style="background:var(--gold)"></div>v_pred V66 (0 params)</div>
-      <div class="leg"><div class="leg-dash" style="background:var(--steel);opacity:.4"></div>naive baseline</div>
+      <div class="leg"><div class="leg-dot" style="background:#fff"></div> Observed</div>
+      <div class="leg"><div class="leg-dash" style="background:var(--gold)"></div> V66 prediction</div>
+      <div class="leg"><div class="leg-dash" style="background:rgba(122,136,153,.4);border-top:1px dashed rgba(122,136,153,.4);height:0"></div> Newtonian flat</div>
     </div>
   </div>
-</div>
 
-<div class="div-line"></div>
-
-<!-- ══ STATS ══ -->
-<div class="section rv">
-  <div class="s-label">full results · complete SPARC database</div>
-  <h2 class="s-title">175 Galaxies.<br>Complete.</h2>
-  <div class="stat-grid">
+  <div class="stat-grid" style="margin-top:3rem">
     <div class="stat-cell">
-      <div class="stat-big">6.55 <span class="u">km/s</span></div>
-      <div class="stat-desc">Median RMS<br>all 175 galaxies</div>
-      <div class="stag stag-a">0 parameters</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">114 <span class="u">/175</span></div>
-      <div class="stat-desc">Galaxies ≤ 8 km/s<br>65.1% threshold</div>
-      <div class="stag stag-g">measurement noise</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">75 <span class="u">%</span></div>
-      <div class="stat-desc">Point-level accuracy<br>2543 / 3391 pts</div>
-      <div class="stag stag-c">individual points</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">5 <span class="u">/175</span></div>
-      <div class="stat-desc">Poor fit &gt;15 km/s<br>only 2.9%</div>
-      <div class="stag stag-a">all Group B</div>
+      <div class="stat-big">175<span class="u">/175</span></div>
+      <div class="stat-desc">SPARC galaxies<br>complete database</div>
+      <div class="stag stag-g">100% coverage</div>
     </div>
     <div class="stat-cell">
       <div class="stat-big">0</div>
-      <div class="stat-desc">Baryonic input used<br>no v_bar, no M*/L</div>
-      <div class="stag stag-c">v_obs only</div>
+      <div class="stat-desc">Free parameters<br>per galaxy</div>
+      <div class="stag stag-a">NFW: 525</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-big">~2 <span class="u">min</span></div>
-      <div class="stat-desc">Full runtime<br>reproducible instantly</div>
-      <div class="stag stag-g">open data</div>
+      <div class="stat-big">6.55<span class="u"> km/s</span></div>
+      <div class="stat-desc">Median RMS<br>all 175 galaxies</div>
+      <div class="stag stag-g">114/175 below 8</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">5.98<span class="u"> km/s</span></div>
+      <div class="stat-desc">LOO validation<br>leave-one-out</div>
+      <div class="stag stag-g">improves on LOO</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">3.8<span class="u">×</span></div>
+      <div class="stat-desc">Shuffle degradation<br>24.7 vs 6.55 km/s</div>
+      <div class="stag stag-c">real structure</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-big">−2436</div>
+      <div class="stat-desc">ΔBIC vs NFW<br>Bayesian criterion</div>
+      <div class="stag stag-g">decisive</div>
     </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ VALIDATION ══ -->
 <div class="section rv" id="validation">
-  <div class="s-label">anti-circularity · four independent proofs</div>
-  <h2 class="s-title">Circularity<br>Excluded.</h2>
+  <div class="s-label">four independent tests · cannot all be coincidental</div>
+  <h2 class="s-title">Validation</h2>
   <div class="val-grid">
     <div class="val-card">
       <div class="vc-icon">🔁</div>
@@ -595,9 +454,9 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="vc-num" style="color:var(--green)">5.98 km/s</div>
       <div class="vc-body">
         Point i excluded from its own window.<br>
-        Standard V66 : 6.55 km/s · 114/175<br>
-        LOO V66 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 5.98 km/s · 120/175<br>&nbsp;<br>
-        Circular model degrades under LOO.<br>
+        Standard V66: 6.55 km/s · 114/175<br>
+        LOO V66:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.98 km/s · 120/175<br>&nbsp;<br>
+        A circular model degrades under LOO.<br>
         This one <em style="color:var(--cream)">improves</em>.
       </div>
       <div class="vc-verdict vv-pass">✓ LOO IMPROVES — no self-reference</div>
@@ -610,10 +469,10 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
         v_obs shuffled within each galaxy.<br>
         Spatial structure destroyed,<br>
         velocity distribution preserved.<br>&nbsp;<br>
-        Ratio: 3.78× worse — proves<br>
+        Ratio: 3.8× worse — proves<br>
         model captures real structure.
       </div>
-      <div class="vc-verdict vv-pass">✓ 3.78× DEGRADATION — real structure</div>
+      <div class="vc-verdict vv-pass">✓ 3.8× DEGRADATION — real structure</div>
     </div>
     <div class="val-card">
       <div class="vc-icon">🔭</div>
@@ -622,9 +481,9 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="vc-body">
         Inner known → predict outer unseen.<br>
         14 large SPARC galaxies.<br>&nbsp;<br>
-        V66 extrap &nbsp;: 2.61 km/s · 12/14<br>
+        V66 extrap:&nbsp;&nbsp; 2.61 km/s · 12/14<br>
         Naive baseline: 8.30 km/s<br>
-        NGC5055 &nbsp;&nbsp;&nbsp;&nbsp;: 0.0 km/s (perfect)
+        NGC5055:&nbsp;&nbsp;&nbsp;&nbsp; 0.0 km/s (perfect)
       </div>
       <div class="vc-verdict vv-pass">✓ 3.2× BETTER than naive</div>
     </div>
@@ -642,61 +501,37 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="vc-verdict vv-info">✓ ZERO DATA INFLUENCE on S(x)</div>
     </div>
   </div>
-</div>
 
-<div class="div-line"></div>
-
-<!-- ══ BIC ══ -->
-<div class="section rv">
-  <div class="s-label">occam's razor — formalized</div>
-  <h2 class="s-title">Bayesian Information<br>Criterion</h2>
-  <div class="bic-wrap">
-    <div class="bic-bars" id="bicBars">
-      <div class="bic-row">
-        <div class="bic-row-head">
-          <span class="bic-row-name">Dephaze V66 &nbsp;·&nbsp; k = 0</span>
-          <span class="bic-row-val">BIC = 12,747</span>
+  <!-- BIC -->
+  <div style="margin-top:4rem">
+    <div class="s-label">occam's razor — formalized</div>
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.05em;margin-bottom:2rem">Bayesian Information Criterion</h3>
+    <div class="bic-wrap">
+      <div class="bic-bars" id="bicBars">
+        <div>
+          <div class="bic-row-head"><span class="bic-row-name">Dephaze V66 &nbsp;·&nbsp; k = 0</span><span class="bic-row-val">BIC = 12,747</span></div>
+          <div class="bic-track"><div class="bic-fill" id="bf1" style="width:0%;background:linear-gradient(90deg,rgba(200,168,75,.5),var(--gold));color:var(--ink)">V66</div></div>
         </div>
-        <div class="bic-track">
-          <div class="bic-fill" id="bf1" style="width:0%;background:linear-gradient(90deg,rgba(200,168,75,.5),var(--gold));color:var(--ink)">V66</div>
+        <div>
+          <div class="bic-row-head"><span class="bic-row-name">NFW in-sample best case &nbsp;·&nbsp; k = 525</span><span class="bic-row-val">BIC = 15,183</span></div>
+          <div class="bic-track"><div class="bic-fill" id="bf2" style="width:0%;background:rgba(255,82,82,.4);color:#fff">NFW (5 km/s)</div></div>
         </div>
+        <div>
+          <div class="bic-row-head"><span class="bic-row-name">NFW fair comparison &nbsp;·&nbsp; k = 525</span><span class="bic-row-val">BIC = 17,015</span></div>
+          <div class="bic-track"><div class="bic-fill" id="bf3" style="width:0%;background:rgba(255,82,82,.22);color:#fff">NFW (fair)</div></div>
+        </div>
+        <p style="font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;color:var(--steel);margin-top:.8rem;line-height:2;letter-spacing:.05em">N = 3,391 pts &nbsp;|&nbsp; |ΔBIC| &gt; 10 : strong &nbsp;|&nbsp; &gt; 100 : very strong &nbsp;|&nbsp; &gt; 1000 : decisive</p>
       </div>
-      <div class="bic-row">
-        <div class="bic-row-head">
-          <span class="bic-row-name">NFW in-sample best case &nbsp;·&nbsp; k = 525</span>
-          <span class="bic-row-val">BIC = 15,183</span>
-        </div>
-        <div class="bic-track">
-          <div class="bic-fill" id="bf2" style="width:0%;background:rgba(255,82,82,.4);color:#fff">NFW (5 km/s)</div>
-        </div>
+      <div>
+        <div class="bic-delta-val">−2436</div>
+        <div class="bic-delta-label">ΔBIC · decisive</div>
+        <p class="bic-note">Even granting NFW a <strong>1.5 km/s in-sample advantage</strong> on the very data it fits, the Schwarz criterion returns <strong style="color:var(--green)">decisive evidence</strong> for V66.<br><br>525 parameters cannot justify a marginal gain on the same dataset.</p>
       </div>
-      <div class="bic-row">
-        <div class="bic-row-head">
-          <span class="bic-row-name">NFW fair comparison &nbsp;·&nbsp; k = 525</span>
-          <span class="bic-row-val">BIC = 17,015</span>
-        </div>
-        <div class="bic-track">
-          <div class="bic-fill" id="bf3" style="width:0%;background:rgba(255,82,82,.22);color:#fff">NFW (fair)</div>
-        </div>
-      </div>
-      <p style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;color:var(--steel);margin-top:.8rem;line-height:2;letter-spacing:.05em">
-        N = 3,391 pts &nbsp;|&nbsp; |ΔBIC| &gt; 10 : strong &nbsp;|&nbsp; &gt; 100 : very strong &nbsp;|&nbsp; &gt; 1000 : decisive
-      </p>
-    </div>
-    <div>
-      <div class="bic-delta-val">−2436</div>
-      <div class="bic-delta-label">ΔBIC · decisive</div>
-      <p class="bic-note">
-        Even granting NFW a <strong>1.5 km/s in-sample advantage</strong>
-        on the very data it fits, the Schwarz criterion returns
-        <strong style="color:var(--green)">decisive evidence</strong> for V66.<br><br>
-        525 parameters cannot justify a marginal gain on the same dataset.
-      </p>
     </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ FLYBY + PIONEER ══ -->
 <div class="section rv" id="flyby">
@@ -704,75 +539,38 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
   <h2 class="s-title">Flyby &amp; Pioneer.<br>Same Formula.</h2>
 
   <div class="stat-grid" style="margin-bottom:3rem">
-    <div class="stat-cell">
-      <div class="stat-big">10<span class="u">/10</span></div>
-      <div class="stat-desc">Flyby missions<br>sign correct</div>
-      <div class="stag stag-g">100% sign</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">0</div>
-      <div class="stat-desc">Free parameters<br>per mission</div>
-      <div class="stag stag-a">Anderson: 1</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">96.8<span class="u">%</span></div>
-      <div class="stat-desc">Pioneer anomaly<br>coverage</div>
-      <div class="stag stag-c">0 params</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">266</div>
-      <div class="stat-desc">Digitized points<br>vs 7560 original</div>
-      <div class="stag stag-g">3.5% of data</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big">80<span class="u">%</span></div>
-      <div class="stat-desc">Turyshev coverage<br>12 yrs · 12+ params</div>
-      <div class="stag" style="color:var(--red);border-color:rgba(255,82,82,.3)">7560 pts</div>
-    </div>
-    <div class="stat-cell">
-      <div class="stat-big" style="font-size:clamp(1.4rem,3vw,2.2rem)">+3.66<span class="u"> mm/s</span></div>
-      <div class="stat-desc">JUICE prediction<br>August 2029</div>
-      <div class="stag stag-a">locked 2026-03-01</div>
-    </div>
+    <div class="stat-cell"><div class="stat-big">10<span class="u">/10</span></div><div class="stat-desc">Flyby missions<br>sign correct</div><div class="stag stag-g">100% sign</div></div>
+    <div class="stat-cell"><div class="stat-big">0</div><div class="stat-desc">Free parameters<br>per mission</div><div class="stag stag-a">Anderson: 1</div></div>
+    <div class="stat-cell"><div class="stat-big">96.8<span class="u">%</span></div><div class="stat-desc">Pioneer anomaly<br>coverage</div><div class="stag stag-c">0 params</div></div>
+    <div class="stat-cell"><div class="stat-big">266</div><div class="stat-desc">Digitized Doppler<br>points used</div><div class="stag stag-g">3.5% of data</div></div>
+    <div class="stat-cell"><div class="stat-big">80<span class="u">%</span></div><div class="stat-desc">Turyshev coverage<br>12 yrs · 12+ params</div><div class="stag" style="color:var(--red);border-color:rgba(255,82,82,.3)">7560 pts</div></div>
+    <div class="stat-cell"><div class="stat-big" style="font-size:clamp(1.4rem,3vw,2.2rem)">+3.66<span class="u"> mm/s</span></div><div class="stat-desc">JUICE prediction<br>August 2029</div><div class="stag stag-a">locked 2026-03-01</div></div>
   </div>
 
-  <!-- CASSINI CALLOUT -->
-  <div style="border:1px solid rgba(255,82,82,.3);border-radius:10px;padding:2rem 2.5rem;background:rgba(255,82,82,.04);margin-bottom:3rem">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem">cassini 1999 — the binary test</div>
+  <div style="border:1px solid rgba(255,82,82,.3);border-radius:12px;padding:2rem 2.5rem;background:rgba(255,82,82,.04);margin-bottom:3rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem">cassini 1999 — the binary test</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center">
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;color:var(--cream);margin-bottom:.4rem">Anderson empirical formula</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--red)">+1.95 mm/s</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel);margin-top:.3rem">wrong sign · 1 free parameter · calibrated on Galileo I</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel);margin-top:.3rem">wrong sign · 1 free parameter · calibrated on Galileo I</div>
       </div>
       <div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.05em;color:var(--cream);margin-bottom:.4rem">V66 Φ³ quadrangulation</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--green)">−1.03 mm/s</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:300;color:var(--steel);margin-top:.3rem">correct sign · 0 free parameters · sign emerges from topology</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;color:var(--steel);margin-top:.3rem">correct sign · 0 free parameters · sign emerges from topology</div>
       </div>
     </div>
-    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--cream);margin-top:1.2rem;line-height:1.7;opacity:.8">
-      Observed: −2.00 mm/s. Sign is binary — either correct or not. Anderson's formula fails. V66 passes. The sign is not a parameter that can be adjusted.
-    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:var(--cream);margin-top:1.2rem;line-height:1.9;opacity:.8">Observed: −2.00 mm/s. Sign is binary — either correct or not. Anderson's formula fails. V66 passes. The sign is not a parameter.</div>
   </div>
 
-  <!-- FLYBY TABLE -->
   <div class="ftable-wrap" style="margin-bottom:3rem">
     <table class="ft">
-      <thead>
-        <tr>
-          <th>Mission</th>
-          <th>Year</th>
-          <th>Observed ΔV</th>
-          <th>V66</th>
-          <th>Anderson</th>
-          <th>Sign</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Mission</th><th>Year</th><th>Observed ΔV</th><th>V66</th><th>Anderson</th><th>Sign</th></tr></thead>
       <tbody>
         <tr><td>Galileo I</td><td>1990</td><td>+3.92 ± 0.08 mm/s</td><td class="ft-check">+3.9 ✓</td><td>+3.92 (calibration)</td><td class="ft-check">✓</td></tr>
         <tr><td>NEAR</td><td>1998</td><td>+13.46 ± 0.13 mm/s</td><td class="ft-check">+13.3 ✓</td><td>+13.5</td><td class="ft-check">✓</td></tr>
-        <tr style="background:rgba(255,82,82,.06)"><td><strong>Cassini</strong></td><td>1999</td><td><strong>−2.00 ± 0.05 mm/s</strong></td><td class="ft-check"><strong>−1.03 ✓</strong></td><td style="color:var(--red)"><strong>+1.95 ✗ wrong sign</strong></td><td class="ft-check">✓</td></tr>
+        <tr style="background:rgba(255,82,82,.06)"><td><strong>Cassini</strong></td><td>1999</td><td><strong>−2.00 ± 0.05 mm/s</strong></td><td class="ft-check"><strong>−1.03 ✓</strong></td><td class="ft-fail"><strong>+1.95 ✗ wrong sign</strong></td><td class="ft-check">✓</td></tr>
         <tr><td>Rosetta I</td><td>2005</td><td>+1.82 ± 0.05 mm/s</td><td class="ft-check">+1.8 ✓</td><td>+1.8</td><td class="ft-check">✓</td></tr>
         <tr><td>Rosetta II</td><td>2007</td><td>0.00 ± 0.02 mm/s</td><td class="ft-check">0 ✓</td><td>0</td><td class="ft-check">✓</td></tr>
         <tr><td>Rosetta III</td><td>2009</td><td>0.00 ± 0.02 mm/s</td><td class="ft-check">0 ✓</td><td>0</td><td class="ft-check">✓</td></tr>
@@ -785,58 +583,55 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
     </table>
   </div>
 
-  <!-- PIONEER -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
-    <div style="border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:2rem;background:var(--ink2)">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">pioneer anomaly — filmframe model</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:300;color:var(--steel);line-height:2">
-        Anderson (2002): &nbsp;<span style="color:var(--cream)">7.77 × 10⁻¹⁰ m/s²</span><br>
-        V66 result: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">7.52 × 10⁻¹⁰ m/s²</span><br>
-        Coverage: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green)">96.8%</span><br>
-        Data used: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">266 pts (3.5% of original)</span><br>
-        Parameters: &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">0</span><br>
+    <div style="border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:2rem;background:var(--ink2)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">pioneer anomaly — filmframe model</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.86rem;font-weight:300;color:var(--steel);line-height:2.1">
+        Anderson (2002):&nbsp;&nbsp;<span style="color:var(--cream)">7.77 × 10⁻¹⁰ m/s²</span><br>
+        V66 result:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">7.52 × 10⁻¹⁰ m/s²</span><br>
+        Coverage:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--green)">96.8%</span><br>
+        Data used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--cyan)">266 pts (3.5% of original)</span><br>
+        Parameters:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--gold)">0</span><br>
         <br>
-        Turyshev (2012): &nbsp;<span style="color:var(--steel)">6.22 × 10⁻¹⁰ m/s² (80%)</span><br>
-        Data used: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--steel)">7560 pts · 12 years · 12+ params</span><br>
-        Residual: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--red)">"uncertain origin" (20%)</span>
+        Turyshev (2012):&nbsp;&nbsp;<span style="color:var(--steel)">6.22 × 10⁻¹⁰ m/s² (80%)</span><br>
+        Data:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--steel)">7560 pts · 12 yrs · 12+ params</span><br>
+        Residual:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--red)">"uncertain origin" (20%)</span>
       </div>
     </div>
-    <div style="border:1px solid rgba(0,230,118,.15);border-radius:8px;padding:2rem;background:rgba(0,230,118,.03)">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--green);margin-bottom:1rem">scale invariance — 22 orders of magnitude</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:300;color:var(--steel);line-height:2.2">
-        <span style="color:var(--cream)">Galaxies</span> &nbsp;10²⁰ m &nbsp;· 175/175 · 0 params<br>
-        <span style="color:var(--cream)">Flyby</span> &nbsp;&nbsp;&nbsp;10¹⁰ m &nbsp;· 10/10 · 0 params<br>
-        <span style="color:var(--cream)">Pioneer</span> &nbsp;10¹¹ m &nbsp;· 96.8% · 0 params<br>
+    <div style="border:1px solid rgba(0,230,118,.15);border-radius:10px;padding:2rem;background:rgba(0,230,118,.03)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--green);margin-bottom:1rem">scale invariance — 22 orders of magnitude</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.86rem;font-weight:300;color:var(--steel);line-height:2.3">
+        <span style="color:var(--cream)">Galaxies</span>&nbsp;&nbsp;10²⁰ m&nbsp;&nbsp;· 175/175 · 0 params<br>
+        <span style="color:var(--cream)">Flyby</span>&nbsp;&nbsp;&nbsp;&nbsp;10¹⁰ m&nbsp;&nbsp;· 10/10 · 0 params<br>
+        <span style="color:var(--cream)">Pioneer</span>&nbsp;&nbsp;10¹¹ m&nbsp;&nbsp;· 96.8% · 0 params<br>
         <br>
-        <span style="color:var(--gold)">Same S(x). Same four-point structure.<br>Same zero parameters.<br>Three independent scales.<br>Cannot be coincidental.</span>
+        <span style="color:var(--gold)">Same S(x). Same four-point structure.<br>Same zero parameters. Three scales.<br>Cannot be coincidental.</span>
       </div>
     </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
-
-<!-- ══ CMB DERIVATION CHAIN ══ -->
+<!-- ══ CMB ══ -->
 <div class="section" id="cmb">
   <div class="s-label">theorem 3 · 2 inputs · 0 free parameters · 9 quantities</div>
   <h2 class="s-title">CMB Anomalies.<br>Derived.</h2>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:3rem">
-    <div style="border:1px solid rgba(200,168,75,.3);border-radius:10px;padding:1.8rem 2rem;background:rgba(200,168,75,.07);text-align:center">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem">input 1 — axiom</div>
+    <div style="border:1px solid rgba(200,168,75,.3);border-radius:12px;padding:1.8rem 2rem;background:rgba(200,168,75,.07);text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem">input 1 — axiom</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--gold);line-height:1;text-shadow:0 0 40px rgba(200,168,75,.4)">Φ</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#9aaabb;margin-top:.4rem">= 1.6180339887…</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.86rem;color:var(--steel);margin-top:.4rem">= 1.6180339887…</div>
     </div>
-    <div style="border:1px solid rgba(0,212,255,.22);border-radius:10px;padding:1.8rem 2rem;background:rgba(0,212,255,.05);text-align:center">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:.6rem">input 2 — measured state</div>
+    <div style="border:1px solid rgba(0,212,255,.22);border-radius:12px;padding:1.8rem 2rem;background:rgba(0,212,255,.05);text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:.6rem">input 2 — measured</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--cyan);line-height:1;text-shadow:0 0 40px rgba(0,212,255,.3)">T<sub style="font-size:1.6rem">CMB</sub></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#9aaabb;margin-top:.4rem">= 2.7255 K</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.86rem;color:var(--steel);margin-top:.4rem">= 2.7255 K</div>
     </div>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:.6rem">
-
     <div class="cmb-node">
       <div class="cn-left">
         <div class="cn-tag">AXIOM_1 + AXIOM_5</div>
@@ -847,142 +642,62 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       </div>
       <div class="cn-right"></div>
     </div>
-
     <div class="cn-arrow">↓</div>
-
     <div class="cmb-node">
       <div class="cn-left">
         <div class="cn-tag">T<sub>CMB</sub> × f<sub>eigen</sub> — resonance condition</div>
         <div class="cn-title">Sampling Frequency f<sub>D</sub></div>
         <div class="cn-eq">f<sub>D</sub> = k<sub>B</sub>T<sub>CMB</sub> · Φ / h = <span class="cn-hi">91.888 GHz</span></div>
         <div class="cn-eq">f<sub>KNEE</sub> = X<sub>KNEE</sub> · f<sub>D</sub> = <span class="cn-hi">35.10 GHz</span></div>
-        <div class="cn-note">Division would give 13.43 GHz — no Planck channel. Multiplication: 35.10 GHz sits between Planck 30 and 44 GHz channels ✓</div>
+        <div class="cn-note">Sits between Planck 30 and 44 GHz channels ✓</div>
       </div>
       <div class="cn-right">
         <div class="cn-branch">
           <div class="cb-label">f<sub>gen</sub> / f<sub>osc</sub></div>
-          <div class="cb-val">389.25 GHz <span style="color:#7a8899">/ 21.69 GHz</span></div>
+          <div class="cb-val">389.25 GHz <span style="color:var(--steel)">/ 21.69 GHz</span></div>
           <div class="cb-match">f<sub>gen</sub> · f<sub>osc</sub> = f<sub>D</sub>² ✓</div>
         </div>
       </div>
     </div>
-
     <div class="cn-arrow">↓</div>
-
     <div class="cmb-node">
       <div class="cn-left">
-        <div class="cn-tag">Φ³ damping kernel — independent check</div>
+        <div class="cn-tag">Φ³ damping kernel</div>
         <div class="cn-title">Wien Peak</div>
-        <div class="cn-eq">3(e<sup>Φx</sup> − 1) = xΦe<sup>Φx</sup> &nbsp;⟹&nbsp; x<sub>peak</sub> = 1.7437</div>
-        <div class="cn-eq">f<sub>peak</sub> = x<sub>peak</sub> × f<sub>D</sub> = <span class="cn-hi">160.23 GHz</span></div>
+        <div class="cn-eq">f<sub>peak</sub> = f<sub>D</sub> · Φ² · exp(1/Φ³) = <span class="cn-hi">160.23 GHz</span></div>
+        <div class="cn-eq">FIRAS measured: <span class="cn-hi">160.20 GHz</span> &nbsp;·&nbsp; Δ = <span class="cn-hi">0.013%</span></div>
       </div>
       <div class="cn-right">
         <div class="cn-verdict">
-          <div class="cv-label">FIRAS / COBE</div>
-          <div class="cv-val">160.21 GHz</div>
-          <div class="cv-delta">Δ = 0.013%</div>
+          <div class="cv-label">ΛCDM</div>
+          <div class="cv-val">free fit</div>
+          <div class="cv-delta">Dephaze: Δ = 0.013%</div>
         </div>
       </div>
     </div>
-
     <div class="cn-arrow">↓</div>
-
-    <div class="cmb-node">
-      <div class="cn-left">
-        <div class="cn-tag">AXIOM_0 + AXIOM_5 — Fibonacci closure</div>
-        <div class="cn-title">γ₀ / √A<sub>s</sub> ratio</div>
-        <div class="cn-eq">ℓ<sup>d</sup> = 2³ = 8 = F₆ &nbsp;·&nbsp; F₆ + F₇ = F₈ = 21</div>
-        <div class="cn-eq">γ₀/√A<sub>s</sub> = 2F₆/√F₈ = 16/√21 = <span class="cn-hi">3.4915</span></div>
-      </div>
-      <div class="cn-right">
-        <div class="cn-verdict">
-          <div class="cv-label">Planck 2018</div>
-          <div class="cv-val">3.4900</div>
-          <div class="cv-delta">Δ = 0.043%</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cn-arrow">↓</div>
-
-    <div class="cmb-node">
-      <div class="cn-left">
-        <div class="cn-tag">AXIOM_4 — P(k)-independent</div>
-        <div class="cn-title">Quadrupole Suppression C₂</div>
-        <div class="cn-eq">ρ → 1 &nbsp;⟹&nbsp; |V<sub>gen</sub>| = |V<sub>print</sub>| = A</div>
-        <div class="cn-eq">C₂ / C₂<sup>ΛCDM</sup> = A² / 4A² = <span class="cn-hi">0.25</span></div>
-        <div class="cn-note">No primordial power spectrum input. Pure algebraic constraint.</div>
-      </div>
-      <div class="cn-right">
-        <div class="cn-verdict">
-          <div class="cv-label">Planck measured</div>
-          <div class="cv-val">0.20 – 0.25</div>
-          <div class="cv-delta">CLOSED ✓</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cn-arrow">↓</div>
-
-    <div class="cmb-node">
-      <div class="cn-left">
-        <div class="cn-tag">AXIOM_1 — fixpoint on S²</div>
-        <div class="cn-title">Axis of Evil Coordinates</div>
-        <div class="cn-eq">b<sub>AoE</sub> = arccos(1/Φ²) = <span class="cn-hi">67.54°</span></div>
-        <div class="cn-eq">S′(x<sub>crit</sub>) = 1 &nbsp;⟹&nbsp; x<sub>crit</sub> = 0.07563 &nbsp;⟹&nbsp; l<sub>AoE</sub> = <span class="cn-hi">27.23°</span></div>
-        <div class="cn-note">l* = Φ² = 2.618 — non-integer mode, unmeasurable on a single multipole. Structural reason for observed scatter.</div>
-      </div>
-      <div class="cn-right">
-        <div class="cn-verdict">
-          <div class="cv-label">Planck (range)</div>
-          <div class="cv-val">b ≈ 60°–69°</div>
-          <div class="cv-delta">structural ✓</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cn-arrow">↓</div>
-
     <div class="cmb-node">
       <div class="cn-left">
         <div class="cn-tag">Dual-pole projection</div>
-        <div class="cn-title">Hemispheric Asymmetry</div>
-        <div class="cn-eq">A = x* − (X<sub>KNEE</sub> + S(X<sub>KNEE</sub>)) / 2 = <span class="cn-hi">6.87%</span></div>
+        <div class="cn-title">Quadrupole + Asymmetry</div>
+        <div class="cn-eq">C<sub>2</sub>/C<sub>2</sub><sup>ΛCDM</sup> = <span class="cn-hi">0.25</span> &nbsp;·&nbsp; P(k)-independent</div>
+        <div class="cn-eq">Hemispheric asymmetry A = <span class="cn-hi">6.87%</span></div>
+        <div class="cn-eq">AoE: b = <span class="cn-hi">67.54°</span>, l = <span class="cn-hi">27.23°</span> &nbsp;·&nbsp; Cold Spot: b = <span class="cn-hi">−56.42°</span></div>
       </div>
       <div class="cn-right">
         <div class="cn-verdict">
-          <div class="cv-label">Planck measured</div>
-          <div class="cv-val">6.6 – 7.8%</div>
-          <div class="cv-delta">CLOSED ✓</div>
+          <div class="cv-label">ΛCDM</div>
+          <div class="cv-val">anomalous</div>
+          <div class="cv-delta">Dephaze: derived</div>
         </div>
       </div>
     </div>
-
     <div class="cn-arrow">↓</div>
-
-    <div class="cmb-node">
-      <div class="cn-left">
-        <div class="cn-tag">Phase-refresh · 0 free parameters</div>
-        <div class="cn-title">Cold Spot b<sub>CS</sub></div>
-        <div class="cn-eq">α = 2sin²(π/Φ²) / Φ⁴ = 0.25348</div>
-        <div class="cn-eq">sin(b<sub>CS</sub>) = −√(1−1/Φ⁴)·(1−α) / √((1−α)²+2α²) = <span class="cn-hi">−56.42°</span></div>
-      </div>
-      <div class="cn-right">
-        <div class="cn-verdict">
-          <div class="cv-label">Cruz 2005 / Planck</div>
-          <div class="cv-val">−57.0°</div>
-          <div class="cv-delta">Δ = 0.58° · σ=3.7° ✓</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cn-arrow">↓</div>
-
     <div class="cmb-node cmb-node-pred">
       <div class="cn-left">
         <div class="cn-tag" style="color:var(--cyan);border-color:rgba(0,212,255,.3)">Φ³ spiral handedness — falsifiable prediction</div>
         <div class="cn-title" style="color:#a0d8ef">EB Polarization</div>
-        <div class="cn-eq">C<sub>ℓ</sub><sup>EB</sup> / C<sub>ℓ</sub><sup>TT</sup> = (Φ<sup>X</sup>−1) / Φ<sup>(4+X³)</sup> = <span class="cn-hi" style="color:var(--cyan)">0.02866</span></div>
+        <div class="cn-eq">C<sub>ℓ</sub><sup>EB</sup> / C<sub>ℓ</sub><sup>TT</sup> = <span class="cn-hi" style="color:var(--cyan)">0.02866</span></div>
       </div>
       <div class="cn-right">
         <div class="cn-verdict" style="border-color:rgba(0,212,255,.25);background:rgba(0,212,255,.06)">
@@ -992,48 +707,158 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- chain -->
-
-  <!-- COUNTER -->
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);margin-top:3rem">
-    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1">2</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7a8899;letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">inputs</div>
-    </div>
-    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--green);line-height:1">9</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7a8899;letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">quantities</div>
-    </div>
-    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--green);line-height:1">4</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7a8899;letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">anomalies closed</div>
-    </div>
-    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1">0</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7a8899;letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">free parameters</div>
-    </div>
-    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--cyan);line-height:1">1</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#7a8899;letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">prediction 2028</div>
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.04);margin-top:3rem">
+    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1">2</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">inputs</div></div>
+    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--green);line-height:1">9</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">quantities</div></div>
+    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--green);line-height:1">4</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">anomalies closed</div></div>
+    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--gold);line-height:1">0</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">free parameters</div></div>
+    <div style="background:#0c1825;padding:1.6rem 1rem;text-align:center"><div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--cyan);line-height:1">1</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--steel);letter-spacing:.1em;text-transform:uppercase;margin-top:.3rem">prediction 2028</div></div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
+
+<!-- ══ QUANTUM ══ NEW V4.3 SECTION ══ -->
+<div class="section rv" id="quantum">
+  <div class="s-label">theorem 4 · V4.3 · GNS construction · T-invariance · Nernst theorem</div>
+  <h2 class="s-title">Quantum Entanglement.<br>Derived.</h2>
+
+  <div class="q-header-grid">
+    <div class="q-cell">
+      <div class="q-big">|Ψ⁻⟩</div>
+      <div class="q-label">Singlet from T-invariance<br>not postulated</div>
+    </div>
+    <div class="q-cell">
+      <div class="q-big" style="color:var(--red)">2√2</div>
+      <div class="q-label">Tsirelson bound<br>virtual asymptote</div>
+    </div>
+    <div class="q-cell">
+      <div class="q-big" style="color:var(--green)">2.683</div>
+      <div class="q-label">First physical CHSH<br>n = 1 on Φ-ladder</div>
+    </div>
+    <div class="q-cell">
+      <div class="q-big" style="color:var(--gold)">81.6<span style="font-size:1.4rem"> GHz</span></div>
+      <div class="q-label">Separability threshold<br>sampling frequency</div>
+    </div>
+  </div>
+
+  <!-- CHSH INTERACTIVE CANVAS -->
+  <div class="chsh-shell">
+    <div class="chsh-topbar">
+      <div class="chsh-badge">CHSH Frequency Curve · live · hover for value</div>
+      <div class="chsh-freq-row" id="freqBtns">
+        <button class="freq-btn on" data-exp="hensen">Hensen 2015</button>
+        <button class="freq-btn on" data-exp="giustina">Giustina 2015</button>
+        <button class="freq-btn on" data-exp="shalm">Shalm 2015</button>
+      </div>
+    </div>
+    <canvas id="chshCanvas"></canvas>
+    <div class="chsh-footer">
+      <div class="leg"><div class="leg-dash" style="background:var(--violet)"></div> ⟨S(f)⟩ = 2√2 · exp(−2|ln(f/f_osc)|³/Φ³)</div>
+      <div class="leg"><div class="leg-dash" style="background:var(--red);opacity:.6;border-top:2px dashed var(--red);height:0;border-radius:0"></div> 2√2 virtual (T=0K forbidden)</div>
+      <div class="leg"><div class="leg-dash" style="background:rgba(122,136,153,.5);border-top:1px dotted rgba(122,136,153,.5);height:0;border-radius:0"></div> Classical Bell limit</div>
+    </div>
+  </div>
+
+  <!-- DERIVATION CHAIN -->
+  <div class="q-derivation">
+    <div class="q-deriv-title">Singlet Derivation Chain — 13 steps from AXIOM_0</div>
+    <div class="q-deriv-chain">
+      <div class="qd-row"><span class="qd-step">1</span><span class="qd-eq">Ω₀ timeless → sampling statistics τ-symmetric: {sᵢ} and {s_{N+1−i}} same distribution</span><span class="qd-tag">AXIOM_0</span></div>
+      <div class="qd-row"><span class="qd-step">2</span><span class="qd-eq">→ GNS functional T-covariant: ω(T·A·T⁻¹) = ω(A)</span><span class="qd-tag">GNS</span></div>
+      <div class="qd-row"><span class="qd-step">3</span><span class="qd-eq">→ GNS cyclic vector T-invariant: T|Ω₀⟩ = |Ω₀⟩</span><span class="qd-tag">GNS</span></div>
+      <div class="qd-row"><span class="qd-step">4</span><span class="qd-eq">T|↑⟩ = |↓⟩ , T|↓⟩ = −|↑⟩ → only |Ψ⁻⟩ satisfies T⊗T|Ψ⁻⟩ = |Ψ⁻⟩</span><span class="qd-tag">T-rev</span></div>
+      <div class="qd-row qd-row new"><span class="qd-step">5</span><span class="qd-eq">|Ω₀⟩ = |Ψ⁻⟩ = (|↑↓⟩ − |↓↑⟩)/√2 &nbsp; — not postulated, derived</span><span class="qd-tag qd-tag-green">new ✓</span></div>
+      <div class="qd-row"><span class="qd-step">6</span><span class="qd-eq">C1 bistable + ρ bistability → entangled iff f &lt; f_sep</span><span class="qd-tag">AXIOM_3</span></div>
+      <div class="qd-row"><span class="qd-step">7</span><span class="qd-eq">⟨Ŝ²⟩ = 8(1 − ε²) → Tsirelson: max = 2√2 as ε → 0</span><span class="qd-tag">bistable</span></div>
+      <div class="qd-row qd-row new"><span class="qd-step">8</span><span class="qd-eq">p = 1 → det(ρ) = 0 → S_vN = 0 → T = 0K → Nernst forbids</span><span class="qd-tag qd-tag-green">new ✓</span></div>
+      <div class="qd-row qd-row new"><span class="qd-step">9</span><span class="qd-eq">AXIOM_3: det(ρ) &gt; 0 always → ⟨S⟩ &lt; 2√2 strictly. Virtual asymptote.</span><span class="qd-tag qd-tag-green">new ✓</span></div>
+      <div class="qd-row"><span class="qd-step">10</span><span class="qd-eq">τ ∈ ℤ (discrete) → n integer only. n=0: no τ-step (virtual). n=1: minimal physical.</span><span class="qd-tag">AXIOM_3</span></div>
+      <div class="qd-row qd-row new"><span class="qd-step">11</span><span class="qd-eq">⟨S⟩_phys = 2√2 · exp(−2(lnΦ)³/Φ³) ≈ 2.683 &nbsp;— first physical bound</span><span class="qd-tag qd-tag-green">new ✓</span></div>
+      <div class="qd-row"><span class="qd-step">12</span><span class="qd-eq">No-signaling: [Â⊗I, I⊗B̂] = 0 → no information transfer</span><span class="qd-tag">proof</span></div>
+      <div class="qd-row qd-row new"><span class="qd-step">13</span><span class="qd-eq">f_sep = f_osc · exp[(Φ³·ln(3/2)/2)^(1/3)] ≈ 81.6 GHz — separability threshold</span><span class="qd-tag qd-tag-green">new ✓</span></div>
+    </div>
+  </div>
+
+  <!-- VIRTUAL vs PHYSICAL ASYMPTOTE -->
+  <div class="q-asymptote-box">
+    <div class="qa-card qa-card-virtual">
+      <div class="qa-label" style="color:var(--red)">Virtual asymptote — thermodynamically forbidden</div>
+      <div class="qa-val" style="color:var(--red)">2√2 ≈ 2.828</div>
+      <div class="qa-eq">Requires p = 1 → det(ρ) = 0<br>→ S_vN = 0 → T = 0 K<br>→ <strong style="color:var(--cream)">Third law of thermodynamics forbids</strong></div>
+      <div class="qa-why">The Tsirelson bound is not a maximum that is approached — it is a mathematical limit that physical reality structurally cannot reach.</div>
+    </div>
+    <div class="qa-card qa-card-phys">
+      <div class="qa-label" style="color:var(--green)">First physical bound — n = 1 on Φ-ladder</div>
+      <div class="qa-val" style="color:var(--green)">2.683</div>
+      <div class="qa-eq">n = 1 → f = f_KNEE = 35.10 GHz<br>⟨S⟩ = 2√2 · exp(−2(lnΦ)³/Φ³)<br>= <strong style="color:var(--cream)">2.683468…</strong></div>
+      <div class="qa-why">Hensen (2.42) &lt; Giustina (2.37) &lt; Shalm (2.25) — all below 2.683. All consistent. All measuring at different n on the Φ-ladder.</div>
+    </div>
+  </div>
+
+  <!-- PHI-LADDER -->
+  <div class="phi-ladder">
+    <div class="pl-title">Φ-Ladder — CHSH value per integer step n</div>
+    <div class="pl-grid" id="phiLadder"></div>
+  </div>
+
+  <!-- BELL EXPERIMENTS -->
+  <div style="margin-bottom:2rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.80rem;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:var(--violet);margin-bottom:1.2rem">Loophole-free Bell experiments vs Dephaze bound</div>
+    <div class="bell-experiments">
+      <div class="bell-card">
+        <div class="bc-year">2015 · Delft</div>
+        <div class="bc-name">Hensen et al.</div>
+        <div class="bc-val">2.42</div>
+        <div class="bc-detail">NV centers · photons<br>f_rel ≈ 3 GHz &lt; 81.6 GHz ✓</div>
+        <div class="bc-bound-line"><div class="bc-arrow">↑</div><div class="bc-gap">0.26 below 2.683</div></div>
+      </div>
+      <div class="bell-card">
+        <div class="bc-year">2015 · Vienna</div>
+        <div class="bc-name">Giustina et al.</div>
+        <div class="bc-val">2.37</div>
+        <div class="bc-detail">Photons · crystals<br>f_rel ≈ 1–5 GHz &lt; 81.6 GHz ✓</div>
+        <div class="bc-bound-line"><div class="bc-arrow">↑</div><div class="bc-gap">0.31 below 2.683</div></div>
+      </div>
+      <div class="bell-card">
+        <div class="bc-year">2015 · NIST</div>
+        <div class="bc-name">Shalm et al.</div>
+        <div class="bc-val">2.25</div>
+        <div class="bc-detail">Photons · detectors<br>f_rel ≈ 1–8 GHz &lt; 81.6 GHz ✓</div>
+        <div class="bc-bound-line"><div class="bc-arrow">↑</div><div class="bc-gap">0.43 below 2.683</div></div>
+      </div>
+      <div class="bell-card" style="border-color:rgba(255,82,82,.15);background:rgba(255,82,82,.03)">
+        <div class="bc-year">theoretical limit</div>
+        <div class="bc-name" style="color:var(--red)">CMB photons</div>
+        <div class="bc-val" style="color:var(--steel)">≤ 2</div>
+        <div class="bc-detail">f ≈ 160 GHz &gt; 81.6 GHz<br>separable — classical bound</div>
+        <div class="bc-bound-line"><div class="bc-arrow" style="color:rgba(255,82,82,.4)">✗</div><div class="bc-gap" style="color:var(--red)">above f_sep</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border:1px solid rgba(179,136,255,.15);border-radius:10px;padding:1.5rem 2rem;background:rgba(179,136,255,.04);font-family:'JetBrains Mono',monospace;font-size:.86rem;font-weight:300;color:var(--steel);line-height:2">
+    <span style="color:var(--violet)">Separability:&nbsp;</span> f &lt; 81.6 GHz → entangled (Bell violation) &nbsp;|&nbsp; f &gt; 81.6 GHz → separable (classical)<br>
+    <span style="color:var(--violet)">Prediction:&nbsp;&nbsp;&nbsp;</span> Transmon qubit operating frequency 4–8 GHz &lt; f_sep → Bell violation expected ✓ (Storz et al. 2023: ⟨S⟩ = 2.0747)<br>
+    <span style="color:var(--violet)">Consistency:&nbsp;</span> CMB f ~ 160 GHz → separable → no cosmic entanglement paradox ✓
+  </div>
+</div>
+
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ TIMELINE ══ -->
 <div class="section rv" id="timeline">
   <div class="s-label">origin · development · falsification window</div>
   <h2 class="s-title">The Record</h2>
-
   <div class="timeline">
     <div class="tl-node">
       <div class="tl-dot"></div>
       <div class="tl-year">1992</div>
       <div class="tl-content">
         <div class="tl-title">Framework First Formulated</div>
-        <div class="tl-body">Axiomatic structure Ω₀ → Ψ projection, Φ³ topology, five closed axioms.<br>Core mathematical structure documented.</div>
+        <div class="tl-body">Ω₀ → Ψ projection, Φ³ topology, five closed axioms. Core structure documented.</div>
         <span class="tl-tag tl-done">documented</span>
       </div>
     </div>
@@ -1042,7 +867,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-year">2025</div>
       <div class="tl-content">
         <div class="tl-title">First Zenodo Publication — v1</div>
-        <div class="tl-body">Public record established. Framework available for independent review.<br>SPARC validation initiated on 175-galaxy complete database.</div>
+        <div class="tl-body">Public record established. SPARC validation initiated on 175-galaxy complete database.</div>
         <span class="tl-tag tl-done">published · nov 15 2025</span>
       </div>
     </div>
@@ -1050,36 +875,23 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-dot active"></div>
       <div class="tl-year" style="color:var(--gold)">2026</div>
       <div class="tl-content">
-        <div class="tl-title">Theorem 1: Galaxy Rotation V66</div>
-        <div class="tl-body">175/175 SPARC galaxies · 0 parameters · LOO + shuffle validated.<br>BIC decisive vs NFW (525 params). Out-of-sample 2.61 km/s.</div>
-        <span class="tl-tag tl-now">▶ current · mar 1 2026</span>
+        <div class="tl-title">V4.3 — Four Theorems Published</div>
+        <div class="tl-body">
+          T1: 175/175 SPARC · 0 params · LOO 5.98 · BIC −2436 vs NFW<br>
+          T2: 10/10 flyby · Cassini sign · Pioneer 96.8% · JUICE locked<br>
+          T3: 9 CMB quantities · Wien Δ=0.013% · EB prediction locked<br>
+          T4: |Ψ⁻⟩ from T-invariance · 2√2 virtual · 2.683 physical · 81.6 GHz
+        </div>
+        <span class="tl-tag tl-now">▶ current · V4.3 · mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
-      <div class="tl-dot active"></div>
-      <div class="tl-year" style="color:var(--gold)">2026</div>
+      <div class="tl-dot q-dot"></div>
+      <div class="tl-year" style="color:var(--violet)">2026</div>
       <div class="tl-content">
-        <div class="tl-title">Theorem 2: Flyby Anomaly + Pioneer</div>
-        <div class="tl-body">Φ³ four-point quadrangulation · 10/10 missions · sign correct all cases.<br>Cassini sign reversal: Anderson fails, V66 correct.<br>Pioneer: 96.8% from 266 pts, 0 params vs Turyshev 80% from 7560 pts.<br>JUICE 2029 hard prediction: +3.66 mm/s · DOI locked.</div>
-        <span class="tl-tag tl-now">▶ published · mar 2026</span>
-      </div>
-    </div>
-    <div class="tl-node">
-      <div class="tl-dot active"></div>
-      <div class="tl-year" style="color:var(--gold)">2026</div>
-      <div class="tl-content">
-        <div class="tl-title">Theorem 3: CMB Anisotropy</div>
-        <div class="tl-body">9 quantities from 2 inputs · 0 free parameters · Wien Δ=0.013% · γ₀/√Aₛ=16/√21 Δ=0.043%<br>Quadrupole C₂=0.25 · asymmetry 6.87% · Cold Spot −56.42° · LiteBIRD EB prediction locked.</div>
-        <span class="tl-tag tl-now">▶ published · mar 2026</span>
-      </div>
-    </div>
-    <div class="tl-node">
-      <div class="tl-dot future"></div>
-      <div class="tl-year future">2027</div>
-      <div class="tl-content">
-        <div class="tl-title">Theorem 4: Quantum Entanglement / Tsirelson</div>
-        <div class="tl-body">Tsirelson bound 2√2 from bistable relaxation · GNS construction · no hidden variables.</div>
-        <span class="tl-tag tl-soon">in development</span>
+        <div class="tl-title" style="color:var(--violet)">Quantum Theorem — New in V4.3</div>
+        <div class="tl-body">Singlet derived from GNS + time-reversal. Tsirelson 2√2 identified as virtual asymptote. First physical CHSH bound 2.683 from third law. Separability threshold 81.6 GHz from Φ-ladder.</div>
+        <span class="tl-tag tl-q">▶ published · V4.3 · mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
@@ -1087,7 +899,7 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-year future">2028</div>
       <div class="tl-content">
         <div class="tl-title">LiteBIRD Launch</div>
-        <div class="tl-body">CMB EB polarization test. Dephaze predicts C_ℓ^EB / C_ℓ^TT ≈ 0.029.<br>ΛCDM predicts exactly zero.</div>
+        <div class="tl-body">CMB EB polarization. Dephaze: C_ℓ^EB / C_ℓ^TT ≈ 0.029. ΛCDM: exactly 0.</div>
         <span class="tl-tag tl-pred">falsification test</span>
       </div>
     </div>
@@ -1096,94 +908,78 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="tl-year future">2029</div>
       <div class="tl-content">
         <div class="tl-title">JUICE Earth Flyby — August</div>
-        <div class="tl-body">ΔV = +3.66 mm/s predicted (geometry scan: +0.85 to +6.45 mm/s).<br>Recorded here March 1, 2026. DOI: 10.5281/zenodo.18823570.<br>If |ΔV| &lt; 0.5 mm/s → framework falsified. No ambiguity.</div>
+        <div class="tl-body">ΔV = +3.66 mm/s predicted (scan: +0.85 to +6.45 mm/s).<br>Recorded 2026-03-01. If |ΔV| &lt; 0.5 mm/s → framework falsified. No ambiguity.</div>
         <span class="tl-tag tl-pred">hard falsification</span>
       </div>
     </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ THEOREMS ══ -->
 <div class="section rv" id="theorems">
   <div class="s-label">living document · one theorem at a time</div>
   <h2 class="s-title">Theorems</h2>
-
   <div class="theorems-grid">
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.0 · Zenodo · March 2026</div>
+      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
       <div class="thm-name">Galaxy Rotation Curves</div>
-      <div class="thm-status">
-        <div class="status-dot status-live"></div>
-        <span style="color:var(--green)">Published</span>
-      </div>
+      <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
-        <div class="done">✓ V66 equation derived from Φ³ topology</div>
+        <div class="done">✓ V66 equation from Φ³ topology</div>
         <div class="done">✓ 175/175 SPARC galaxies · 0 parameters</div>
         <div class="done">✓ LOO validation · 5.98 km/s</div>
-        <div class="done">✓ Shuffle control · 3.78× degradation</div>
+        <div class="done">✓ Shuffle control · 3.8× degradation</div>
         <div class="done">✓ Out-of-sample · 2.61 km/s · 12/14</div>
         <div class="done">✓ BIC decisive · ΔBIC = −2436 vs NFW</div>
       </div>
     </div>
-
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.0 · Zenodo · March 2026</div>
+      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
       <div class="thm-name">Flyby Anomaly + Pioneer</div>
-      <div class="thm-status">
-        <div class="status-dot status-live"></div>
-        <span style="color:var(--green)">Published</span>
-      </div>
+      <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
-        <div class="done">✓ Φ³ four-point quadrangulation — zero params per mission</div>
-        <div class="done">✓ 10/10 missions consistent · sign correct all cases</div>
-        <div class="done">✓ Cassini: Anderson +1.95 mm/s wrong sign · V66 −1.03 mm/s correct</div>
-        <div class="done">✓ Pioneer 96.8% from 266 digitized pts · 0 params</div>
-        <div class="done">✓ Turyshev 80% from 7560 pts · 12+ params · 12 years</div>
-        <div class="done">✓ JUICE 2029 prediction locked · DOI timestamped</div>
+        <div class="done">✓ Φ³ four-point quadrangulation · 0 params</div>
+        <div class="done">✓ 10/10 missions · sign correct all cases</div>
+        <div class="done">✓ Cassini −1.03 mm/s · Anderson +1.95 fails</div>
+        <div class="done">✓ Pioneer 96.8% · 266 pts · 0 params</div>
+        <div class="done">✓ JUICE prediction locked · DOI timestamped</div>
       </div>
-      <div class="thm-pred">JUICE: ΔV = +3.66 mm/s &nbsp;·&nbsp; scan: +0.85 to +6.45 mm/s<br>Falsification: |ΔV| &lt; 0.5 mm/s → refuted · Hard date: August 2029</div>
+      <div class="thm-pred">JUICE: ΔV = +3.66 mm/s · August 2029<br>Falsification: |ΔV| &lt; 0.5 mm/s → refuted</div>
     </div>
-
     <div class="thm-card active-thm">
-      <div class="thm-version">V4.0 · Zenodo · March 2026</div>
+      <div class="thm-version">V4.3 · Zenodo · March 2026</div>
       <div class="thm-name">CMB Anomalies</div>
-      <div class="thm-status">
-        <div class="status-dot status-live"></div>
-        <span style="color:var(--green)">Published</span>
-      </div>
+      <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
         <div class="done">✓ 9 quantities · 2 inputs · 0 free parameters</div>
-        <div class="done">✓ Wien peak: 160.23 GHz · Δ = 0.013%</div>
-        <div class="done">✓ γ₀/√Aₛ = 16/√21 · Δ = 0.043% · Fibonacci</div>
+        <div class="done">✓ Wien peak 160.23 GHz · Δ = 0.013%</div>
         <div class="done">✓ Quadrupole C₂ = 0.25 · P(k)-independent</div>
         <div class="done">✓ Hemispheric asymmetry 6.87% · closed</div>
-        <div class="done">✓ Cold Spot b = −56.42° · closed · 0 params</div>
+        <div class="done">✓ Cold Spot b = −56.42° · 0 params</div>
         <div class="done">✓ AoE: b = 67.54°, l = 27.23° · derived</div>
       </div>
       <div class="thm-pred">C_ℓ^EB / C_ℓ^TT = 0.02866 · ΛCDM = 0<br>LiteBIRD 2028 · 5σ falsification</div>
     </div>
-
-    <div class="thm-card locked">
-      <div class="thm-version">V6.0 · Locked</div>
-      <div class="thm-name">Quantum Entanglement / Tsirelson</div>
-      <div class="thm-status">
-        <div class="status-dot status-lock"></div>
-        <span style="color:var(--steel)">Pending Theorem 3</span>
-      </div>
+    <div class="thm-card q-thm">
+      <div class="thm-version thm-version-q">V4.3 · NEW · March 2026</div>
+      <div class="thm-name">Quantum Entanglement</div>
+      <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--violet)">Published V4.3</span></div>
       <div class="thm-items">
-        <div class="locked-item">◌ GNS construction · shared Ω₀ origin</div>
-        <div class="locked-item">◌ Tsirelson 2√2 from bistable relaxation</div>
-        <div class="locked-item">◌ No superluminal signaling proof</div>
-        <div class="locked-item">◌ No hidden variables</div>
+        <div class="done-v">✓ GNS construction · shared Ω₀ origin</div>
+        <div class="done-v">✓ |Ψ⁻⟩ from T-invariance — not postulated</div>
+        <div class="done-v">✓ 2√2 virtual asymptote — Nernst proof</div>
+        <div class="done-v">✓ ⟨S⟩_phys = 2.683 · first physical bound</div>
+        <div class="done-v">✓ f_sep = 81.6 GHz · separability threshold</div>
+        <div class="done-v">✓ No-signaling proof</div>
       </div>
-      <div class="thm-lock-overlay"><div class="lock-icon">🔒</div></div>
+      <div class="thm-pred thm-pred-v">All loophole-free Bell expts below 2.683 ✓<br>Superconducting qubits: Γ₁ &lt; 81.6 GHz ✓</div>
     </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ PREDICTIONS ══ -->
 <div class="section rv" id="predictions">
@@ -1193,8 +989,8 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
     <div class="pred-card hl">
       <div class="pc-year">August 2029</div>
       <div class="pc-title">JUICE Earth Flyby</div>
-      <div class="pc-val">ΔV = +3.66 mm/s<br><span style="color:var(--steel);font-size:.62rem">scan ±5°: +0.85 to +6.45 mm/s</span></div>
-      <div class="pc-contrast">ΛCDM: ΔV ≈ 0 — no mechanism<br>If |ΔV| &lt; 0.5 mm/s: Dephaze falsified</div>
+      <div class="pc-val">ΔV = +3.66 mm/s<br><span style="color:var(--steel);font-size:.84rem">scan ±5°: +0.85 to +6.45 mm/s</span></div>
+      <div class="pc-contrast">ΛCDM: ΔV ≈ 0 — no mechanism<br>If |ΔV| &lt; 0.5 mm/s: falsified</div>
     </div>
     <div class="pred-card">
       <div class="pc-year">2028</div>
@@ -1202,22 +998,22 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       <div class="pc-val">C_ℓ^EB / C_ℓ^TT ≈ 0.029</div>
       <div class="pc-contrast">ΛCDM: exactly 0<br>Testable to 5σ</div>
     </div>
+    <div class="pred-card" style="border-color:rgba(179,136,255,.2);background:rgba(179,136,255,.03)">
+      <div class="pc-year" style="color:var(--violet)">Ongoing</div>
+      <div class="pc-title">Bell Experiments</div>
+      <div class="pc-val" style="color:var(--violet)">⟨S⟩ &lt; 2.683 always</div>
+      <div class="pc-contrast">2√2 = 2.828 never reached<br>All qubits: Γ₁ &lt; 81.6 GHz</div>
+    </div>
     <div class="pred-card">
       <div class="pc-year">2025–26</div>
       <div class="pc-title">Lensing Time-Delay</div>
       <div class="pc-val">+2 to +4% offset</div>
       <div class="pc-contrast">ΛCDM: 0%<br>TDCOSMO dataset</div>
     </div>
-    <div class="pred-card">
-      <div class="pc-year">2025</div>
-      <div class="pc-title">H(z) Curvature</div>
-      <div class="pc-val">d²H/dz² &lt; 0 at z &lt; 0.5</div>
-      <div class="pc-contrast">ΛCDM: = 0<br>DESI DR2</div>
-    </div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ CODE ══ -->
 <div class="section rv" id="code">
@@ -1250,10 +1046,6 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
 
 <span class="kw">def</span> <span class="fn">dephaze_v66</span>(r, v_obs):
     <span class="st">"""
-    P1 = AoE (Ω₀)  : reference zero
-    P2 = v_obs_i    : measured fossil
-    P3 = v_max_loc  : virtual phase boundary
-
     x_i    = v_obs_i / v_max_loc        [phase: P2 on P1→P3]
     T_i    = v_max² − v_med²            [local tension]
     v_pred = √(v_obs² + T_i · S(x_i))
@@ -1275,13 +1067,15 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
         v_pred[i] = np.sqrt(max(v_obs[i]**<span class="nm">2</span> + T*<span class="fn">spring_S</span>(x), <span class="nm">0.0</span>))
     <span class="kw">return</span> v_pred
 
-<span class="cm"># LOO result : 5.98 km/s  120/175  (better — no circularity)
-# Shuffle    : 24.7 km/s    6/175  (3.78× worse — real structure)
-# Extrap     :  2.61 km/s  12/14   (out-of-sample)</span></pre>
+<span class="cm"># V4.3 results:
+# LOO result  : 5.98 km/s  120/175  (improves — no circularity)
+# Shuffle     : 24.7 km/s    6/175  (3.8× worse — real structure)
+# Extrap      :  2.61 km/s  12/14   (out-of-sample)
+# CHSH bound  : ⟨S⟩_phys ≈ 2.683   (first physical, n=1 on Φ-ladder)</span></pre>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ NOTE ══ -->
 <div class="section rv">
@@ -1291,14 +1085,13 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
       This framework was first formulated in <strong>1992</strong>. The core structure was documented and available.<br><br>
       The data is public. The code runs in minutes. The predictions carry <strong>hard dates</strong>.<br><br>
       History records not only who made the discovery — but <strong>who had the opportunity to engage with it, and when</strong>. The timestamps on this record are permanent.<br><br>
-      The rotation curve theorem is on the table. Flyby, CMB, and quantum mechanics follow <strong>one by one</strong>. JUICE (2029), LiteBIRD (2028), DESI (2025) arrive regardless.<br><br>
-      
+      Four theorems are now on the table. JUICE (2029), LiteBIRD (2028), DESI (2025) arrive regardless. The numbers do not negotiate.
     </p>
-    <div class="note-sig">— Angus Dewer -</div>
+    <div class="note-sig">— Angus Dewer —</div>
   </div>
 </div>
 
-<div class="div-line"></div>
+<div class="sec-div"><hr class="sec-div-line"></div>
 
 <!-- ══ FOOTER ══ -->
 <footer>
@@ -1306,145 +1099,92 @@ footer{border-top:1px solid rgba(255,255,255,.05);padding:4rem 2rem;text-align:c
   <div class="footer-links">
     <a href="https://github.com/angusdewer" target="_blank">github.com/angusdewer</a>
     <a href="http://astroweb.cwru.edu/SPARC/" target="_blank">SPARC database</a>
-    <a href="https://doi.org/10.5281/zenodo.18896261" target="_blank">Zenodo</a>
+    <a href="https://doi.org/10.5281/zenodo.18923203" target="_blank">Zenodo V5</a>
     <a href="mailto:angus@dephaze.eu">angus@dephaze.eu</a>
   </div>
   <div class="footer-copy">
     © 1992 – 2026 Angus Dewer &nbsp;·&nbsp; Dephaze Manufacture &nbsp;·&nbsp; CC BY-NC-SA 4.0 with Patent Defensive Provisions<br>
-    Data: SPARC (Lelli et al. 2016) &nbsp;·&nbsp; Runtime: ~2 min &nbsp;·&nbsp; All code above is complete and runnable
+    Data: SPARC (Lelli et al. 2016) &nbsp;·&nbsp; V4.3 · Runtime: ~2 min &nbsp;·&nbsp; DOI: 10.5281/zenodo.18823570
   </div>
 </footer>
 
 </div><!-- .wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 'use strict';
 
+/* ─── CONSTANTS ─── */
+const PHI  = (1+Math.sqrt(5))/2;
+const PHI2 = PHI*PHI;
+const PHI3 = PHI*PHI*PHI;
+const LOG_PHI = Math.log(PHI);
+const X_KNEE  = 1/PHI2;
+const F_OSC   = 21.691928;
+const F_KNEE  = 35.098277;
+const F_D     = 91.888483;
+const F_SEP   = F_OSC * Math.exp(Math.pow(PHI3*Math.log(1.5)/2, 1/3));
+const S_PHYS  = 2*Math.sqrt(2)*Math.exp(-2*Math.pow(LOG_PHI,3)/PHI3);
+
 /* ─── NAV SCROLL ─── */
-window.addEventListener('scroll', () => {
-  document.getElementById('topnav').classList.toggle('scrolled', scrollY > 50);
+window.addEventListener('scroll',()=>{
+  document.getElementById('topnav').classList.toggle('scrolled',scrollY>50);
 });
 
 /* ─── SCROLL SPY ─── */
 (function(){
-  const sections = ['curves','validation','flyby','cmb','timeline','predictions','theorems','code'];
-  const navLinks = {};
-  sections.forEach(id => {
-    const el = document.querySelector('.nav-links a[href="#'+id+'"]');
-    if(el) navLinks[id] = el;
-  });
-  function onScroll(){
-    const scrollY = window.scrollY + 120;
-    let current = '';
-    sections.forEach(id => {
-      const sec = document.getElementById(id);
-      if(sec && sec.offsetTop <= scrollY) current = id;
-    });
-    Object.entries(navLinks).forEach(([id, el]) => {
-      el.classList.toggle('nav-active', id === current);
-    });
+  const secs=['curves','validation','flyby','cmb','quantum','timeline','theorems','predictions','code'];
+  const links={};
+  secs.forEach(id=>{const el=document.querySelector('.nav-links a[href="#'+id+'"]');if(el)links[id]=el;});
+  function spy(){
+    const y=scrollY+130;let cur='';
+    secs.forEach(id=>{const s=document.getElementById(id);if(s&&s.offsetTop<=y)cur=id;});
+    Object.entries(links).forEach(([id,el])=>el.classList.toggle('nav-active',id===cur));
   }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
+  window.addEventListener('scroll',spy,{passive:true});spy();
 })();
 
+/* ─── SCROLL REVEAL ─── */
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.remove('animate-out');e.target.classList.add('in');}
+});},{threshold:.05, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 
 /* ─── STARFIELD ─── */
 (function(){
-  const c = document.getElementById('starfield');
-  const x = c.getContext('2d');
+  const c=document.getElementById('starfield'),x=c.getContext('2d');
   let stars;
-  function resize(){
-    c.width=innerWidth; c.height=innerHeight;
-    stars = Array.from({length:220}, ()=>({
-      px:Math.random()*innerWidth, py:Math.random()*innerHeight,
-      r:Math.random()*1.1+.1, ph:Math.random()*Math.PI*2, sp:.0008+Math.random()*.0025
-    }));
-  }
-  function frame(){
-    x.clearRect(0,0,c.width,c.height);
-    stars.forEach(s=>{
-      s.ph+=s.sp;
-      const a=.08+.5*Math.abs(Math.sin(s.ph));
-      x.beginPath(); x.arc(s.px,s.py,s.r,0,Math.PI*2);
-      x.fillStyle=`rgba(210,220,255,${a})`; x.fill();
-    });
-    requestAnimationFrame(frame);
-  }
-  addEventListener('resize',resize); resize(); frame();
+  function resize(){c.width=innerWidth;c.height=innerHeight;stars=Array.from({length:220},()=>({px:Math.random()*innerWidth,py:Math.random()*innerHeight,r:Math.random()*1.1+.1,ph:Math.random()*Math.PI*2,sp:.0008+Math.random()*.0025}));}
+  function frame(){x.clearRect(0,0,c.width,c.height);stars.forEach(s=>{s.ph+=s.sp;const a=.08+.5*Math.abs(Math.sin(s.ph));x.beginPath();x.arc(s.px,s.py,s.r,0,Math.PI*2);x.fillStyle=`rgba(210,220,255,${a})`;x.fill();});requestAnimationFrame(frame);}
+  addEventListener('resize',resize);resize();frame();
 })();
 
-/* ─── GOLDEN SPIRAL BG ─── */
+/* ─── GOLDEN SPIRAL ─── */
 (function(){
-  const c=document.getElementById('spiralCanvas');
-  const x=c.getContext('2d');
-  let angle=0;
-  function resize(){c.width=innerWidth;c.height=innerHeight}
-  function drawSpiral(){
-    x.clearRect(0,0,c.width,c.height);
-    const cx=c.width/2,cy=c.height/2;
-    const PHI=(1+Math.sqrt(5))/2;
-    x.save(); x.translate(cx,cy); x.rotate(angle);
-    x.strokeStyle='#c8a84b'; x.lineWidth=1; x.beginPath();
-    let r=0;
-    for(let t=0;t<8*Math.PI;t+=.05){
-      r=8*Math.pow(PHI,t/(Math.PI/2));
-      const px=r*Math.cos(t),py=r*Math.sin(t);
-      if(t===0)x.moveTo(px,py);else x.lineTo(px,py);
-    }
-    x.stroke(); x.restore();
-    angle+=.0003;
-    requestAnimationFrame(drawSpiral);
-  }
-  addEventListener('resize',resize); resize(); drawSpiral();
+  const c=document.getElementById('spiralCanvas'),x=c.getContext('2d');let angle=0;
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  function draw(){x.clearRect(0,0,c.width,c.height);x.save();x.translate(c.width/2,c.height/2);x.rotate(angle);x.strokeStyle='#c8a84b';x.lineWidth=1;x.beginPath();let r=0;for(let t=0;t<8*Math.PI;t+=.05){r=8*Math.pow(PHI,t/(Math.PI/2));const px=r*Math.cos(t),py=r*Math.sin(t);if(t===0)x.moveTo(px,py);else x.lineTo(px,py);}x.stroke();x.restore();angle+=.0003;requestAnimationFrame(draw);}
+  addEventListener('resize',resize);resize();draw();
 })();
 
 /* ─── JUICE COUNTDOWN ─── */
 (function(){
-  const target = new Date(Date.UTC(2029, 7, 20, 12, 0, 0));
+  const target=new Date(Date.UTC(2029,7,20,12,0,0));
   function update(){
-    const now=new Date(), diff=target-now;
-    if(diff<=0){
-      document.getElementById('cd-days').textContent='0';
-      document.getElementById('cd-hrs').textContent='00';
-      document.getElementById('cd-min').textContent='00';
-      document.getElementById('cd-sec').textContent='00';
-      return;
-    }
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor((diff%86400000)/3600000);
-    const m=Math.floor((diff%3600000)/60000);
-    const s=Math.floor((diff%60000)/1000);
-    document.getElementById('cd-days').textContent=d;
-    document.getElementById('cd-hrs').textContent=String(h).padStart(2,'0');
-    document.getElementById('cd-min').textContent=String(m).padStart(2,'0');
-    document.getElementById('cd-sec').textContent=String(s).padStart(2,'0');
+    const diff=target-new Date();
+    if(diff<=0){['days','hrs','min','sec'].forEach(k=>document.getElementById('cd-'+k).textContent='0');return;}
+    document.getElementById('cd-days').textContent=Math.floor(diff/86400000);
+    document.getElementById('cd-hrs').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-min').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-sec').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
-  update(); setInterval(update,1000);
+  update();setInterval(update,1000);
 })();
 
-/* ─── SCROLL REVEAL ─── */
-const ro=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
-},{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
-
 /* ─── BIC BARS ─── */
-const bicObs=new IntersectionObserver(es=>{
-  if(!es[0].isIntersecting)return;
-  setTimeout(()=>{
-    document.getElementById('bf1').style.width='75%';
-    document.getElementById('bf2').style.width='89%';
-    document.getElementById('bf3').style.width='100%';
-  },300);
-  bicObs.disconnect();
-},{threshold:.4});
+const bicObs=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;setTimeout(()=>{document.getElementById('bf1').style.width='75%';document.getElementById('bf2').style.width='89%';document.getElementById('bf3').style.width='100%';},300);bicObs.disconnect();},{threshold:.4});
 bicObs.observe(document.getElementById('bicBars'));
 
-/* ─── Φ MATH ─── */
-const PHI=(1+Math.sqrt(5))/2, PHI2=PHI*PHI, PHI3=PHI*PHI*PHI;
-const LOG_PHI=Math.log(PHI), X_KNEE=1/PHI2;
-
+/* ─── SPRING FUNCTION ─── */
 function springS(x){
   x=Math.max(1e-9,Math.min(1,x));
   const damp=Math.pow(PHI3,-(1-x)/PHI2);
@@ -1456,19 +1196,17 @@ function springS(x){
   return Math.pow(x,1/PHI)*damp;
 }
 
+/* ─── V66 ─── */
 function v66(r,vobs){
   const n=r.length;
   const logR=r.map(ri=>Math.log(Math.max(ri/r[0],1e-9))/LOG_PHI);
   const vp=new Array(n).fill(0);
   for(let i=0;i<n;i++){
-    const win=[];
-    for(let j=0;j<n;j++)if(Math.abs(logR[j]-logR[i])<=1)win.push(vobs[j]);
+    const win=[];for(let j=0;j<n;j++)if(Math.abs(logR[j]-logR[i])<=1)win.push(vobs[j]);
     const w=win.length>=2?win:[vobs[Math.max(0,i-1)],vobs[i],vobs[Math.min(n-1,i+1)]];
-    const vmax=Math.max(...w);
-    const s=[...w].sort((a,b)=>a-b);
+    const vmax=Math.max(...w);const s=[...w].sort((a,b)=>a-b);
     const vmed=s.length%2===0?(s[s.length/2-1]+s[s.length/2])/2:s[Math.floor(s.length/2)];
-    const xi=Math.max(1e-9,Math.min(1,vobs[i]/vmax));
-    const Ti=Math.max(vmax*vmax-vmed*vmed,0);
+    const xi=Math.max(1e-9,Math.min(1,vobs[i]/vmax));const Ti=Math.max(vmax*vmax-vmed*vmed,0);
     vp[i]=Math.sqrt(Math.max(vobs[i]*vobs[i]+Ti*springS(xi),0));
   }
   return vp;
@@ -1476,83 +1214,242 @@ function v66(r,vobs){
 
 /* ─── GALAXY DATA ─── */
 const GALAXIES={
-  'NGC 6503': {r:[.3,.8,1.5,2.5,3.5,4.8,6.2,8,10,12.5,15,18,21],v:[40,72,98,108,114,118,120,121,121,120,119,118,117]},
-  'NGC 3198': {r:[1,2,4,6,8,10,13,17,22,28,35,40,45],v:[55,95,130,142,148,150,151,151,150,149,148,148,147]},
-  'NGC 2841': {r:[1,3,6,10,15,20,28,35,42,50,58],v:[180,260,295,310,315,318,305,295,285,275,265]},
-  'NGC 5055': {r:[1,2,4,7,11,16,22,30,38,48],v:[90,140,175,190,195,196,192,185,178,170]},
-  'DDO 154':  {r:[.2,.5,.9,1.4,2,2.7,3.5,4.3,5.2,6.1],v:[10,18,28,36,42,46,48,49,50,50]},
-  'UGC02885': {r:[5,10,18,28,38,48,58,68],v:[200,255,285,295,298,300,299,298]},
+  'NGC 6503':{r:[.3,.8,1.5,2.5,3.5,4.8,6.2,8,10,12.5,15,18,21],v:[40,72,98,108,114,118,120,121,121,120,119,118,117]},
+  'NGC 3198':{r:[1,2,4,6,8,10,13,17,22,28,35,40,45],v:[55,95,130,142,148,150,151,151,150,149,148,148,147]},
+  'NGC 2841':{r:[1,3,6,10,15,20,28,35,42,50,58],v:[180,260,295,310,315,318,305,295,285,275,265]},
+  'NGC 5055':{r:[1,2,4,7,11,16,22,30,38,48],v:[90,140,175,190,195,196,192,185,178,170]},
+  'DDO 154': {r:[.2,.5,.9,1.4,2,2.7,3.5,4.3,5.2,6.1],v:[10,18,28,36,42,46,48,49,50,50]},
+  'UGC02885':{r:[5,10,18,28,38,48,58,68],v:[200,255,285,295,298,300,299,298]},
 };
 
-/* ─── CURVE RENDERER ─── */
+/* ─── GALAXY CURVE RENDERER ─── */
 const canvas=document.getElementById('curveCanvas');
 const ctx2=canvas.getContext('2d');
 let curGal='NGC 6503';
 
 function drawCurve(galName){
   const dpr=devicePixelRatio||1;
-  canvas.width=canvas.offsetWidth*dpr; canvas.height=canvas.offsetHeight*dpr;
-  ctx2.scale(dpr,dpr);
+  canvas.width=canvas.offsetWidth*dpr;canvas.height=canvas.offsetHeight*dpr;ctx2.scale(dpr,dpr);
   const W=canvas.offsetWidth,H=canvas.offsetHeight;
   const {r,v:vobs}=GALAXIES[galName];
   const vpred=v66(r,vobs);
-  const vnaive=new Array(r.length).fill(vobs[vobs.length-1]);
-  const PAD={t:28,r:28,b:48,l:56};
+  const PAD={t:30,r:30,b:52,l:60};
   const pw=W-PAD.l-PAD.r,ph=H-PAD.t-PAD.b;
-  const rMax=Math.max(...r)*1.08,vMax=Math.max(...vobs,...vpred)*1.12;
-  const sx=v=>PAD.l+(v/rMax)*pw;
-  const sy=v=>PAD.t+ph-(v/vMax)*ph;
-  ctx2.fillStyle='#080f1c'; ctx2.fillRect(0,0,W,H);
-  ctx2.strokeStyle='rgba(255,255,255,.04)'; ctx2.lineWidth=1;
-  for(let i=1;i<=5;i++){const y=PAD.t+(ph/5)*i;ctx2.beginPath();ctx2.moveTo(PAD.l,y);ctx2.lineTo(W-PAD.r,y);ctx2.stroke()}
-  for(let i=1;i<=4;i++){const x=PAD.l+(pw/4)*i;ctx2.beginPath();ctx2.moveTo(x,PAD.t);ctx2.lineTo(x,H-PAD.b);ctx2.stroke()}
-  ctx2.strokeStyle='rgba(255,255,255,.12)'; ctx2.lineWidth=1;
-  ctx2.beginPath();ctx2.moveTo(PAD.l,PAD.t);ctx2.lineTo(PAD.l,H-PAD.b);ctx2.lineTo(W-PAD.r,H-PAD.b);ctx2.stroke();
-  ctx2.font='10px "JetBrains Mono",monospace';
-  ctx2.fillStyle='rgba(255,255,255,.22)'; ctx2.textAlign='right';
-  for(let i=0;i<=4;i++){const val=Math.round(vMax*i/4);ctx2.fillText(val+'',PAD.l-7,sy(val)+4)}
+  const rMax=Math.max(...r)*1.1,vMax=Math.max(...vobs,...vpred)*1.12;
+  const sx=v=>PAD.l+(v/rMax)*pw;const sy=v=>PAD.t+ph-(v/vMax)*ph;
+  ctx2.fillStyle='#080f1c';ctx2.fillRect(0,0,W,H);
+  ctx2.strokeStyle='rgba(255,255,255,.035)';ctx2.lineWidth=1;
+  for(let i=1;i<=5;i++){const y=PAD.t+(ph/5)*i;ctx2.beginPath();ctx2.moveTo(PAD.l,y);ctx2.lineTo(W-PAD.r,y);ctx2.stroke();}
+  for(let i=1;i<=4;i++){const x=PAD.l+(pw/4)*i;ctx2.beginPath();ctx2.moveTo(x,PAD.t);ctx2.lineTo(x,H-PAD.b);ctx2.stroke();}
+  ctx2.strokeStyle='rgba(255,255,255,.14)';ctx2.lineWidth=1;ctx2.beginPath();ctx2.moveTo(PAD.l,PAD.t);ctx2.lineTo(PAD.l,H-PAD.b);ctx2.lineTo(W-PAD.r,H-PAD.b);ctx2.stroke();
+  ctx2.font='13px "JetBrains Mono",monospace';ctx2.fillStyle='rgba(255,255,255,.2)';ctx2.textAlign='right';
+  for(let i=0;i<=4;i++){const val=Math.round(vMax*i/4);ctx2.fillText(val+'',PAD.l-8,sy(val)+4);}
   ctx2.textAlign='center';
-  for(let i=0;i<=4;i++){const val=Math.round(rMax*i/4);ctx2.fillText(val+'',sx(val),H-PAD.b+16)}
-  ctx2.fillStyle='rgba(255,255,255,.18)';
-  ctx2.fillText('r (kpc)',W/2,H-4);
-  ctx2.save();ctx2.translate(12,H/2);ctx2.rotate(-Math.PI/2);ctx2.fillText('v (km/s)',0,0);ctx2.restore();
-  ctx2.font='bold 11px "JetBrains Mono",monospace';
-  ctx2.fillStyle='rgba(200,168,75,.7)'; ctx2.textAlign='left';
-  ctx2.fillText(galName,PAD.l+8,PAD.t+16);
+  for(let i=0;i<=4;i++){const val=Math.round(rMax*i/4);ctx2.fillText(val+'',sx(val),H-PAD.b+17);}
+  ctx2.fillStyle='rgba(255,255,255,.16)';ctx2.fillText('r (kpc)',W/2,H-4);
+  ctx2.save();ctx2.translate(13,H/2);ctx2.rotate(-Math.PI/2);ctx2.fillText('v (km/s)',0,0);ctx2.restore();
+  ctx2.font='bold 13px "JetBrains Mono",monospace';ctx2.fillStyle='rgba(200,168,75,.75)';ctx2.textAlign='left';ctx2.fillText(galName,PAD.l+10,PAD.t+18);
   const rms=Math.sqrt(vpred.reduce((a,p,i)=>a+(p-vobs[i])**2,0)/vpred.length);
-  ctx2.textAlign='right'; ctx2.fillStyle='rgba(200,168,75,.9)';
-  ctx2.fillText(`RMS = ${rms.toFixed(2)} km/s`,W-PAD.r-6,PAD.t+16);
-  ctx2.strokeStyle='rgba(120,136,153,.35)'; ctx2.lineWidth=1.5; ctx2.setLineDash([4,5]);
-  ctx2.beginPath();
-  r.forEach((ri,j)=>{j===0?ctx2.moveTo(sx(ri),sy(vnaive[j])):ctx2.lineTo(sx(ri),sy(vnaive[j]))});
-  ctx2.stroke(); ctx2.setLineDash([]);
-  ctx2.strokeStyle='rgba(200,168,75,.95)'; ctx2.lineWidth=2.5;
-  ctx2.shadowColor='rgba(200,168,75,.4)'; ctx2.shadowBlur=8;
-  ctx2.beginPath();
-  r.forEach((ri,j)=>{j===0?ctx2.moveTo(sx(ri),sy(vpred[j])):ctx2.lineTo(sx(ri),sy(vpred[j]))});
-  ctx2.stroke(); ctx2.shadowBlur=0;
-  r.forEach((ri,j)=>{
-    ctx2.beginPath(); ctx2.arc(sx(ri),sy(vobs[j]),4,0,Math.PI*2);
-    ctx2.fillStyle='#ffffff'; ctx2.fill();
-    ctx2.strokeStyle='rgba(255,255,255,.3)'; ctx2.lineWidth=.5; ctx2.stroke();
-  });
+  ctx2.textAlign='right';ctx2.fillStyle='rgba(200,168,75,.95)';ctx2.fillText(`RMS = ${rms.toFixed(2)} km/s`,W-PAD.r-6,PAD.t+18);
+  // Newtonian flat
+  ctx2.strokeStyle='rgba(120,136,153,.3)';ctx2.lineWidth=1.5;ctx2.setLineDash([4,6]);ctx2.beginPath();
+  r.forEach((ri,j)=>{j===0?ctx2.moveTo(sx(ri),sy(vobs[vobs.length-1])):ctx2.lineTo(sx(ri),sy(vobs[vobs.length-1]));});
+  ctx2.stroke();ctx2.setLineDash([]);
+  // V66 prediction
+  ctx2.strokeStyle='rgba(200,168,75,.95)';ctx2.lineWidth=2.5;ctx2.shadowColor='rgba(200,168,75,.35)';ctx2.shadowBlur=10;ctx2.beginPath();
+  r.forEach((ri,j)=>{j===0?ctx2.moveTo(sx(ri),sy(vpred[j])):ctx2.lineTo(sx(ri),sy(vpred[j]));});
+  ctx2.stroke();ctx2.shadowBlur=0;
+  // Observed points
+  r.forEach((ri,j)=>{ctx2.beginPath();ctx2.arc(sx(ri),sy(vobs[j]),4.5,0,Math.PI*2);ctx2.fillStyle='#ffffff';ctx2.fill();ctx2.strokeStyle='rgba(255,255,255,.25)';ctx2.lineWidth=.5;ctx2.stroke();});
 }
 
-/* ─── TABS ─── */
+/* ─── GALAXY TABS ─── */
 const tabs=document.getElementById('galTabs');
 Object.keys(GALAXIES).forEach((name,i)=>{
   const btn=document.createElement('button');
-  btn.className='gtab'+(i===0?' on':'');
-  btn.textContent=name;
+  btn.className='gtab'+(i===0?' on':'');btn.textContent=name;
   btn.addEventListener('click',()=>{
     curGal=name;
-    document.querySelectorAll('.gtab').forEach(b=>b.classList.toggle('on',b===btn));
-    drawCurve(name);
+    document.querySelectorAll('.gtab').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');drawCurve(name);
   });
   tabs.appendChild(btn);
-  if(i===0) drawCurve(name);
 });
+setTimeout(()=>drawCurve(curGal),50);
 window.addEventListener('resize',()=>drawCurve(curGal));
-</script>
-</body>
-</html>
+
+/* ─── CHSH CURVE FUNCTION ─── */
+function chshS(f){
+  const k=Math.log(f/F_OSC);
+  return 2*Math.sqrt(2)*Math.exp(-2*Math.pow(Math.abs(k),3)/PHI3);
+}
+
+/* ─── CHSH CANVAS ─── */
+const chshCanvas=document.getElementById('chshCanvas');
+const chshCtx=chshCanvas.getContext('2d');
+const BELL_EXPS={
+  hensen:   {val:2.42, err:0.20, label:'Hensen 2015', color:'#00e676'},
+  giustina: {val:2.37, err:0.02, label:'Giustina 2015', color:'#00d4ff'},
+  shalm:    {val:2.25, err:0.03, label:'Shalm 2015', color:'#b388ff'},
+};
+let chshActive={hensen:true,giustina:true,shalm:true};
+let chshHoverX=null;
+
+function drawCHSH(){
+  const dpr=devicePixelRatio||1;
+  chshCanvas.width=chshCanvas.offsetWidth*dpr;
+  chshCanvas.height=chshCanvas.offsetHeight*dpr;
+  chshCtx.scale(dpr,dpr);
+  const W=chshCanvas.offsetWidth,H=chshCanvas.offsetHeight;
+  const PAD={t:28,r:32,b:52,l:62};
+  const pw=W-PAD.l-PAD.r,ph=H-PAD.t-PAD.b;
+  const fMin=3,fMax=500;
+  const sMin=0,sMax=3.1;
+  const sx=f=>PAD.l+(Math.log(f/fMin)/Math.log(fMax/fMin))*pw;
+  const sy=s=>PAD.t+ph-((s-sMin)/(sMax-sMin))*ph;
+
+  chshCtx.fillStyle='#080f1c';chshCtx.fillRect(0,0,W,H);
+
+  // Region shading
+  const xSep=sx(F_SEP);
+  chshCtx.fillStyle='rgba(179,136,255,.04)';chshCtx.fillRect(PAD.l,PAD.t,xSep-PAD.l,ph);
+  chshCtx.fillStyle='rgba(255,82,82,.03)';chshCtx.fillRect(xSep,PAD.t,W-PAD.r-xSep,ph);
+
+  // Grid
+  chshCtx.strokeStyle='rgba(255,255,255,.04)';chshCtx.lineWidth=1;
+  [0,.5,1,1.5,2,2.5,3].forEach(s=>{chshCtx.beginPath();chshCtx.moveTo(PAD.l,sy(s));chshCtx.lineTo(W-PAD.r,sy(s));chshCtx.stroke();});
+
+  // Axes
+  chshCtx.strokeStyle='rgba(255,255,255,.15)';chshCtx.lineWidth=1;
+  chshCtx.beginPath();chshCtx.moveTo(PAD.l,PAD.t);chshCtx.lineTo(PAD.l,H-PAD.b);chshCtx.lineTo(W-PAD.r,H-PAD.b);chshCtx.stroke();
+
+  // Axis labels
+  chshCtx.font='13px "JetBrains Mono",monospace';chshCtx.fillStyle='rgba(255,255,255,.2)';chshCtx.textAlign='right';
+  [0,.5,1,1.5,2,2.683,2.828].forEach(s=>{
+    const label=s===2.683?'2.683':s===2.828?'2√2':s.toFixed(1);
+    chshCtx.fillStyle=s===2.683?'rgba(0,230,118,.7)':s===2.828?'rgba(255,82,82,.7)':'rgba(255,255,255,.2)';
+    chshCtx.fillText(label,PAD.l-8,sy(s)+4);
+  });
+  chshCtx.textAlign='center';chshCtx.fillStyle='rgba(255,255,255,.2)';
+  [5,10,20,50,100,200,400].forEach(f=>{if(f>=fMin&&f<=fMax)chshCtx.fillText(f+'',sx(f),H-PAD.b+17);});
+  chshCtx.fillStyle='rgba(255,255,255,.15)';chshCtx.fillText('f (GHz)',W/2,H-4);
+  chshCtx.save();chshCtx.translate(13,H/2);chshCtx.rotate(-Math.PI/2);chshCtx.fillText('⟨S(f)⟩',0,0);chshCtx.restore();
+
+  // Virtual asymptote 2√2
+  chshCtx.strokeStyle='rgba(255,82,82,.55)';chshCtx.lineWidth=1.5;chshCtx.setLineDash([6,5]);
+  chshCtx.beginPath();chshCtx.moveTo(PAD.l,sy(2*Math.sqrt(2)));chshCtx.lineTo(W-PAD.r,sy(2*Math.sqrt(2)));chshCtx.stroke();
+  chshCtx.setLineDash([]);
+
+  // Classical Bell limit
+  chshCtx.strokeStyle='rgba(122,136,153,.4)';chshCtx.lineWidth=1;chshCtx.setLineDash([3,5]);
+  chshCtx.beginPath();chshCtx.moveTo(PAD.l,sy(2));chshCtx.lineTo(W-PAD.r,sy(2));chshCtx.stroke();
+  chshCtx.setLineDash([]);
+
+  // Physical bound line
+  chshCtx.strokeStyle='rgba(0,230,118,.4)';chshCtx.lineWidth=1;chshCtx.setLineDash([2,4]);
+  chshCtx.beginPath();chshCtx.moveTo(PAD.l,sy(S_PHYS));chshCtx.lineTo(W-PAD.r,sy(S_PHYS));chshCtx.stroke();
+  chshCtx.setLineDash([]);
+
+  // f_sep line
+  chshCtx.strokeStyle='rgba(200,168,75,.55)';chshCtx.lineWidth=1.5;chshCtx.setLineDash([4,4]);
+  chshCtx.beginPath();chshCtx.moveTo(xSep,PAD.t);chshCtx.lineTo(xSep,H-PAD.b);chshCtx.stroke();
+  chshCtx.setLineDash([]);
+  chshCtx.fillStyle='rgba(200,168,75,.7)';chshCtx.font='12px "JetBrains Mono",monospace';chshCtx.textAlign='center';
+  chshCtx.fillText('f_sep',xSep,PAD.t+12);
+
+  // CHSH curve
+  chshCtx.strokeStyle='rgba(179,136,255,.9)';chshCtx.lineWidth=2.5;chshCtx.shadowColor='rgba(179,136,255,.35)';chshCtx.shadowBlur=12;
+  chshCtx.beginPath();let first=true;
+  for(let i=0;i<=300;i++){const f=fMin*Math.pow(fMax/fMin,i/300);const s=chshS(f);if(first){chshCtx.moveTo(sx(f),sy(s));first=false;}else chshCtx.lineTo(sx(f),sy(s));}
+  chshCtx.stroke();chshCtx.shadowBlur=0;
+
+  // Phi-ladder nodes
+  [[-2,'#7a8899'],[-1,'#c8a84b'],[0,'rgba(255,82,82,.8)'],[1,'#c8a84b'],[2,'#7a8899'],[3,'rgba(200,168,75,.4)']].forEach(([n,col])=>{
+    const f=F_OSC*Math.pow(PHI,n);if(f<fMin||f>fMax)return;
+    const s=chshS(f);
+    chshCtx.beginPath();chshCtx.arc(sx(f),sy(s),n===0?6:4.5,0,Math.PI*2);
+    chshCtx.fillStyle=col;chshCtx.fill();
+    if(n===0){chshCtx.strokeStyle='rgba(255,82,82,.5)';chshCtx.lineWidth=1;chshCtx.stroke();}
+  });
+
+  // Bell experiment points
+  Object.entries(BELL_EXPS).forEach(([key,exp])=>{
+    if(!chshActive[key])return;
+    const xPos=sx(8);const yPos=sy(exp.val);
+    chshCtx.beginPath();chshCtx.moveTo(xPos,sy(exp.val-exp.err));chshCtx.lineTo(xPos,sy(exp.val+exp.err));
+    chshCtx.strokeStyle=exp.color;chshCtx.lineWidth=1.5;chshCtx.stroke();
+    chshCtx.beginPath();chshCtx.arc(xPos,yPos,5,0,Math.PI*2);chshCtx.fillStyle=exp.color;chshCtx.fill();
+    chshCtx.fillStyle=exp.color;chshCtx.font='12px "JetBrains Mono",monospace';chshCtx.textAlign='left';
+    chshCtx.fillText(exp.label,xPos+8,yPos+4);
+  });
+
+  // Region labels
+  chshCtx.font='13px "JetBrains Mono",monospace';chshCtx.textAlign='left';
+  chshCtx.fillStyle='rgba(179,136,255,.4)';chshCtx.fillText('Entangled',PAD.l+6,H-PAD.b-10);
+  chshCtx.fillStyle='rgba(255,82,82,.35)';chshCtx.textAlign='right';chshCtx.fillText('Separable',W-PAD.r-6,H-PAD.b-10);
+
+  // Hover crosshair
+  if(chshHoverX!==null&&chshHoverX>=PAD.l&&chshHoverX<=W-PAD.r){
+    const t=(chshHoverX-PAD.l)/pw;const f=fMin*Math.pow(fMax/fMin,t);const s=chshS(f);
+    chshCtx.strokeStyle='rgba(255,255,255,.15)';chshCtx.lineWidth=1;chshCtx.setLineDash([3,4]);
+    chshCtx.beginPath();chshCtx.moveTo(chshHoverX,PAD.t);chshCtx.lineTo(chshHoverX,H-PAD.b);chshCtx.stroke();
+    chshCtx.setLineDash([]);
+    chshCtx.beginPath();chshCtx.arc(chshHoverX,sy(s),4,0,Math.PI*2);chshCtx.fillStyle='#fff';chshCtx.fill();
+    const label=`f=${f.toFixed(1)} GHz  ⟨S⟩=${s.toFixed(4)}`;
+    const lw=chshCtx.measureText(label).width+16;
+    const lx=chshHoverX+10+lw>W-PAD.r?chshHoverX-lw-6:chshHoverX+10;
+    const ly=sy(s)-10;
+    chshCtx.fillStyle='rgba(3,7,15,.85)';chshCtx.fillRect(lx,ly-13,lw,20);
+    chshCtx.strokeStyle='rgba(179,136,255,.3)';chshCtx.lineWidth=1;chshCtx.strokeRect(lx,ly-13,lw,20);
+    chshCtx.fillStyle='rgba(179,136,255,.9)';chshCtx.font='12px "JetBrains Mono",monospace';chshCtx.textAlign='left';chshCtx.fillText(label,lx+8,ly+3);
+  }
+}
+
+chshCanvas.addEventListener('mousemove',e=>{
+  const r=chshCanvas.getBoundingClientRect();
+  chshHoverX=(e.clientX-r.left)*(chshCanvas.width/chshCanvas.offsetWidth);
+  // rescale to CSS pixels
+  chshHoverX=e.clientX-r.left;
+  drawCHSH();
+});
+chshCanvas.addEventListener('mouseleave',()=>{chshHoverX=null;drawCHSH();});
+
+// Freq buttons
+document.getElementById('freqBtns').addEventListener('click',e=>{
+  const btn=e.target.closest('.freq-btn');if(!btn)return;
+  const key=btn.dataset.exp;chshActive[key]=!chshActive[key];btn.classList.toggle('on',chshActive[key]);
+  drawCHSH();
+});
+
+setTimeout(()=>drawCHSH(),80);
+window.addEventListener('resize',drawCHSH);
+
+/* ─── PHI-LADDER ─── */
+(function(){
+  const container=document.getElementById('phiLadder');
+  const rows=[
+    {n:0,  label:'n = 0 · f_osc = 21.69 GHz', S:2*Math.sqrt(2),            cls:'pl-virtual', tag:'virtual Ω₀'},
+    {n:-1, label:'n = −1 · 13.41 GHz',          S:S_PHYS,                  cls:'pl-phys',    tag:''},
+    {n:1,  label:'n = 1 · f_KNEE = 35.10 GHz',  S:S_PHYS,                  cls:'pl-phys',    tag:'⟨S⟩_phys'},
+    {n:-2, label:'n = −2 · 8.29 GHz',            S:chshS(F_OSC/PHI2),      cls:'',           tag:''},
+    {n:2,  label:'n = 2 · 56.79 GHz',            S:chshS(F_OSC*PHI2),      cls:'',           tag:''},
+    {n:3,  label:'n = 3 · f_D = 91.89 GHz',      S:chshS(F_D),             cls:'pl-sep',     tag:'above f_sep'},
+    {n:4,  label:'n = 4 · 148.68 GHz',           S:chshS(F_OSC*Math.pow(PHI,4)), cls:'pl-sep', tag:''},
+    {n:6,  label:'n = 6 · f_gen = 389.25 GHz',   S:chshS(F_OSC*Math.pow(PHI,6)), cls:'pl-sep', tag:''},
+  ];
+  const Smax=2*Math.sqrt(2);
+  rows.forEach(row=>{
+    const pct=Math.max(0,(row.S/Smax)*100);
+    const color=row.cls==='pl-virtual'?'rgba(255,82,82,.7)':row.cls==='pl-sep'?'rgba(122,136,153,.4)':'rgba(200,168,75,.7)';
+    const sColor=row.S>2?'var(--green)':row.S>1?'var(--gold)':'var(--steel)';
+    const div=document.createElement('div');
+    div.className='pl-row '+(row.cls||'');
+    div.innerHTML=`<div class="pl-n">n=${row.n}</div><div class="pl-bar-wrap"><div class="pl-bar" style="width:0%;background:${color}" data-pct="${pct.toFixed(1)}"></div></div><div class="pl-freq">${row.label.split('·')[1]?.trim()||''}</div><div class="pl-s" style="color:${sColor}">${row.S.toFixed(4)}</div>`;
+    if(row.tag){const t=document.createElement('span');t.style.cssText='font-family:\'JetBrains Mono\',monospace;font-size:.88rem;color:var(--steel);grid-column:span 4;padding-left:3rem;margin-top:-.3rem';t.textContent=row.tag;div.appendChild(t);}
+    container.appendChild(div);
+  });
+  // animate bars on scroll into view
+  const ladderObs=new IntersectionObserver(es=>{
+    if(!es[0].isIntersecting)return;
+    setTimeout(()=>{
+      container.querySelect
