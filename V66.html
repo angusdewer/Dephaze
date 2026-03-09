@@ -715,9 +715,9 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
 </div>
 
 
-<!-- ══ QUANTUM ══ NEW V5 SECTION ══ -->
+<!-- ══ QUANTUM ══ NEW V4.3 SECTION ══ -->
 <div class="section rv" id="quantum">
-  <div class="s-label">theorem 4 · V5 · GNS construction · T-invariance · Nernst theorem</div>
+  <div class="s-label">theorem 4 · V4.3 · GNS construction · T-invariance · Nernst theorem</div>
   <h2 class="s-title">Quantum Entanglement.<br>Derived.</h2>
 
   <div class="q-header-grid">
@@ -874,8 +874,8 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
           T1: 175/175 SPARC · 0 params · LOO 5.98 · BIC −2436 vs NFW<br>
           T2: 10/10 flyby · Cassini sign · Pioneer 96.8% · JUICE locked<br>
           T3: 9 CMB quantities · Wien Δ=0.013% · EB prediction locked<br>
-                  </div>
-        <span class="tl-tag tl-now">▶ current · V4 · mar 2026</span>
+        </div>
+        <span class="tl-tag tl-now">▶ published · V4· mar 2026</span>
       </div>
     </div>
     <div class="tl-node">
@@ -915,7 +915,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
   <h2 class="s-title">Theorems</h2>
   <div class="theorems-grid">
     <div class="thm-card active-thm">
-      <div class="thm-version">V5 · Zenodo · March 2026</div>
+      <div class="thm-version">V3 · Zenodo · March 2026</div>
       <div class="thm-name">Galaxy Rotation Curves</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -928,7 +928,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       </div>
     </div>
     <div class="thm-card active-thm">
-      <div class="thm-version">V5 · Zenodo · March 2026</div>
+      <div class="thm-version">V4 · Zenodo · March 2026</div>
       <div class="thm-name">Flyby Anomaly + Pioneer</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -941,7 +941,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
       <div class="thm-pred">JUICE: ΔV = +3.66 mm/s · August 2029<br>Falsification: |ΔV| &lt; 0.5 mm/s → refuted</div>
     </div>
     <div class="thm-card active-thm">
-      <div class="thm-version">V5 · Zenodo · March 2026</div>
+      <div class="thm-version">V4 · Zenodo · March 2026</div>
       <div class="thm-name">CMB Anomalies</div>
       <div class="thm-status"><div class="status-dot status-live"></div><span style="color:var(--green)">Published</span></div>
       <div class="thm-items">
@@ -1088,7 +1088,7 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
     <a href="https://github.com/angusdewer" target="_blank">github.com/angusdewer</a>
     <a href="http://astroweb.cwru.edu/SPARC/" target="_blank">SPARC database</a>
     <a href="https://doi.org/10.5281/zenodo.18923203" target="_blank">Zenodo V5</a>
-    <a href="mailto:angus@dephaze.eu">angus@dephaze.eu</a>
+    <a href="/cdn-cgi/l/email-protection#13727d746660537776637b7269763d7666"><span class="__cf_email__" data-cfemail="87e6e9e0f2f4c7e3e2f7efe6fde2a9e2f2">[email&#160;protected]</span></a>
   </div>
   <div class="footer-copy">
     © 1992 – 2026 Angus Dewer &nbsp;·&nbsp; Dephaze Manufacture &nbsp;·&nbsp; CC BY-NC-SA 4.0 with Patent Defensive Provisions<br>
@@ -1098,7 +1098,8 @@ footer{text-align:center;padding:4rem 2rem;border-top:1px solid rgba(255,255,255
 
 </div><!-- .wrap -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 'use strict';
 
 /* ─── CONSTANTS ─── */
@@ -1148,9 +1149,29 @@ document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
 
 /* ─── GOLDEN SPIRAL ─── */
 (function(){
-  const c=document.getElementById('spiralCanvas'),x=c.getContext('2d');let angle=0;
+  const c=document.getElementById('spiralCanvas'),x=c.getContext('2d');
+  let angle=0,spinVel=0.0003,targetVel=0.0003;
+  window.addEventListener('wheel',function(e){
+    targetVel=e.deltaY>0?0.018:-0.018;
+    clearTimeout(c._t);
+    c._t=setTimeout(function(){targetVel=0.0003;},500);
+  },{passive:true});
   function resize(){c.width=innerWidth;c.height=innerHeight;}
-  function draw(){x.clearRect(0,0,c.width,c.height);x.save();x.translate(c.width/2,c.height/2);x.rotate(angle);x.strokeStyle='#c8a84b';x.lineWidth=1;x.beginPath();let r=0;for(let t=0;t<8*Math.PI;t+=.05){r=8*Math.pow(PHI,t/(Math.PI/2));const px=r*Math.cos(t),py=r*Math.sin(t);if(t===0)x.moveTo(px,py);else x.lineTo(px,py);}x.stroke();x.restore();angle+=.0003;requestAnimationFrame(draw);}
+  function draw(){
+    spinVel+=(targetVel-spinVel)*0.07;
+    angle+=spinVel;
+    x.clearRect(0,0,c.width,c.height);
+    x.save();x.translate(c.width/2,c.height/2);x.rotate(angle);
+    x.strokeStyle='#c8a84b';x.lineWidth=1;x.beginPath();
+    let r=0;
+    for(let t=0;t<8*Math.PI;t+=.05){
+      r=8*Math.pow(PHI,t/(Math.PI/2));
+      const px=r*Math.cos(t),py=r*Math.sin(t);
+      if(t===0)x.moveTo(px,py);else x.lineTo(px,py);
+    }
+    x.stroke();x.restore();
+    requestAnimationFrame(draw);
+  }
   addEventListener('resize',resize);resize();draw();
 })();
 
@@ -1436,7 +1457,6 @@ window.addEventListener('resize',drawCHSH);
     if(row.tag){const t=document.createElement('span');t.style.cssText='font-family:\'JetBrains Mono\',monospace;font-size:.88rem;color:var(--steel);grid-column:span 4;padding-left:3rem;margin-top:-.3rem';t.textContent=row.tag;div.appendChild(t);}
     container.appendChild(div);
   });
-  // animate bars on scroll into view
   const ladderObs=new IntersectionObserver(es=>{
     if(!es[0].isIntersecting)return;
     setTimeout(()=>{
