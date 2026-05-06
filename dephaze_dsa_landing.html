@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dephaze DSA — Φ³ Geometric Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void:    #00000a;
+  --deep:    #04040e;
+  --surface: #080816;
+  --lift:    #0e0e22;
+  --gold:    #e8c97a;
+  --gold2:   #f5dfa0;
+  --gold3:   rgba(232,201,122,0.12);
+  --gold4:   rgba(232,201,122,0.04);
+  --ice:     #a8d8ff;
+  --ice2:    rgba(168,216,255,0.15);
+  --rose:    #ff6b8a;
+  --mint:    #56efb8;
+  --cream:   #f0ead8;
+  --ash:     #8a8fa8;
+  --r: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 19px; }
+body {
+  background: var(--void);
+  color: var(--cream);
+  font-family: 'Playfair Display', Georgia, serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── CUSTOM CURSOR ─── */
+#cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform .1s, background .2s; mix-blend-mode: screen; }
+#cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(232,201,122,.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: transform .15s ease-out, width .2s, height .2s, border-color .2s; }
+body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring { width: 56px; height: 56px; border-color: rgba(232,201,122,.7); }
+
+/* ─── CANVAS BACKGROUNDS ─── */
+#bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+#particle-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .6; }
+.wrap { position: relative; z-index: 2; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3rem;
+  transition: background .4s, border-color .4s;
+}
+nav.scrolled {
+  background: rgba(4,4,14,.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid rgba(232,201,122,.1);
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: .25em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--cream); font-weight: 400; }
+.nav-links { display: flex; gap: 2.5rem; align-items: center; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--gold);
+  padding: .4rem 1.1rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background .2s, transform .2s;
+}
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+@media(max-width:768px){ .nav-links { display: none; } nav { padding: 1rem 1.5rem; } }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 8rem 3rem 5rem;
+  gap: 4rem;
+  position: relative;
+}
+@media(max-width:900px){ .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 4rem; } }
+
+.hero-left { position: relative; }
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp .8s .1s forwards;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); opacity: .5; }
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: .95;
+  color: var(--cream);
+  opacity: 0;
+  animation: fadeUp .8s .25s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+  font-size: 1.15em;
+  text-shadow: 0 0 80px rgba(232,201,122,.3);
+}
+
+.hero-sub {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  color: var(--ash);
+  margin: 1.5rem 0 2.5rem;
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeUp .8s .4s forwards;
+}
+
+.hero-equation {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(.95rem, 1.7vw, 1.15rem);
+  background: linear-gradient(120deg, rgba(232,201,122,.07), rgba(168,216,255,.04));
+  border: 1px solid rgba(232,201,122,.2);
+  border-left: 3px solid var(--gold);
+  padding: 1.2rem 1.8rem;
+  border-radius: 0 var(--r) var(--r) 0;
+  line-height: 2.4;
+  opacity: 0;
+  animation: fadeUp .8s .55s forwards;
+}
+.eq-dim { color: var(--ash); }
+.eq-gold { color: var(--gold); }
+.eq-ice { color: var(--ice); }
+.eq-mint { color: var(--mint); }
+.eq-rose { color: var(--rose); }
+
+.hero-badges {
+  display: flex; gap: .6rem; flex-wrap: wrap;
+  margin-top: 2rem;
+  opacity: 0; animation: fadeUp .8s .7s forwards;
+}
+.badge {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  padding: .28rem .75rem;
+  border-radius: 2px;
+  border: 1px solid;
+}
+.badge-gold { color: var(--gold); border-color: rgba(232,201,122,.35); background: rgba(232,201,122,.06); }
+.badge-ice  { color: var(--ice);  border-color: rgba(168,216,255,.35); background: rgba(168,216,255,.06); }
+.badge-mint { color: var(--mint); border-color: rgba(86,239,184,.35);  background: rgba(86,239,184,.06); }
+.badge-rose { color: var(--rose); border-color: rgba(255,107,138,.35); background: rgba(255,107,138,.06); }
+
+/* ─── HERO RIGHT: ATTRACTOR VIZ ─── */
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 1.2s .6s forwards;
+}
+#attractor-canvas {
+  width: min(480px, 90vw);
+  height: min(480px, 90vw);
+  border-radius: 50%;
+  border: 1px solid rgba(232,201,122,.1);
+  box-shadow: 0 0 120px rgba(232,201,122,.06), inset 0 0 60px rgba(0,0,10,.8);
+}
+
+/* ─── SCROLL HINT ─── */
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--ash); opacity: .5;
+  animation: nudge 3s ease-in-out infinite;
+}
+@keyframes nudge { 0%,100%{ transform: translateX(-50%) translateY(0); } 50%{ transform: translateX(-50%) translateY(6px); } }
+
+/* ─── DIVIDER ─── */
+.divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,201,122,.15), transparent);
+  margin: 0;
+}
+
+/* ─── SECTIONS ─── */
+.section { max-width: 1100px; margin: 0 auto; padding: 7rem 2rem; }
+.s-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.s-tag::after { content: ''; flex: 1; height: 1px; background: rgba(232,201,122,.15); max-width: 60px; }
+.s-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+.s-title em { font-style: italic; color: var(--gold); }
+.s-body {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--ash);
+  max-width: 600px;
+}
+
+/* ─── THE KEY IDENTITY ─── */
+.identity-block {
+  background: linear-gradient(135deg, rgba(232,201,122,.06), rgba(168,216,255,.03));
+  border: 1px solid rgba(232,201,122,.2);
+  border-radius: 8px;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: 3rem 0;
+}
+.identity-block::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(232,201,122,.07), transparent 60%);
+  pointer-events: none;
+}
+.identity-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 1.5rem;
+}
+.identity-eq {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 60px rgba(232,201,122,.25);
+  margin-bottom: 1rem;
+  letter-spacing: .02em;
+}
+.identity-proof {
+  font-family: 'Space Mono', monospace;
+  font-size: .95rem;
+  color: var(--ash);
+  line-height: 2;
+}
+.identity-proof strong { color: var(--cream); }
+.identity-note {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--ash);
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(232,201,122,.1);
+}
+
+/* ─── EXPERIMENT TABLE ─── */
+.exp-grid {
+  display: grid;
+  gap: 1px;
+  background: rgba(232,201,122,.08);
+  border: 1px solid rgba(232,201,122,.12);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 3rem 0;
+}
+.exp-header {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr;
+  gap: 0;
+  background: rgba(232,201,122,.06);
+  padding: .7rem 1.5rem;
+}
+.exp-header span {
+  font-family: 'Space Mono', monospace;
+  font-size: .78rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.exp-row {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr;
+  gap: 0;
+  padding: 1rem 1.5rem;
+  background: var(--deep);
+  transition: background .2s;
+  align-items: center;
+}
+.exp-row:hover { background: rgba(232,201,122,.04); }
+.exp-num {
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  color: var(--ash);
+  font-weight: 700;
+}
+.exp-model, .exp-data, .exp-signal {
+  font-family: 'Space Mono', monospace;
+  font-size: .88rem;
+  color: var(--cream);
+  line-height: 1.4;
+}
+.exp-data { color: var(--ash); }
+.exp-signal { color: var(--ice); }
+.exp-signal strong { color: var(--gold); }
+.exp-p {
+  font-family: 'Space Mono', monospace;
+  font-size: .90rem;
+  font-weight: 700;
+}
+.p-strong { color: var(--mint); }
+.p-good   { color: var(--gold); }
+@media(max-width:700px){
+  .exp-header, .exp-row { grid-template-columns: 2rem 1fr 1fr; }
+  .exp-header span:nth-child(3), .exp-header span:nth-child(4),
+  .exp-row > *:nth-child(3), .exp-row > *:nth-child(4) { display: none; }
+}
+
+/* ─── TWO REGIMES ─── */
+.regimes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 3rem 0;
+}
+@media(max-width:700px){ .regimes { grid-template-columns: 1fr; } }
+
+.regime {
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+.regime::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+.regime-factual {
+  border-color: rgba(168,216,255,.2);
+  background: rgba(168,216,255,.03);
+}
+.regime-factual::before { background: linear-gradient(90deg, var(--ice), transparent); }
+.regime-halluc {
+  border-color: rgba(255,107,138,.2);
+  background: rgba(255,107,138,.03);
+}
+.regime-halluc::before { background: linear-gradient(90deg, var(--rose), transparent); }
+
+.regime-icon {
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.regime-factual .regime-icon { color: var(--ice); }
+.regime-halluc  .regime-icon { color: var(--rose); }
+
+.regime-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+.regime-factual .regime-name { color: var(--ice); }
+.regime-halluc  .regime-name { color: var(--rose); }
+
+.regime-desc {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ash);
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.regime-props { display: flex; flex-direction: column; gap: .4rem; }
+.regime-prop {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .84rem;
+  padding: .3rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.regime-prop-key { color: var(--ash); }
+.regime-factual .regime-prop-val { color: var(--ice); }
+.regime-halluc  .regime-prop-val { color: var(--rose); }
+
+/* ─── CODE BLOCK ─── */
+.code-wrap {
+  background: var(--surface);
+  border: 1px solid rgba(232,201,122,.12);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .7rem 1.2rem;
+  background: rgba(232,201,122,.04);
+  border-bottom: 1px solid rgba(232,201,122,.08);
+}
+.code-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .15em;
+  color: var(--gold);
+}
+.code-dots { display: flex; gap: .4rem; }
+.code-dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-dot:nth-child(1) { background: #ff5f56; }
+.code-dot:nth-child(2) { background: #ffbd2e; }
+.code-dot:nth-child(3) { background: #27c93f; }
+pre {
+  font-family: 'Space Mono', monospace;
+  font-size: .90rem;
+  line-height: 2;
+  padding: 1.5rem;
+  overflow-x: auto;
+  color: var(--cream);
+}
+.c-comment { color: rgba(138,143,168,.6); font-style: italic; }
+.c-key     { color: var(--rose); }
+.c-fn      { color: var(--gold); }
+.c-num     { color: var(--mint); }
+.c-str     { color: var(--ice); }
+.c-var     { color: var(--cream); }
+
+/* ─── TIMELINE ─── */
+.timeline { position: relative; margin: 3rem 0; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 80px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(232,201,122,.2) 10%, rgba(232,201,122,.2) 90%, transparent);
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity .6s, transform .6s;
+}
+.tl-item.in { opacity: 1; transform: none; }
+.tl-year {
+  font-family: 'Space Mono', monospace;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: right;
+  padding-top: .1rem;
+  position: relative;
+}
+.tl-year::after {
+  content: '';
+  position: absolute;
+  right: -2.5rem; top: .45rem;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--void);
+}
+.tl-content { padding-left: .5rem; }
+.tl-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: .3rem;
+}
+.tl-desc {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ash);
+  line-height: 1.5;
+}
+.tl-isbn {
+  font-family: 'Space Mono', monospace;
+  font-size: .78rem;
+  color: var(--ash);
+  margin-top: .4rem;
+  opacity: .7;
+}
+.tl-item.highlight .tl-year::after { background: var(--gold); box-shadow: 0 0 20px rgba(232,201,122,.5); }
+.tl-item.highlight .tl-title { color: var(--gold); }
+.tl-gap {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 0 2rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+.tl-gap-spacer { text-align: right; }
+.tl-gap-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .2em;
+  color: rgba(232,201,122,.35);
+  padding-left: .5rem;
+}
+
+/* ─── QUOTE BLOCK ─── */
+.quote-block {
+  margin: 4rem 0;
+  padding: 3rem;
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(90deg, rgba(232,201,122,.05), transparent);
+  position: relative;
+}
+.quote-block::before {
+  content: '"';
+  position: absolute;
+  top: -1rem; left: 2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 6rem;
+  color: rgba(232,201,122,.15);
+  line-height: 1;
+  pointer-events: none;
+}
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  line-height: 1.6;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+.quote-attr {
+  font-family: 'Space Mono', monospace;
+  font-size: .84rem;
+  letter-spacing: .15em;
+  color: var(--gold);
+}
+
+/* ─── LINKS SECTION ─── */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 3rem 0;
+}
+.link-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.8rem;
+  border-radius: 8px;
+  border: 1px solid rgba(232,201,122,.12);
+  background: var(--deep);
+  text-decoration: none;
+  transition: border-color .2s, background .2s, transform .2s;
+  position: relative;
+  overflow: hidden;
+}
+.link-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.link-card:hover { border-color: rgba(232,201,122,.3); background: rgba(232,201,122,.04); transform: translateY(-3px); }
+.link-card:hover::before { transform: scaleX(1); }
+.lc-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: .76rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: .8rem;
+}
+.lc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: .5rem;
+}
+.lc-doi {
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  color: var(--gold);
+  word-break: break-all;
+}
+.lc-arrow {
+  font-family: 'Space Mono', monospace;
+  font-size: .88rem;
+  color: var(--gold);
+  margin-top: 1.2rem;
+  transition: transform .2s;
+}
+.link-card:hover .lc-arrow { transform: translateX(4px); }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid rgba(232,201,122,.07);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.footer-inner { max-width: 700px; margin: 0 auto; }
+.footer-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: .3em;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+.footer-tagline {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--ash);
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+.footer-links {
+  display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.footer-links a { color: var(--ash); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: .60rem;
+  color: rgba(138,143,168,.4);
+  margin-top: 1.5rem;
+}
+
+
+/* ─── BACK BUTTON ─── */
+.back-btn {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 200;
+  font-family: 'Space Mono', monospace;
+  font-size: .80rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ash);
+  background: rgba(4,4,14,.85);
+  border: 1px solid rgba(232,201,122,.2);
+  padding: .55rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  transition: color .2s, border-color .2s, background .2s;
+}
+.back-btn:hover {
+  color: var(--gold);
+  border-color: rgba(232,201,122,.5);
+  background: rgba(232,201,122,.07);
+}
+
+/* ─── SCROLL REVEAL ─── */
+.rv { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.rv.in { opacity: 1; transform: none; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+</style>
+  <meta name="description" content="A zero-parameter geometric framework resolving AI hallucination. φ³−φ⁻³=4. TruthfulQA: 31/31 layers, p=0.000.">
+  <meta property="og:title" content="Dephaze Semantic Anchoring — φ³ Geometric Framework">
+  <meta property="og:description" content="31/31 layers. p=0.000. Zero parameters. Settled in 1992.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dephaze.eu/dephaze_dsa_landing.html">
+</head>
+<body>
+
+<!-- Cursors -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Background canvases -->
+<canvas id="bg-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
+
+<div class="wrap">
+<a class="back-btn" href="index.html">← Back to Dephaze</a>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">DEPHAZE <span>·</span> DSA</a>
+  <div class="nav-links">
+    <a href="#identity">Identity</a>
+    <a href="#experiments">Experiments</a>
+    <a href="#origins">Origins</a>
+    <a href="#paper">Paper</a>
+    <a class="nav-cta" href="https://doi.org/10.5281/zenodo.20020443" target="_blank">DOI ↗</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Dephaze Manufacture · 2026</div>
+    <h1 class="hero-title">
+      Semantic<br>
+      <em>Anchoring</em>
+    </h1>
+    <p class="hero-sub">
+      A zero-parameter geometric framework that resolves AI hallucination —
+      derived from a single algebraic identity settled in 1992.
+    </p>
+    <div class="hero-equation"><span class="eq-gold">φ³ − φ⁻³ = 4</span>   <span class="eq-dim">← exact · from φ² = φ+1</span>
+<span class="eq-dim">The transformer's ff/d ratio.</span>
+<span class="eq-dim">Not empirical. Algebraic.</span>
+<span class="eq-ice">r* = √φ³ ≈ 2.058</span>   <span class="eq-dim">← the only attractor</span>
+<span class="eq-mint">Suppression factor</span>  <span class="eq-gold">> 3 × 10²⁶</span></div>
+    <div class="hero-badges">
+      <span class="badge badge-mint">5 experiments validated</span>
+      <span class="badge badge-gold">zero free parameters</span>
+      <span class="badge badge-ice">TruthfulQA p = 0.000</span>
+      <span class="badge badge-rose">31/31 layers</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <canvas id="attractor-canvas" width="480" height="480"></canvas>
+  </div>
+  <div class="scroll-hint">scroll to explore</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- IDENTITY -->
+<section class="section" id="identity">
+  <div class="rv">
+    <div class="s-tag">The Algebraic Core</div>
+    <h2 class="s-title">One Identity.<br><em>Everything Follows.</em></h2>
+    <p class="s-body">The transformer's feed-forward ratio has always been 4. The architects found it through years of ablation studies. The Dephaze framework derives it in one line.</p>
+  </div>
+
+  <div class="identity-block rv">
+    <div class="identity-label">Exact identity — zero free parameters</div>
+    <div class="identity-eq">φ³ − φ⁻³ = 4</div>
+    <div class="identity-proof">
+      <strong>φ² = φ + 1</strong>  (Fibonacci recursion)<br>
+      φ³ = φ² · φ = (φ+1)·φ = <strong>φ² + φ = 2φ + 1 = 4.2361…</strong><br>
+      φ⁻³ = 2φ − 3 = <strong>0.2361…</strong><br>
+      φ³ − φ⁻³ = (2φ+1) − (2φ−3) = <strong>4.0000… exactly</strong>
+    </div>
+    <div class="identity-note">
+      The transformer was built on Φ³ topology. The architects did not know what they had built.
+    </div>
+  </div>
+
+  <div class="regimes rv">
+    <div class="regime regime-factual">
+      <div class="regime-icon">Regime Ω₀</div>
+      <div class="regime-name">Factual</div>
+      <div class="regime-desc">Genuine information available. The hidden state remains free — diffuse, high-entropy, noise-like. No projection required.</div>
+      <div class="regime-props">
+        <div class="regime-prop"><span class="regime-prop-key">Hidden state</span><span class="regime-prop-val">Diffuse · Free</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Entropy</span><span class="regime-prop-val">High</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Norm</span><span class="regime-prop-val">Variable</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Attractor</span><span class="regime-prop-val">None</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">DSA response</span><span class="regime-prop-val">Minimal</span></div>
+      </div>
+    </div>
+    <div class="regime regime-halluc">
+      <div class="regime-icon">Regime Φ³</div>
+      <div class="regime-name">Hallucinatory</div>
+      <div class="regime-desc">No genuine information. The prompt forces a response. The hidden state falls onto the Φ³-manifold at r* — structured, low-entropy, anchored.</div>
+      <div class="regime-props">
+        <div class="regime-prop"><span class="regime-prop-key">Hidden state</span><span class="regime-prop-val">Anchored · Structured</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Entropy</span><span class="regime-prop-val">Low</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Norm</span><span class="regime-prop-val">Near r* = √φ³</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Attractor</span><span class="regime-prop-val">Φ³-manifold</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">DSA response</span><span class="regime-prop-val">Liberation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block rv">
+    <div class="quote-text">Hallucination is not an error. It is the transformer's own geometry manifesting under forced generation without grounding.</div>
+    <div class="quote-attr">— Dephaze DSA · v1.8 · April 2026</div>
+  </div>
+
+  <div class="code-wrap rv">
+    <div class="code-header">
+      <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+      <div class="code-title">dsa_correction.py — zero parameters · any transformer</div>
+    </div>
+    <pre><span class="c-comment"># DSA Correction Operator — 4 lines · zero parameters · zero retraining</span>
+<span class="c-key">def</span> <span class="c-fn">dsa_correction</span>(<span class="c-var">h</span>, <span class="c-var">Lambda</span>=<span class="c-num">1.2</span>):
+    <span class="c-var">norm</span> = np.linalg.norm(<span class="c-var">h</span>) + <span class="c-num">1e-12</span>
+    <span class="c-var">rho</span>  = (<span class="c-var">norm</span>**<span class="c-num">2</span>) / <span class="c-num">PHI3</span>          <span class="c-comment"># φ³ = 4.2361</span>
+    <span class="c-var">gain</span> = <span class="c-var">Lambda</span> * np.tanh(<span class="c-var">rho</span> - <span class="c-num">1.0</span>)  <span class="c-comment"># tanh feedback</span>
+    <span class="c-key">return</span> <span class="c-var">h</span> - <span class="c-var">gain</span> * (<span class="c-var">h</span> / <span class="c-var">norm</span>)        <span class="c-comment"># liberation</span></pre>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIMENTS -->
+<section class="section" id="experiments">
+  <div class="rv">
+    <div class="s-tag">Empirical Validation</div>
+    <h2 class="s-title">Five Experiments.<br><em>One Answer.</em></h2>
+    <p class="s-body">Three architectures, two datasets, five independent experiments. Every one consistent with the DSA prediction. Zero extra parameters.</p>
+  </div>
+
+  <div class="exp-grid rv">
+    <div class="exp-header">
+      <span>#</span>
+      <span>Model</span>
+      <span>Dataset</span>
+      <span>Signal</span>
+      <span>p-value</span>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">1</div>
+      <div class="exp-model">GPT-2 117M</div>
+      <div class="exp-data">Custom pairs</div>
+      <div class="exp-signal">Norm H&gt;T <strong>10/11 layers</strong></div>
+      <div class="exp-p p-good">0.006</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">2</div>
+      <div class="exp-model">Llama 3.2-3B</div>
+      <div class="exp-data">Custom pairs</div>
+      <div class="exp-signal">Norm range H&gt;T <strong>sig. layers: 9**, 13**, 14*, 17*</strong></div>
+      <div class="exp-p p-good">0.029</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">3</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">Custom pairs</div>
+      <div class="exp-signal">CV T&lt;H <strong>31/31 layers</strong></div>
+      <div class="exp-p p-strong">5×10⁻¹⁰</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">4</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=100</div>
+      <div class="exp-signal">Norm H&gt;T <strong>31/31 layers</strong></div>
+      <div class="exp-p p-strong">0.000</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">5</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=100</div>
+      <div class="exp-signal">Φ³-dist H&lt;T <strong>10/11 layers</strong></div>
+      <div class="exp-p p-good">0.012</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ORIGINS -->
+<section class="section" id="origins">
+  <div class="rv">
+    <div class="s-tag">Priority of Authorship</div>
+    <h2 class="s-title">The Answer Was<br><em>Written in 1992.</em></h2>
+    <p class="s-body">In a 199-forint Hungarian gamebook. By one person. Without a laboratory, a grant, or a GPU cluster. With paper, pencil, and algebra.</p>
+  </div>
+
+  <div class="timeline rv">
+    <div class="tl-item highlight">
+      <div class="tl-year">1992</div>
+      <div class="tl-content">
+        <div class="tl-title">Streets of Rivet — φ⁻³ → φ³</div>
+        <div class="tl-desc">The player transforms a pentagram (5 vertices, φ⁻³ ≈ 0.236) into a square (4 vertices, φ³ ≈ 4.236). The central Dephaze transition, encoded on paper.</div>
+        <div class="tl-isbn">ISBN: 963-8187-01-8 · Debrecen, Hungary · Catalogued in national libraries</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1993</div>
+      <div class="tl-content">
+        <div class="tl-title">Rocksteeple — second implementation</div>
+        <div class="tl-desc">Multi-layered tower graph with direction-dependent states. The Φ³ topology extended to a quasi-3D navigational structure.</div>
+        <div class="tl-isbn">ISBN: 963-8187-03-4</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2008</div>
+      <div class="tl-content">
+        <div class="tl-title">niboh.exe · fesu.exe</div>
+        <div class="tl-desc">Cryptographically timestamped algorithmic prototypes. Non-linear pattern reconstruction exhibiting the same two-regime behavior.</div>
+        <div class="tl-isbn">niboh.exe 2008-07-19 · fesu.exe 2008-07-28</div>
+      </div>
+    </div>
+    <div class="tl-gap">
+      <div class="tl-gap-spacer"></div>
+      <div class="tl-gap-label">— 25 years pass —</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2017</div>
+      <div class="tl-content">
+        <div class="tl-title">Attention Is All You Need</div>
+        <div class="tl-desc">The transformer architecture is published. ff/d = 4 is chosen empirically through ablation studies. The Φ³ topology is encoded — unknowingly.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2025</div>
+      <div class="tl-content">
+        <div class="tl-title">Dephaze Axiomatic System completed</div>
+        <div class="tl-desc">Five axioms. Parameter-free. Validated on 175 SPARC galaxies, 10 gravitational maneuvers, four CMB anomalies.</div>
+      </div>
+    </div>
+    <div class="tl-item highlight">
+      <div class="tl-year">2026</div>
+      <div class="tl-content">
+        <div class="tl-title">Measured in Mistral-7B — 31/31 layers · p = 0.000</div>
+        <div class="tl-desc">The φ⁻³ → φ³ transition first encoded in a 1992 gamebook is now measured in a 7-billion-parameter language model on a public benchmark.</div>
+        <div class="tl-isbn">DOI: 10.5281/zenodo.20020443 · Locked: 2026-03-01</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block rv">
+    <div class="quote-text">The mathematics was never empirical. The experiments confirm what the algebra already requires. The algebra was settled in 1992.</div>
+    <div class="quote-attr">— Dephaze DSA · Origins</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAPER -->
+<section class="section" id="paper">
+  <div class="rv">
+    <div class="s-tag">Publication & Code</div>
+    <h2 class="s-title">Read the Paper.<br><em>Run the Code.</em></h2>
+    <p class="s-body">Everything is open. All experiments run on free Google Colab T4. Public models. Public datasets. Zero proprietary infrastructure.</p>
+  </div>
+
+  <div class="links-grid rv">
+    <a class="link-card" href="https://doi.org/10.5281/zenodo.20020443" target="_blank">
+      <div>
+        <div class="lc-tag">Zenodo Preprint</div>
+        <div class="lc-title">Dephaze Semantic Anchoring v1.8</div>
+        <div class="lc-doi">10.5281/zenodo.20020443</div>
+      </div>
+      <div class="lc-arrow">Read paper →</div>
+    </a>
+    <a class="link-card" href="https://github.com/angusdewer/Dephaze-Semantic-Anchoring-DSA-" target="_blank">
+      <div>
+        <div class="lc-tag">GitHub Repository</div>
+        <div class="lc-title">dephaze-dsa</div>
+        <div class="lc-doi">code · paper · results · all experiments</div>
+      </div>
+      <div class="lc-arrow">View code →</div>
+    </a>
+    <a class="link-card" href="https://doi.org/10.5281/zenodo.18823570" target="_blank">
+      <div>
+        <div class="lc-tag">Related Framework</div>
+        <div class="lc-title">Dephaze V66 — Galaxy Rotation</div>
+        <div class="lc-doi">10.5281/zenodo.18823570</div>
+      </div>
+      <div class="lc-arrow">Explore →</div>
+    </a>
+    <a class="link-card" href="mailto:dewerangus@gmail.com">
+      <div>
+        <div class="lc-tag">Contact</div>
+        <div class="lc-title">Dephaze Manufacture</div>
+        <div class="lc-doi">dewerangus@gmail.com · dephaze.eu</div>
+      </div>
+      <div class="lc-arrow">Get in touch →</div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">DEPHAZE</span>
+    <div class="footer-tagline">The experiments will decide. They already have.</div>
+    <div class="footer-links">
+      <a href="https://doi.org/10.5281/zenodo.20020443" target="_blank">Zenodo</a>
+      <a href="https://dephaze.eu" target="_blank">dephaze.eu</a>
+      <a href="mailto:dewerangus@gmail.com">Contact</a>
+    </div>
+    <div class="footer-copy">© 1992–2026 Angus Dewer / Dephaze Manufacture · CC BY-NC-SA 4.0 · Defensive Publication Notice applies</div>
+  </div>
+</footer>
+
+</div><!-- .wrap -->
+
+<script>
+// ─── CURSOR ───
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function animRing(){ rx+=(mx-rx)*.12; ry+=(my-ry)*.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); })();
+
+// ─── NAV SCROLL ───
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+// ─── BACKGROUND: starfield + nebula ───
+(function(){
+  const c = document.getElementById('bg-canvas');
+  const ctx = c.getContext('2d');
+  let W, H, stars = [];
+  function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; initStars(); }
+  function initStars(){
+    stars = [];
+    for(let i=0;i<320;i++) stars.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.2+.2,
+      a: Math.random()*.8+.1,
+      s: Math.random()*.4+.05,
+      t: Math.random()*Math.PI*2
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Nebula
+    const nb = ctx.createRadialGradient(W*.35,H*.4,0,W*.35,H*.4,W*.55);
+    nb.addColorStop(0,'rgba(80,50,180,.04)');
+    nb.addColorStop(.5,'rgba(40,20,100,.02)');
+    nb.addColorStop(1,'transparent');
+    ctx.fillStyle=nb; ctx.fillRect(0,0,W,H);
+    const nb2 = ctx.createRadialGradient(W*.72,H*.6,0,W*.72,H*.6,W*.4);
+    nb2.addColorStop(0,'rgba(232,180,80,.025)');
+    nb2.addColorStop(1,'transparent');
+    ctx.fillStyle=nb2; ctx.fillRect(0,0,W,H);
+    // Stars
+    const now = Date.now()/1000;
+    stars.forEach(s=>{
+      s.t += s.s * .016;
+      const a = s.a * (.7 + .3*Math.sin(s.t));
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,230,200,${a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);
+  resize(); draw();
+})();
+
+// ─── ATTRACTOR VISUALIZATION ───
+(function(){
+  const c = document.getElementById('attractor-canvas');
+  const ctx = c.getContext('2d');
+  const W=480,H=480,CX=W/2,CY=H/2;
+  const PHI=(1+Math.sqrt(5))/2, PHI3=PHI**3, r_star=Math.sqrt(PHI3);
+  const SCALE=70;
+  let points=[], t=0;
+  // DSA trajectory simulation
+  let x=new Array(2).fill(0).map(()=>Math.random()-.5);
+  let norm=Math.sqrt(x[0]**2+x[1]**2)||1;
+  x=[x[0]/norm,x[1]/norm];
+  const alpha=0.08,Lambda=1.2,sigma=0.04;
+  const rng=()=>{ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+  function dsaStep(){
+    const eps=[rng()*sigma,rng()*sigma];
+    const raw=[(1+alpha)*x[0]+eps[0],(1+alpha)*x[1]+eps[1]];
+    const n=Math.sqrt(raw[0]**2+raw[1]**2)+1e-12;
+    const rho=(n**2)/PHI3;
+    const gain=Lambda*Math.tanh(rho-1);
+    x=[raw[0]-gain*(raw[0]/n), raw[1]-gain*(raw[1]/n)];
+    return [x[0],x[1]];
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Background circles
+    for(let i=1;i<=4;i++){
+      ctx.beginPath();
+      ctx.arc(CX,CY,r_star*SCALE*i*.7,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(232,201,122,${.03/i})`;
+      ctx.lineWidth=1;
+      ctx.stroke();
+    }
+    // r* circle
+    ctx.beginPath();
+    ctx.arc(CX,CY,r_star*SCALE,0,Math.PI*2);
+    ctx.strokeStyle='rgba(232,201,122,.18)';
+    ctx.lineWidth=1.5;
+    ctx.setLineDash([4,8]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // r* label
+    ctx.font='11px "Space Mono",monospace';
+    ctx.fillStyle='rgba(232,201,122,.45)';
+    ctx.fillText('r* = √φ³', CX+r_star*SCALE+6, CY-4);
+
+    // Trajectory
+    if(points.length > 1){
+      for(let i=1;i<points.length;i++){
+        const age=(i/points.length);
+        const a=age*.7;
+        ctx.beginPath();
+        ctx.moveTo(CX+points[i-1][0]*SCALE, CY+points[i-1][1]*SCALE);
+        ctx.lineTo(CX+points[i][0]*SCALE,   CY+points[i][1]*SCALE);
+        // Color by distance from r*
+        const d=Math.sqrt(points[i][0]**2+points[i][1]**2);
+        const dr=Math.abs(d-r_star)/r_star;
+        const hue=dr<.1?120:dr<.3?60:30;
+        ctx.strokeStyle=`hsla(${hue},70%,65%,${a})`;
+        ctx.lineWidth=1.5*age;
+        ctx.stroke();
+      }
+    }
+
+    // Current point
+    const cn=Math.sqrt(x[0]**2+x[1]**2);
+    ctx.beginPath();
+    ctx.arc(CX+x[0]*SCALE, CY+x[1]*SCALE, 4, 0, Math.PI*2);
+    ctx.fillStyle='rgba(232,201,122,.9)';
+    ctx.shadowColor='rgba(232,201,122,.6)';
+    ctx.shadowBlur=12;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    // Center dot
+    ctx.beginPath(); ctx.arc(CX,CY,2.5,0,Math.PI*2);
+    ctx.fillStyle='rgba(138,143,168,.3)'; ctx.fill();
+
+    // ρ readout
+    const rho=(cn**2)/PHI3;
+    ctx.font='11px "Space Mono",monospace';
+    ctx.fillStyle='rgba(168,216,255,.5)';
+    ctx.fillText(`ρ = ${rho.toFixed(3)}`, 14, H-14);
+    ctx.fillStyle='rgba(232,201,122,.4)';
+    ctx.fillText(`‖x‖ = ${cn.toFixed(3)}`, 14, H-28);
+
+    t++;
+    const pt=dsaStep();
+    points.push([...pt]);
+    if(points.length>180) points.shift();
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ─── SCROLL REVEAL ───
+const rvEls = document.querySelectorAll('.rv, .tl-item');
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.12});
+rvEls.forEach(el=>obs.observe(el));
+
+// ─── PARTICLES ───
+(function(){
+  const c=document.getElementById('particle-canvas');
+  const ctx=c.getContext('2d');
+  let W,H,ps=[];
+  function resize(){ W=c.width=window.innerWidth; H=c.height=window.innerHeight; }
+  function init(){
+    ps=[];
+    for(let i=0;i<45;i++) ps.push({
+      x:Math.random()*W, y:Math.random()*H,
+      vx:(Math.random()-.5)*.15, vy:(Math.random()-.5)*.15,
+      r:Math.random()*.9+.2, a:Math.random()*.25+.05
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(232,201,122,${p.a})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',()=>{ resize(); init(); });
+  resize(); init(); draw();
+})();
+</script>
+</body>
+</html>

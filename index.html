@@ -282,6 +282,7 @@
 
     <!-- Bal oldali gomb -->
     <a href="V66.html" class="menu-button-left">⚡ Anomalies</a>
+    <a href="dephaze_dsa_landing.html" class="menu-button-left" style="top: 70px;">🧠 AI Hallucination — DSA</a>
 
     <!-- Jobb oldali gombok -->
     <a href="dephaze_ai.html" class="menu-button-right">Dephaze AI</a>
@@ -555,5 +556,37 @@
     const protocolCode = document.querySelector('#protocol-code code').textContent;
 
     copyButton.addEventListener('click', () => {
-        navigator.clipboard.writeText(protocolCode).then(() => {
-            copyButton.textContent = 'Copied!';
+        // Fallback ha navigator.clipboard nem elérhető (http vagy régi böngésző)
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(protocolCode).then(() => {
+                copyButton.textContent = 'Copied!';
+                setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
+            }).catch(() => {
+                fallbackCopy(protocolCode, copyButton);
+            });
+        } else {
+            fallbackCopy(protocolCode, copyButton);
+        }
+    });
+
+    function fallbackCopy(text, btn) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+            document.execCommand('copy');
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        } catch(e) {
+            btn.textContent = 'Error';
+            setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        }
+        document.body.removeChild(ta);
+    }
+</script>
+</body>
+</html>
