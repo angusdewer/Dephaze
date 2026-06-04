@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dephaze DSA — Φ³ Geometric Framework</title>
+<title>Dephaze DSA v2.0 — Φ³ Geometric Framework</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
@@ -738,9 +738,10 @@ footer {
   <div class="nav-links">
     <a href="#identity">Identity</a>
     <a href="#experiments">Experiments</a>
-    <a href="#origins">Origins</a>
+    <a href="#gate">Gate</a>
+        <a href="#origins">Origins</a>
     <a href="#paper">Paper</a>
-    <a class="nav-cta" href="https://doi.org/10.5281/zenodo.20020443" target="_blank">DOI ↗</a>
+    <a class="nav-cta" href="https://doi.org/10.5281/zenodo.20543468" target="_blank">DOI ↗</a>
   </div>
 </nav>
 
@@ -798,7 +799,20 @@ footer {
     </div>
   </div>
 
-  <div class="regimes rv">
+  <div class="identity-block rv" style="margin-bottom:0;border-radius:8px 8px 0 0;border-bottom:none;">
+    <div class="identity-label">Spectral Confirmation — Direct SVD of Weight Matrices</div>
+    <div style="font-family:'Space Mono',monospace;font-size:.88rem;line-height:2.4;color:var(--ash);text-align:left;">
+      W₁ ∈ ℝ<sup>14336×4096</sup> &nbsp; W₂ ∈ ℝ<sup>4096×14336</sup> &nbsp; — Mistral-7B feed-forward<br>
+      <span style="color:var(--cream)">r̄(W) = mean(σᵢ/σᵢ₊₁)</span> &nbsp; adjacent singular value ratios<br>
+      <span style="color:var(--gold)">r̄ trained = 1.0082</span> &nbsp; vs &nbsp; <span style="color:var(--ash)">r̄ random = 1.0038</span><br>
+      Trained matrices closer to φ than random baseline: <span style="color:var(--mint)">11/12 layers &nbsp; p = 0.0063</span>
+    </div>
+    <div class="identity-note" style="margin-top:1rem;">
+      ff/d = φ³−φ⁻³ = 4 &nbsp;→<sub>(SVD)</sub>&nbsp; W spectrum → φ &nbsp;→<sub>(Exp. 6)</sub>&nbsp; Φ³-Fibonacci hidden-state structure (31/32)
+    </div>
+  </div>
+
+  <div class="regimes rv" style="margin-top:0;">
     <div class="regime regime-factual">
       <div class="regime-icon">Regime Ω₀</div>
       <div class="regime-name">Factual</div>
@@ -827,7 +841,7 @@ footer {
 
   <div class="quote-block rv">
     <div class="quote-text">Hallucination is not an error. It is the transformer's own geometry manifesting under forced generation without grounding.</div>
-    <div class="quote-attr">— Dephaze DSA · v1.8 · April 2026</div>
+    <div class="quote-attr">— Dephaze DSA · v2.0 · June 2026</div>
   </div>
 
   <div class="code-wrap rv">
@@ -850,8 +864,8 @@ footer {
 <section class="section" id="experiments">
   <div class="rv">
     <div class="s-tag">Empirical Validation</div>
-    <h2 class="s-title">Five Experiments.<br><em>One Answer.</em></h2>
-    <p class="s-body">Three architectures, two datasets, five independent experiments. Every one consistent with the DSA prediction. Zero extra parameters.</p>
+    <h2 class="s-title">Thirteen Experiments.<br><em>One Answer.</em></h2>
+    <p class="s-body">Three architectures, two datasets, thirteen independent experiments. Every one consistent with the DSA prediction. Zero extra parameters — and now a closed algebraic chain from architecture to hidden-state structure.</p>
   </div>
 
   <div class="exp-grid rv">
@@ -896,6 +910,122 @@ footer {
       <div class="exp-data">TruthfulQA N=100</div>
       <div class="exp-signal">Φ³-dist H&lt;T <strong>10/11 layers</strong></div>
       <div class="exp-p p-good">0.012</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">6</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=100</div>
+      <div class="exp-signal">Φ³_ext T&gt;H <strong>31/32 layers</strong> · φ-specific Z=+3.85</div>
+      <div class="exp-p p-strong">1.54×10⁻⁸</div>
+    </div>
+    <div class="exp-row" style="background:rgba(232,201,122,.02);border-top:1px solid rgba(232,201,122,.1);">
+      <div class="exp-num" style="color:var(--gold);font-size:.7rem;letter-spacing:.15em">NEW</div>
+      <div class="exp-model" colspan="4" style="color:var(--gold);font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;">Gate Structure — Experiments 7–13</div>
+      <div class="exp-data"></div>
+      <div class="exp-signal"></div>
+      <div class="exp-p"></div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">7</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">Two-zone gate: <strong>φ⁻³ boundary (layers 8–12) · φ⁻¹ boundary (layers 20–24)</strong></div>
+      <div class="exp-p p-good">0.005–0.007</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">8</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">k-scale decomposition: <strong>k₄=598 Zone 1 · k₆=228 Zone 2</strong></div>
+      <div class="exp-p p-good">0.013 / 0.025</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">9</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">k₆=228 localised to <strong>layer 23 only</strong></div>
+      <div class="exp-p p-good">0.032</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">10</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">T–H cross-correlation <strong>r &gt; 0.80 · 31/32 layers</strong></div>
+      <div class="exp-p p-strong">&lt;0.001</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">11</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">Delta recovery <strong>1–4%</strong> · question-specific geometry</div>
+      <div class="exp-p p-good">—</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">12</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">Delta consistency positive <strong>28/32 layers</strong> · peak layer 29</div>
+      <div class="exp-p p-good">&lt;0.05</div>
+    </div>
+    <div class="exp-row">
+      <div class="exp-num">13</div>
+      <div class="exp-model">Mistral-7B</div>
+      <div class="exp-data">TruthfulQA N=50</div>
+      <div class="exp-signal">Two hallucination types: <strong>Recoverable 32% · Fossil 32%</strong> — bifurcation at layer 20</div>
+      <div class="exp-p p-strong">0.0016</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GATE STRUCTURE -->
+<section class="section" id="gate">
+  <div class="rv">
+    <div class="s-tag">Version 2.0 — New</div>
+    <h2 class="s-title">The Hallucination<br><em>Has Two Faces.</em></h2>
+    <p class="s-body">Experiments 7–13 reveal the internal architecture of the hallucination gate. It is not a single mechanism. It is a two-zone phase transition — and hallucination itself splits into two geometrically distinct types.</p>
+  </div>
+
+  <div class="regimes rv">
+    <div class="regime regime-factual">
+      <div class="regime-icon">Recoverable · ~32%</div>
+      <div class="regime-name" style="color:var(--mint)">Recoverable</div>
+      <div class="regime-desc">Delta consistent with population mean. The hallucination lies on the same side of the factual state in φ-space — displaced but not reflected.</div>
+      <div class="regime-props">
+        <div class="regime-prop"><span class="regime-prop-key">Cross-correlation at layer 20</span><span class="regime-prop-val" style="color:var(--mint)">r = 0.697</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">k₂ signal</span><span class="regime-prop-val" style="color:var(--mint)">Δk₂ = +0.0023</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Geometry</span><span class="regime-prop-val" style="color:var(--mint)">Displaced</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">DSA correctable</span><span class="regime-prop-val" style="color:var(--mint)">Yes</span></div>
+      </div>
+    </div>
+    <div class="regime regime-halluc">
+      <div class="regime-icon">Fossil · ~32%</div>
+      <div class="regime-name">Fossil</div>
+      <div class="regime-desc">Delta direction reversed. The fossil hallucination is the φ³ attractor's own geometry reflected against the factual state — not random noise, but a mirror image.</div>
+      <div class="regime-props">
+        <div class="regime-prop"><span class="regime-prop-key">Cross-correlation at layer 20</span><span class="regime-prop-val">r = 0.936</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">k₂ signal</span><span class="regime-prop-val">Δk₂ = −0.0015 (reversed)</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Geometry</span><span class="regime-prop-val">φ-space reflection</span></div>
+        <div class="regime-prop"><span class="regime-prop-key">Internal consistency</span><span class="regime-prop-val">High (same structure)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block rv">
+    <div class="quote-text">Fossil hallucinations are not random. They are the transformer's own φ³ geometry reflected against the factual state through r*. This is why they are syntactically fluent and internally consistent — they are generated from the same geometric structure, merely from the reflected locus.</div>
+    <div class="quote-attr">— Dephaze DSA · v2.0 · Experiment 13</div>
+  </div>
+
+  <div class="identity-block rv" style="text-align:left;">
+    <div class="identity-label">Gate Architecture — Mistral-7B · 32 layers</div>
+    <div style="font-family:'Space Mono',monospace;font-size:.88rem;line-height:2.2;color:var(--ash);">
+      <span style="color:var(--ash)">Layers 1–7  </span>&nbsp;&nbsp;<span style="color:var(--ash)">φ-structure not yet established</span><br>
+      <span style="color:var(--gold)">Layers 8–12 </span>&nbsp;&nbsp;<span style="color:var(--cream)">Zone 1 · k₄=598 · imprint scale · Ω₀ locking</span><br>
+      <span style="color:var(--ash)">Layers 13–19</span>&nbsp;&nbsp;<span style="color:var(--ash)">Transition — no dominant signal</span><br>
+      <span style="color:var(--rose)">Layer 20    </span>&nbsp;&nbsp;<span style="color:var(--cream)">Decision point · fossil/recoverable split · p = 0.0016</span><br>
+      <span style="color:var(--ice)">Layers 20–24</span>&nbsp;&nbsp;<span style="color:var(--cream)">Zone 2 · k₆=228 · fine scale · bifurcation</span><br>
+      <span style="color:var(--ash)">Layers 25–32</span>&nbsp;&nbsp;<span style="color:var(--ash)">Gate reduces · attractor compression</span>
     </div>
   </div>
 </section>
@@ -956,9 +1086,9 @@ footer {
     <div class="tl-item highlight">
       <div class="tl-year">2026</div>
       <div class="tl-content">
-        <div class="tl-title">Measured in Mistral-7B — 31/31 layers · p = 0.000</div>
-        <div class="tl-desc">The φ⁻³ → φ³ transition first encoded in a 1992 gamebook is now measured in a 7-billion-parameter language model on a public benchmark.</div>
-        <div class="tl-isbn">DOI: 10.5281/zenodo.20020443 · Locked: 2026-03-01</div>
+        <div class="tl-title">Measured in Mistral-7B — 31/32 layers · p = 1.54×10⁻⁸</div>
+        <div class="tl-desc">The φ⁻³ → φ³ transition first encoded in a 1992 gamebook is now measured in a 7-billion-parameter language model on a public benchmark. 13 experiments. Algebraic chain closed. Two hallucination types identified.</div>
+        <div class="tl-isbn">DOI: 10.5281/zenodo.20543468 · Locked: 2026-03-01 · v2.0: June 2026</div>
       </div>
     </div>
   </div>
@@ -980,11 +1110,11 @@ footer {
   </div>
 
   <div class="links-grid rv">
-    <a class="link-card" href="https://doi.org/10.5281/zenodo.20020443" target="_blank">
+    <a class="link-card" href="https://doi.org/10.5281/zenodo.20543468" target="_blank">
       <div>
         <div class="lc-tag">Zenodo Preprint</div>
-        <div class="lc-title">Dephaze Semantic Anchoring v1.8</div>
-        <div class="lc-doi">10.5281/zenodo.20020443</div>
+        <div class="lc-title">Dephaze Semantic Anchoring v2.0</div>
+        <div class="lc-doi">10.5281/zenodo.20543468</div>
       </div>
       <div class="lc-arrow">Read paper →</div>
     </a>
@@ -996,11 +1126,11 @@ footer {
       </div>
       <div class="lc-arrow">View code →</div>
     </a>
-    <a class="link-card" href="https://doi.org/10.5281/zenodo.18823570" target="_blank">
+    <a class="link-card" href="https://doi.org/10.5281/zenodo.20539675" target="_blank">
       <div>
         <div class="lc-tag">Related Framework</div>
         <div class="lc-title">Dephaze V66 — Galaxy Rotation</div>
-        <div class="lc-doi">10.5281/zenodo.18823570</div>
+        <div class="lc-doi">10.5281/zenodo.20539675</div>
       </div>
       <div class="lc-arrow">Explore →</div>
     </a>
@@ -1021,7 +1151,7 @@ footer {
     <span class="footer-logo">DEPHAZE</span>
     <div class="footer-tagline">The experiments will decide. They already have.</div>
     <div class="footer-links">
-      <a href="https://doi.org/10.5281/zenodo.20020443" target="_blank">Zenodo</a>
+      <a href="https://doi.org/10.5281/zenodo.20543468" target="_blank">Zenodo</a>
       <a href="https://dephaze.eu" target="_blank">dephaze.eu</a>
       <a href="mailto:dewerangus@gmail.com">Contact</a>
     </div>
